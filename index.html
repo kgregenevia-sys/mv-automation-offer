@@ -3,300 +3,376 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MV Automation — Systemy AI dla biznesu</title>
+<title>MV Automation &#8212; AI Automation Agency</title>
 <style>
-:root{
-  --bg:#0a0a0f; --bg2:#12121a; --card:#16161f; --line:#26263a;
-  --txt:#f0f0f5; --mut:#9595a8; --gold:#d4af37; --gold2:#f0d77b;
-  --accent:#6d5dfc; --ok:#3ddc84; --warn:#ff5470;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--txt);font-family:'Inter',-apple-system,system-ui,sans-serif;line-height:1.55;overflow-x:hidden}
-.lang{display:none}.lang.on{display:inline}
-.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
-a{color:inherit;text-decoration:none}
-.bar{background:linear-gradient(90deg,#1a1326,#2a1d3a,#1a1326);border-bottom:1px solid var(--line);font-size:13px;padding:9px 0;text-align:center;color:var(--gold2);font-weight:600;letter-spacing:.3px}
-.bar b{color:#fff}
-.timer{display:inline-block;font-variant-numeric:tabular-nums;color:#fff;background:rgba(255,84,112,.15);padding:2px 8px;border-radius:5px;margin-left:6px}
-nav{position:sticky;top:0;z-index:50;background:rgba(10,10,15,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;max-width:1080px;margin:0 auto}
-.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:-.5px}
-.logo .nn{width:30px;height:30px}
-.logo b{color:var(--gold)}
-.nav-r{display:flex;align-items:center;gap:14px}
-.langs{display:flex;gap:4px}
-.langs button{background:none;border:1px solid var(--line);color:var(--mut);padding:4px 8px;border-radius:6px;cursor:pointer;font-size:12px;transition:.2s}
-.langs button.active{border-color:var(--gold);color:var(--gold)}
-.live{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ok);font-weight:600}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--ok);animation:pulse 1.8s infinite}
-@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(61,220,132,.5)}50%{opacity:.6;box-shadow:0 0 0 6px rgba(61,220,132,0)}}
-.hero{padding:70px 0 50px;text-align:center;position:relative}
-.hero::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(circle,rgba(109,93,252,.18),transparent 70%);filter:blur(40px);z-index:-1}
-.eyebrow{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--mut);margin-bottom:20px;font-weight:600}
-.eyebrow b{color:var(--gold)}
-h1{font-size:clamp(34px,6vw,58px);font-weight:800;line-height:1.05;letter-spacing:-1.5px;margin-bottom:22px}
-h1 .grad{background:linear-gradient(90deg,var(--gold),var(--gold2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;display:block}
-.sub{font-size:18px;color:var(--mut);max-width:620px;margin:0 auto 34px}
-.cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-.btn{padding:15px 30px;border-radius:11px;font-weight:700;font-size:15px;cursor:pointer;border:none;transition:.25s;display:inline-flex;align-items:center;gap:8px}
-.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1300;box-shadow:0 8px 30px rgba(212,175,55,.3)}
-.btn-ghost{background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--txt)}
-.risk-free{margin-top:18px;font-size:13px;color:var(--mut)}
-.risk-free b{color:var(--ok)}
-.stats{display:flex;flex-wrap:wrap;justify-content:center;gap:0;margin:50px auto 0;max-width:920px;border:1px solid var(--line);border-radius:16px;background:var(--bg2);overflow:hidden}
-.stat{flex:1;min-width:140px;padding:24px 16px;text-align:center;border-right:1px solid var(--line)}
-.stat:last-child{border-right:none}
-.stat .n{font-size:30px;font-weight:800;color:var(--gold);letter-spacing:-1px;line-height:1}
-.stat .l{font-size:11px;color:var(--mut);margin-top:7px;text-transform:uppercase;letter-spacing:.8px}
-.loss{margin:60px 0 0;background:linear-gradient(135deg,rgba(255,84,112,.08),rgba(255,84,112,.02));border:1px solid rgba(255,84,112,.25);border-radius:16px;padding:34px;text-align:center}
-.loss h3{font-size:22px;font-weight:800;margin-bottom:10px}
-.loss p{color:var(--mut);max-width:640px;margin:0 auto;font-size:15px}
-.loss .big{color:var(--warn);font-weight:800}
-section{padding:64px 0}
-.tag{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:10px;text-align:center}
-.sh{font-size:clamp(26px,4vw,38px);font-weight:800;letter-spacing:-1px;text-align:center;margin-bottom:12px}
-.sh em{color:var(--gold);font-style:italic}
-.sd{color:var(--mut);text-align:center;max-width:600px;margin:0 auto 40px;font-size:15px}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
-.pc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px;transition:.25s;position:relative;overflow:hidden}
-.pc:hover{border-color:var(--gold);transform:translateY(-3px)}
-.pc.feat{border-color:var(--gold);background:linear-gradient(160deg,rgba(212,175,55,.06),var(--card))}
-.pc.feat::after{content:"NAJCZĘŚCIEJ WYBIERANE";position:absolute;top:14px;right:-32px;background:var(--gold);color:#1a1300;font-size:9px;font-weight:800;padding:3px 38px;transform:rotate(45deg);letter-spacing:.5px}
-.pc .ico{font-size:30px;margin-bottom:14px}
-.pc .live-b{display:inline-flex;align-items:center;gap:5px;font-size:10px;color:var(--ok);font-weight:700;border:1px solid rgba(61,220,132,.3);padding:2px 8px;border-radius:20px;margin-bottom:10px}
-.pc h4{font-size:18px;font-weight:700;margin-bottom:9px}
-.pc p{color:var(--mut);font-size:14px;margin-bottom:18px}
-.pc .price{display:flex;align-items:baseline;gap:8px;border-top:1px solid var(--line);padding-top:16px}
-.pc .price .s{font-size:13px;color:var(--mut)}
-.pc .price .m{font-size:22px;font-weight:800;color:var(--gold)}
-.pc .price .per{font-size:12px;color:var(--mut)}
-.offer{background:linear-gradient(135deg,#1a1326,#221830);border:1px solid var(--gold);border-radius:20px;padding:40px;text-align:center;position:relative;overflow:hidden}
-.offer::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 70% 20%,rgba(212,175,55,.12),transparent 60%)}
-.offer-in{position:relative;z-index:2}
-.offer .badge{display:inline-block;background:rgba(212,175,55,.15);color:var(--gold2);font-size:12px;font-weight:700;padding:6px 14px;border-radius:20px;margin-bottom:16px;letter-spacing:.5px}
-.offer h3{font-size:clamp(24px,4vw,34px);font-weight:800;margin-bottom:12px}
-.offer .scarce{color:var(--mut);margin-bottom:24px;font-size:14px}
-.perks{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-bottom:28px}
-.perk{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;padding:10px 16px;font-size:14px;font-weight:600}
-.perk .c{color:var(--ok);font-weight:800}
-.spots{color:var(--warn);font-weight:700;font-size:14px;margin-top:6px}
-.tcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:8px}
-.tcol{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.tcol h5{background:var(--bg2);padding:14px 18px;font-size:13px;font-weight:700;color:var(--gold);letter-spacing:.5px;border-bottom:1px solid var(--line)}
-.trow{display:flex;justify-content:space-between;align-items:center;padding:11px 18px;font-size:13px;border-bottom:1px solid rgba(38,38,58,.5)}
-.trow:last-child{border:none}
-.trow .name{color:var(--txt)}
-.trow .vals{color:var(--mut);font-variant-numeric:tabular-nums;white-space:nowrap;font-size:12px}
-.trow .vals b{color:var(--txt)}
-.anchor-note{text-align:center;color:var(--mut);font-size:13px;margin-top:22px}
-.anchor-note b{color:var(--gold)}
-.final{background:linear-gradient(160deg,var(--bg2),#0a0a0f);border-top:1px solid var(--line);text-align:center}
-.final h3{font-size:clamp(28px,5vw,42px);font-weight:800;letter-spacing:-1px;margin-bottom:14px}
-.final h3 em{color:var(--gold);font-style:italic}
-.final p{color:var(--mut);margin-bottom:30px}
-footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;color:var(--mut);font-size:13px}
-.foot-links{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
-.foot-links a{color:var(--txt);font-weight:600}
-.foot-links a:hover{color:var(--gold)}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@500;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+:root{--p:#6d28d9;--p2:#8b5cf6;--p3:#a78bfa;--gold:#f59e0b;--g2:#fbbf24;--green:#10b981;--bg:#030309;--card:rgba(255,255,255,.03);--border:rgba(139,92,246,.15);--text:#f1f0ff;--muted:#7070a0;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden;line-height:1.6;}
+.ambient{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.amb1{position:absolute;top:-30%;left:50%;transform:translateX(-50%);width:1200px;height:1200px;background:radial-gradient(ellipse,rgba(109,40,217,.15) 0%,transparent 65%);animation:amb 8s ease-in-out infinite;}
+.amb2{position:absolute;bottom:-20%;right:-20%;width:800px;height:800px;background:radial-gradient(ellipse,rgba(245,158,11,.06) 0%,transparent 65%);animation:amb 11s ease-in-out infinite reverse;}
+@keyframes amb{0%,100%{transform:translateX(-50%) scale(1);}50%{transform:translateX(-50%) scale(1.15);}}
+body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(139,92,246,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;}
+.wrap{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:0 20px;}
+
+/* LOSS AVERSION BAR — czerwony */
+.loss-bar{background:linear-gradient(90deg,#7f1d1d,#991b1b,#b91c1c,#991b1b,#7f1d1d);background-size:300%;animation:pbar 4s linear infinite;padding:9px 20px;text-align:center;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;letter-spacing:.3px;}
+@keyframes pbar{0%{background-position:0%}100%{background-position:300%}}
+.loss-bar .dot{width:7px;height:7px;background:#fca5a5;border-radius:50%;animation:blink 1.2s infinite;flex-shrink:0;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+.cdn{display:inline-block;background:rgba(0,0,0,.4);border-radius:4px;padding:1px 7px;font-family:monospace;font-weight:900;font-size:14px;min-width:24px;text-align:center;border:1px solid rgba(255,255,255,.15);}
+
+/* SCARCITY BAR */
+.scar-bar{background:rgba(245,158,11,.08);border-bottom:1px solid rgba(245,158,11,.2);padding:7px 20px;text-align:center;font-size:11px;font-weight:600;color:#fbbf24;letter-spacing:.5px;display:flex;align-items:center;justify-content:center;gap:8px;}
+.scar-dots{display:flex;gap:4px;}
+.scar-dot{width:10px;height:10px;border-radius:50%;}
+.scar-dot.taken{background:#ef4444;}
+.scar-dot.taken.pulse{animation:pulse 1.5s infinite;}
+.scar-dot.free{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.4);}50%{box-shadow:0 0 0 6px rgba(239,68,68,0);}}
+
+/* LANG */
+.lang-bar{background:rgba(0,0,0,.6);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:8px 20px;display:flex;align-items:center;justify-content:center;gap:8px;position:sticky;top:0;z-index:100;}
+.lb{background:transparent;border:1px solid rgba(139,92,246,.25);border-radius:6px;padding:5px 14px;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:all .2s;}
+.lb:hover,.lb.active{background:rgba(109,40,217,.2);border-color:var(--p2);color:#fff;}
+
+/* NAV */
+.nav{padding:18px 0;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+.logo-wrap{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.logo-text{font-family:'Space Grotesk',sans-serif;font-weight:900;font-size:22px;letter-spacing:-1px;}
+.logo-mv{color:#fff;}.logo-dot{width:6px;height:6px;background:var(--p2);border-radius:50%;display:inline-block;margin:0 3px;box-shadow:0 0 10px var(--p2);}.logo-auto{color:var(--p3);}
+.nav-right{display:flex;align-items:center;gap:12px;}
+.nav-live{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green);background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);border-radius:20px;padding:4px 12px;display:flex;align-items:center;gap:6px;}
+.ndot{width:6px;height:6px;background:var(--green);border-radius:50%;box-shadow:0 0 8px var(--green);animation:blink 1.5s infinite;}
+.nav-btn{background:linear-gradient(135deg,var(--p),var(--p2));border:none;border-radius:8px;padding:10px 20px;color:#fff;font-weight:700;font-size:13px;text-decoration:none;box-shadow:0 4px 20px rgba(109,40,217,.3);}
+
+/* HERO */
+.hero{padding:64px 0 32px;text-align:center;}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(109,40,217,.08);border:1px solid rgba(109,40,217,.25);border-radius:30px;padding:8px 20px;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--p3);margin-bottom:24px;}
+h1{font-family:'Space Grotesk',sans-serif;font-weight:900;font-size:clamp(40px,8vw,88px);line-height:.95;letter-spacing:-3px;margin-bottom:20px;}
+.l1{display:block;color:#fff;}.l2{display:block;background:linear-gradient(135deg,var(--gold) 0%,var(--g2) 40%,#fff 80%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-sub{font-size:17px;color:#8080b0;max-width:560px;margin:0 auto 32px;line-height:1.65;}
+
+/* PROOF ROW */
+.proof-row{display:flex;justify-content:center;align-items:stretch;gap:0;border:1px solid var(--border);border-radius:16px;overflow:hidden;margin:28px 0;}
+.pr-item{flex:1;text-align:center;padding:18px 10px;border-right:1px solid var(--border);}
+.pr-item:last-child{border-right:none;}
+.pr-num{font-family:'Space Grotesk',sans-serif;font-size:clamp(18px,3.5vw,30px);font-weight:900;background:linear-gradient(135deg,var(--gold),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.1;}
+.pr-label{font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:4px;line-height:1.3;}
+
+/* PAIN BLOCK — przed/po */
+.pain-block{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:32px 0;}
+.pain-card{border-radius:14px;padding:22px;}
+.pain-bad{background:rgba(239,68,68,.04);border:1px solid rgba(239,68,68,.12);}
+.pain-good{background:rgba(16,185,129,.04);border:1px solid rgba(16,185,129,.12);}
+.pain-title{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;}
+.pain-bad .pain-title{color:#f87171;}
+.pain-good .pain-title{color:var(--green);}
+.pain-item{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#c0c0d8;line-height:1.5;margin-bottom:8px;}
+.pain-item:last-child{margin-bottom:0;}
+.pain-ico{flex-shrink:0;font-size:13px;margin-top:1px;}
+
+/* ANCHOR PRICING */
+.anchor-block{background:linear-gradient(135deg,rgba(245,158,11,.06),rgba(109,40,217,.1));border:1px solid rgba(245,158,11,.2);border-radius:20px;padding:28px 32px;margin:32px 0;text-align:center;position:relative;overflow:hidden;}
+.anchor-block::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(245,158,11,.6),transparent);}
+.anchor-tag{font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--g2);margin-bottom:8px;}
+.anchor-old{font-family:'Space Grotesk',sans-serif;font-size:18px;color:var(--muted);text-decoration:line-through;margin-bottom:4px;}
+.anchor-new{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,5vw,48px);font-weight:900;color:var(--g2);letter-spacing:-1px;margin-bottom:8px;}
+.anchor-save{display:inline-block;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);border-radius:20px;padding:4px 14px;font-size:12px;font-weight:700;color:var(--green);margin-bottom:16px;}
+.anchor-items{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:14px;}
+.anch-i{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:#d4af50;}
+.anch-c{width:18px;height:18px;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--green);flex-shrink:0;}
+.anchor-alert{display:inline-flex;align-items:center;gap:6px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:20px;padding:5px 14px;font-size:11px;font-weight:700;color:#fca5a5;}
+
+.div{height:1px;background:linear-gradient(90deg,transparent,rgba(139,92,246,.4),transparent);margin:44px 0;}
+.sh{text-align:center;margin-bottom:10px;}
+.sh-tag{font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--p3);margin-bottom:8px;}
+.sh-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(24px,5vw,42px);font-weight:900;letter-spacing:-1.5px;}
+.sh-title em{font-style:normal;background:linear-gradient(135deg,var(--gold),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.sh-sub{color:var(--muted);font-size:14px;margin-top:8px;margin-bottom:36px;}
+
+/* AUTHORITY STRIP */
+.auth-strip{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;padding:20px;background:var(--card);border:1px solid var(--border);border-radius:14px;margin:24px 0;}
+.auth-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);}
+.auth-icon{font-size:18px;}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;position:relative;overflow:hidden;transition:all .3s;}
+.card:hover{border-color:rgba(139,92,246,.4);transform:translateY(-4px);box-shadow:0 20px 50px rgba(109,40,217,.1);}
+.card.gold{border-color:rgba(245,158,11,.2);}
+.card.gold:hover{border-color:rgba(245,158,11,.5);box-shadow:0 20px 50px rgba(245,158,11,.07);}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--p2),transparent);opacity:0;transition:opacity .3s;}
+.card:hover::before,.card.gold:hover::before{opacity:1;}
+.card.gold::before{background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.ci{font-size:26px;margin-bottom:12px;display:block;}
+.clive{display:inline-flex;align-items:center;gap:4px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:4px;padding:2px 7px;font-size:9px;font-weight:800;letter-spacing:2px;color:var(--green);margin-left:8px;vertical-align:middle;}
+.clive::before{content:'';width:5px;height:5px;background:var(--green);border-radius:50%;box-shadow:0 0 6px var(--green);animation:blink 1.5s infinite;}
+.cn{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;margin-bottom:7px;line-height:1.3;}
+.cd{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:16px;}
+.cp{display:flex;gap:8px;flex-wrap:wrap;}
+.ps{background:rgba(109,40,217,.12);border:1px solid rgba(139,92,246,.25);border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;color:#c4b5fd;}
+.pm{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;color:#6ee7b7;}
+.po{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;color:var(--g2);}
+
+.tbl{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:10px;}
+.tbl table{width:100%;border-collapse:collapse;}
+.tbl thead tr{background:rgba(109,40,217,.07);}
+.tbl thead th{padding:11px 16px;text-align:left;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--p3);font-weight:700;}
+.tbl tbody tr{border-top:1px solid rgba(255,255,255,.03);transition:background .15s;}
+.tbl tbody tr:hover{background:rgba(109,40,217,.04);}
+.tbl td{padding:11px 16px;font-size:13px;}
+.tbl td.p1{color:#c4b5fd;font-weight:700;white-space:nowrap;}
+.tbl td.p2{color:#6ee7b7;font-weight:700;white-space:nowrap;}
+
+/* TESTIMONIALS */
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:40px;}
+.testi{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;}
+.testi-stars{color:var(--g2);font-size:14px;margin-bottom:10px;}
+.testi-text{font-size:13px;color:#c0c0e0;line-height:1.7;margin-bottom:14px;font-style:italic;}
+.testi-author{display:flex;align-items:center;gap:10px;}
+.testi-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--p2));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff;}
+.testi-name{font-size:13px;font-weight:700;}
+.testi-role{font-size:11px;color:var(--muted);}
+
+.cta-sec{text-align:center;padding:72px 0;position:relative;}
+.cta-sec::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(109,40,217,.08),transparent 70%);pointer-events:none;}
+.cta-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(26px,6vw,54px);font-weight:900;letter-spacing:-2px;margin-bottom:10px;}
+.cta-sub{color:var(--muted);font-size:15px;margin-bottom:6px;}
+.cta-urg{color:#fca5a5;font-size:12px;font-weight:700;margin-bottom:28px;letter-spacing:.3px;}
+.btns{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:24px;}
+.btn1{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--p),var(--p2));border:none;border-radius:12px;padding:15px 32px;font-size:15px;font-weight:700;color:#fff;text-decoration:none;box-shadow:0 8px 40px rgba(109,40,217,.4);transition:transform .2s,box-shadow .2s;}
+.btn1:hover{transform:translateY(-2px);box-shadow:0 12px 50px rgba(109,40,217,.55);}
+.btn2{display:inline-flex;align-items:center;gap:10px;background:transparent;border:1px solid rgba(139,92,246,.35);border-radius:12px;padding:15px 32px;font-size:15px;font-weight:700;color:var(--p3);text-decoration:none;}
+.phone{font-family:'Space Grotesk',sans-serif;font-size:34px;font-weight:900;letter-spacing:2px;background:linear-gradient(135deg,var(--gold),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.email-c{color:var(--muted);font-size:13px;margin-top:7px;}
+.email-c a{color:var(--p3);text-decoration:none;}
+.footer{border-top:1px solid var(--border);padding:24px 20px;text-align:center;color:var(--muted);font-size:11px;}
+[data-lang]{display:none;}[data-lang].on{display:block;}
+.li[data-lang]{display:none;}.li[data-lang].on{display:inline;}
 @media(max-width:600px){
-  .stat{border-right:none;border-bottom:1px solid var(--line);min-width:50%}
-  .stat:nth-child(odd){border-right:1px solid var(--line)}
-  .pc.feat::after{display:none}
+h1{font-size:42px;letter-spacing:-2px;}
+.proof-row{flex-wrap:wrap;}
+.pr-item{min-width:50%;border-bottom:1px solid var(--border);}
+.pain-block{grid-template-columns:1fr;}
 }
 </style>
 </head>
 <body>
-<div class="bar">
-  🔥 <span class="lang pl on"><b>Czerwiec 2026</b> — -25% setup + miesiąc gratis · zostały <b>3 miejsca</b></span><span class="lang en"><b>June 2026</b> — -25% setup + 1 month free · <b>3 spots</b> left</span><span class="lang de"><b>Juni 2026</b> — -25% Setup + 1 Monat gratis · noch <b>3 Plätze</b></span>
-  <span class="timer" id="timer">04d 23h 59m 59s</span>
+<div class="ambient"><div class="amb1"></div><div class="amb2"></div></div>
+
+<!-- LOSS AVERSION: co tracisz TERAZ -->
+<div class="loss-bar">
+  <div class="dot"></div>
+  <span class="li" data-lang="pl">&#9888; Ka&#380;da godzina bez automatyzacji = utracone leady, nieodebrane telefony, przepalone pieni&#261;dze</span>
+  <span class="li" data-lang="en">&#9888; Every hour without automation = lost leads, missed calls, wasted money</span>
+  <span class="li" data-lang="de">&#9888; Jede Stunde ohne Automatisierung = verlorene Leads, verpasste Anrufe</span>
+  <span style="background:rgba(0,0,0,.3);border-radius:4px;padding:2px 8px;font-size:11px;"><span class="cdn" id="d">04</span>d <span class="cdn" id="h">23</span>h <span class="cdn" id="m">59</span>m <span class="cdn" id="s">59</span>s</span>
 </div>
-<nav><div class="nav">
-  <div class="logo">
-    <svg class="nn" viewBox="0 0 40 40" fill="none">
-      <circle cx="8" cy="8" r="3" fill="#d4af37"/><circle cx="8" cy="32" r="3" fill="#d4af37"/>
-      <circle cx="20" cy="20" r="4" fill="#f0d77b"/>
-      <circle cx="32" cy="8" r="3" fill="#d4af37"/><circle cx="32" cy="32" r="3" fill="#d4af37"/>
-      <path d="M8 8L20 20M8 32L20 20M32 8L20 20M32 32L20 20" stroke="#d4af37" stroke-width="1.3" opacity=".7"/>
+
+<!-- SCARCITY: ile miejsc zostalo -->
+<div class="scar-bar">
+  <span class="li" data-lang="pl">Czerwiec 2026 &mdash; miejsca promocyjne:</span>
+  <span class="li" data-lang="en">June 2026 &mdash; promotional spots:</span>
+  <span class="li" data-lang="de">Juni 2026 &mdash; Aktionspl&auml;tze:</span>
+  <div class="scar-dots">
+    <div class="scar-dot taken pulse"></div>
+    <div class="scar-dot taken pulse"></div>
+    <div class="scar-dot taken"></div>
+    <div class="scar-dot taken"></div>
+    <div class="scar-dot free"></div>
+    <div class="scar-dot free"></div>
+    <div class="scar-dot free"></div>
+  </div>
+  <span style="font-size:11px;"><span class="li" data-lang="pl">4 zaj&#281;te &mdash; <strong style="color:#ef4444;">3 wolne</strong></span><span class="li" data-lang="en">4 taken &mdash; <strong style="color:#ef4444;">3 free</strong></span><span class="li" data-lang="de">4 belegt &mdash; <strong style="color:#ef4444;">3 frei</strong></span></span>
+</div>
+
+<div class="lang-bar">
+  <button class="lb active" onclick="lang('pl')">&#127477;&#127473; PL</button>
+  <button class="lb" onclick="lang('en')">&#127468;&#127463; EN</button>
+  <button class="lb" onclick="lang('de')">&#127465;&#127466; DE</button>
+</div>
+
+<div class="wrap">
+<nav class="nav">
+  <a class="logo-wrap" href="#">
+    <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+      <rect width="38" height="38" rx="9" fill="url(#lg)"/>
+      <defs><linearGradient id="lg" x1="0" y1="0" x2="38" y2="38"><stop offset="0%" stop-color="#4c1d95"/><stop offset="100%" stop-color="#7c3aed"/></linearGradient></defs>
+      <circle cx="19" cy="13" r="4.5" fill="none" stroke="#f59e0b" stroke-width="1.5"/>
+      <circle cx="10" cy="27" r="3" fill="none" stroke="#a78bfa" stroke-width="1.5"/>
+      <circle cx="28" cy="27" r="3" fill="none" stroke="#a78bfa" stroke-width="1.5"/>
+      <line x1="19" y1="17.5" x2="10" y2="24" stroke="#f59e0b" stroke-width="1" stroke-opacity=".5"/>
+      <line x1="19" y1="17.5" x2="28" y2="24" stroke="#f59e0b" stroke-width="1" stroke-opacity=".5"/>
+      <line x1="13" y1="27" x2="25" y2="27" stroke="#a78bfa" stroke-width="1" stroke-opacity=".4"/>
+      <circle cx="19" cy="13" r="2" fill="#f59e0b"/>
+      <circle cx="10" cy="27" r="1.5" fill="#8b5cf6"/>
+      <circle cx="28" cy="27" r="1.5" fill="#8b5cf6"/>
     </svg>
-    MV<b>■</b>Automation
-  </div>
-  <div class="nav-r">
-    <span class="live"><span class="dot"></span>LIVE</span>
-    <div class="langs">
-      <button data-l="pl" class="active">PL</button>
-      <button data-l="en">EN</button>
-      <button data-l="de">DE</button>
-    </div>
-  </div>
-</div></nav>
-<header class="hero"><div class="wrap">
-  <div class="eyebrow">AI Automation Agency · Poland · Europe · <b>Est. 2024</b></div>
-  <h1>
-    <span class="grad"><span class="lang pl on">Nie sprzedajemy oprogramowania.</span><span class="lang en">We don't sell software.</span><span class="lang de">Wir verkaufen keine Software.</span></span>
-    <span class="lang pl on">Sprzedajemy sprawdzone systemy.</span><span class="lang en">We sell proven systems.</span><span class="lang de">Wir verkaufen bewährte Systeme.</span>
-  </h1>
-  <p class="sub">
-    <span class="lang pl on">Każdy system, który oferujemy, działa najpierw u nas — na produkcji, 24/7. Wdrażamy go u Ciebie dopiero, gdy sami go używamy.</span><span class="lang en">Every system we offer runs at our own company first — in production, 24/7.</span><span class="lang de">Jedes System läuft zuerst bei uns — produktiv, 24/7.</span>
-  </p>
-  <div class="cta-row">
-    <a href="#offer" class="btn btn-gold">
-      <span class="lang pl on">Zobacz ofertę czerwcową →</span><span class="lang en">See June offer →</span><span class="lang de">Juni-Angebot ansehen →</span>
-    </a>
-    <a href="tel:500653369" class="btn btn-ghost">📞 500 653 369</a>
-  </div>
-  <div class="risk-free">
-    <span class="lang pl on">✓ Konsultacja <b>bezpłatna</b> · ✓ Umowa <b>M2M</b> · ✓ Wdrożenie <b>&lt;7 dni</b></span><span class="lang en">✓ <b>Free</b> consultation · ✓ <b>M2M</b> contract · ✓ Deploy in <b>&lt;7 days</b></span><span class="lang de">✓ <b>Kostenlose</b> Beratung · ✓ <b>M2M</b> · ✓ <b>&lt;7 Tage</b></span>
-  </div>
-  <div class="stats">
-    <div class="stat"><div class="n">28 711</div><div class="l"><span class="lang pl on">Placówek w bazie</span><span class="lang en">Records in DB</span><span class="lang de">Datensätze</span></div></div>
-    <div class="stat"><div class="n">10</div><div class="l"><span class="lang pl on">Domen nadawczych</span><span class="lang en">Sending domains</span><span class="lang de">Versanddomänen</span></div></div>
-    <div class="stat"><div class="n">&lt;7 dni</div><div class="l"><span class="lang pl on">Wdrożenie</span><span class="lang en">Deployment</span><span class="lang de">Bereitstellung</span></div></div>
-    <div class="stat"><div class="n">24/7</div><div class="l"><span class="lang pl on">System online</span><span class="lang en">System online</span><span class="lang de">System online</span></div></div>
-  </div>
-</div></header>
-<div class="wrap"><div class="loss">
-  <h3><span class="lang pl on">Każdy nieodebrany telefon to stracony pacjent.</span><span class="lang en">Every missed call is a lost customer.</span><span class="lang de">Jeder verpasste Anruf ist ein verlorener Kunde.</span></h3>
-  <p><span class="lang pl on">Średnio <span class="big">3 na 10 telefonów</span> do placówki pozostaje bez odpowiedzi — poza godzinami, w trakcie wizyt, na przerwie. Konkurencja oddalona o jedno kliknięcie odbiera je za Ciebie. System, który nie śpi, zamyka tę dziurę.</span><span class="lang en">On average <span class="big">3 out of 10 calls</span> go unanswered. A system that never sleeps closes that gap.</span><span class="lang de">Im Schnitt bleiben <span class="big">3 von 10 Anrufen</span> unbeantwortet.</span></p>
-</div></div>
-<section><div class="wrap">
-  <div class="tag"><span class="lang pl on">Działające produkcyjnie</span><span class="lang en">Running in production</span><span class="lang de">Produktiv im Einsatz</span></div>
-  <h2 class="sh"><span class="lang pl on">Systemy, które wdrożyliśmy <em>u siebie</em></span><span class="lang en">Systems we deployed <em>ourselves</em></span><span class="lang de">Systeme die wir <em>selbst</em> einsetzen</span></h2>
-  <p class="sd"><span class="lang pl on">Zanim cokolwiek Ci zaproponujemy — uruchamiamy to na własnej infrastrukturze i optymalizujemy na realnym ruchu.</span><span class="lang en">Before we offer you anything, we run it on our own infrastructure.</span><span class="lang de">Bevor wir Ihnen etwas anbieten, betreiben wir es selbst.</span></p>
-  <div class="cards">
-    <div class="pc feat">
-      <div class="ico">🎛️</div>
-      <span class="live-b"><span class="dot"></span>LIVE</span>
-      <h4><span class="lang pl on">AI Recepcjonistka głosowa</span><span class="lang en">AI Voice Receptionist</span><span class="lang de">KI-Sprachrezeptionistin</span></h4>
-      <p><span class="lang pl on">Odbiera telefony i umawia wizyty 24/7. Obsługuje równoległe połączenia bez limitu — żaden pacjent nie trafia na sygnał zajętości.</span><span class="lang en">Answers calls and books appointments 24/7. Unlimited parallel calls.</span><span class="lang de">Nimmt Anrufe entgegen, bucht Termine 24/7.</span></p>
-      <div class="price"><span class="s">Setup</span><span class="m">9 000 PLN</span><span class="per">· 2 500 PLN/mc</span></div>
-    </div>
-    <div class="pc">
-      <div class="ico">📧</div>
-      <span class="live-b"><span class="dot"></span>LIVE</span>
-      <h4>Cold Email Infrastructure</h4>
-      <p><span class="lang pl on">10 domen nadawczych z potwierdzoną dostarczalnością do skrzynki głównej Gmail. Tysiące wiadomości dziennie, bez wpadania w spam.</span><span class="lang en">10 sending domains with confirmed Primary Gmail deliverability.</span><span class="lang de">10 Versanddomänen mit bestätigter Zustellbarkeit.</span></p>
-      <div class="price"><span class="s">Setup</span><span class="m">3 000 PLN</span><span class="per">· 800 PLN/mc</span></div>
-    </div>
-    <div class="pc">
-      <div class="ico">💼</div>
-      <span class="live-b"><span class="dot"></span>LIVE</span>
-      <h4>LinkedIn Outreach</h4>
-      <p><span class="lang pl on">Zautomatyzowane pozyskiwanie leadów B2B. Działa równolegle z cold mailem — dwa kanały, jeden system.</span><span class="lang en">Automated B2B lead generation, parallel to cold email.</span><span class="lang de">Automatisierte B2B-Lead-Generierung.</span></p>
-      <div class="price"><span class="s">Setup</span><span class="m">2 500 PLN</span><span class="per">· 700 PLN/mc</span></div>
-    </div>
-    <div class="pc">
-      <div class="ico">🗄️</div>
-      <span class="live-b"><span class="dot"></span>LIVE</span>
-      <h4><span class="lang pl on">Bazy leadów B2B</span><span class="lang en">B2B Lead Databases</span><span class="lang de">B2B-Datenbanken</span></h4>
-      <p><span class="lang pl on">28 711 zweryfikowanych rekordów. Gotowe, segmentowane listy dopasowane do niszy klienta.</span><span class="lang en">28,711 verified records, segmented to your niche.</span><span class="lang de">28.711 verifizierte Datensätze.</span></p>
-      <div class="price"><span class="s">od</span><span class="m">300 PLN</span></div>
-    </div>
-    <div class="pc">
-      <div class="ico">🔄</div>
-      <span class="live-b"><span class="dot"></span>LIVE</span>
-      <h4>Followup Multichannel</h4>
-      <p><span class="lang pl on">Email + SMS + LinkedIn w jednej sekwencji. Po uruchomieniu — zero pracy ręcznej.</span><span class="lang en">Email + SMS + LinkedIn in one sequence. Zero manual work.</span><span class="lang de">E-Mail + SMS + LinkedIn in einer Sequenz.</span></p>
-      <div class="price"><span class="s">Setup</span><span class="m">3 500 PLN</span><span class="per">· 900 PLN/mc</span></div>
-    </div>
-  </div>
-</div></section>
-<section id="offer" style="padding-top:20px"><div class="wrap"><div class="offer"><div class="offer-in">
-  <span class="badge"><span class="lang pl on">✨ Oferta specjalna — Czerwiec 2026</span><span class="lang en">✨ Special offer — June 2026</span><span class="lang de">✨ Sonderangebot — Juni 2026</span></span>
-  <h3><span class="lang pl on">-25% setup + pierwszy miesiąc gratis</span><span class="lang en">-25% setup + first month free</span><span class="lang de">-25% Setup + erster Monat gratis</span></h3>
-  <p class="scarce"><span class="lang pl on">Pracuję sam i dbam o jakość — dlatego przyjmuję <b>maksymalnie 2 nowe wdrożenia miesięcznie</b>.</span><span class="lang en">I work solo — max <b>2 new deployments per month</b>.</span><span class="lang de">Ich arbeite allein — max. <b>2 pro Monat</b>.</span></p>
-  <div class="perks">
-    <div class="perk"><span class="c">✓</span> -25% setup</div>
-    <div class="perk"><span class="c">✓</span> <span class="lang pl on">Konsultacja gratis</span><span class="lang en">Free consultation</span><span class="lang de">Beratung gratis</span></div>
-    <div class="perk"><span class="c">✓</span> <span class="lang pl on">1. miesiąc gratis</span><span class="lang en">1st month free</span><span class="lang de">1. Monat gratis</span></div>
-    <div class="perk"><span class="c">✓</span> Umowa M2M</div>
-  </div>
-  <a href="mailto:kontakt.mvautomation@gmail.com?subject=Zapytanie%20o%20ofert%C4%99%20czerwcow%C4%85" class="btn btn-gold">
-    <span class="lang pl on">Rezerwuję jedno z 3 miejsc →</span><span class="lang en">Reserve one of 3 spots →</span><span class="lang de">Einen von 3 Plätzen sichern →</span>
+    <div class="logo-text"><span class="logo-mv">MV</span><span class="logo-dot"></span><span class="logo-auto">Automation</span></div>
   </a>
-  <div class="spots">⚠️ <span class="lang pl on">Zostały 3 miejsca w czerwcu</span><span class="lang en">Only 3 spots left in June</span><span class="lang de">Nur noch 3 Plätze im Juni</span></div>
-</div></div></div></section>
-<section style="padding-top:20px"><div class="wrap">
-  <div class="tag"><span class="lang pl on">Pełna oferta</span><span class="lang en">Full offer</span><span class="lang de">Vollständiges Angebot</span></div>
-  <h2 class="sh"><span class="lang pl on">Kompletny katalog — <em>jeden dostawca</em></span><span class="lang en">Full catalogue — <em>one provider</em></span><span class="lang de">Komplett — <em>ein Anbieter</em></span></h2>
-  <p class="sd"><span class="lang pl on">Zamiast 6 narzędzi i 6 faktur — jeden system i jeden partner odpowiedzialny za całość.</span><span class="lang en">One system, one partner.</span><span class="lang de">Ein System, ein Partner.</span></p>
-  <div class="tcols">
-    <div class="tcol">
-      <h5><span class="lang pl on">Outreach & Sprzedaż</span><span class="lang en">Outreach & Sales</span><span class="lang de">Outreach & Vertrieb</span></h5>
-      <div class="trow"><span class="name">🤖 <span class="lang pl on">AI kwalifikacja</span><span class="lang en">AI qualification</span><span class="lang de">KI-Qualifizierung</span></span><span class="vals"><b>2 000</b> · 500/mc</span></div>
-      <div class="trow"><span class="name">💬 WhatsApp Business</span><span class="vals"><b>2 000</b> · 600/mc</span></div>
-      <div class="trow"><span class="name">📞 Cold Calling AI</span><span class="vals"><b>6 000</b> · 1 800/mc</span></div>
-      <div class="trow"><span class="name">🛒 Retargeting</span><span class="vals"><b>2 000</b> · 500/mc</span></div>
+  <div class="nav-right">
+    <span class="nav-live"><span class="ndot"></span>LIVE</span>
+    <a href="tel:500653369" class="nav-btn">&#128222; <span class="li" data-lang="pl">Zadzwo&#324;</span><span class="li" data-lang="en">Call</span><span class="li" data-lang="de">Anrufen</span></a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag"><span class="ndot"></span>AI Automation Agency &bull; Poland &bull; Europe &bull; Est. 2024</div>
+
+  <div data-lang="pl">
+    <h1><span class="l1">Automatyzujemy</span><span class="l2">sprzeda&#380; i obs&#322;ug&#281;</span></h1>
+    <p class="hero-sub">Projektujemy i wdra&#380;amy systemy AI kt&oacute;re pracuj&#261; 24/7. Nasze systemy dzia&#322;aj&#261; produkcyjnie &mdash; nie sprzedajemy teorii.</p>
+  </div>
+  <div data-lang="en">
+    <h1><span class="l1">We automate</span><span class="l2">sales &amp; operations</span></h1>
+    <p class="hero-sub">We design and deploy AI systems that operate 24/7. Our systems run in production &mdash; we don&rsquo;t sell theory.</p>
+  </div>
+  <div data-lang="de">
+    <h1><span class="l1">Wir automatisieren</span><span class="l2">Vertrieb &amp; Betrieb</span></h1>
+    <p class="hero-sub">Wir entwickeln KI-Systeme die 24/7 laufen. Unsere Systeme laufen produktiv &mdash; wir verkaufen keine Theorie.</p>
+  </div>
+
+  <!-- SOCIAL PROOF NUMBERS -->
+  <div class="proof-row">
+    <div class="pr-item"><div class="pr-num">28 711</div><div class="pr-label"><span class="li" data-lang="pl">Lead&oacute;w w bazie</span><span class="li" data-lang="en">Leads in DB</span><span class="li" data-lang="de">Leads</span></div></div>
+    <div class="pr-item"><div class="pr-num">1 833+</div><div class="pr-label"><span class="li" data-lang="pl">Wys&#322;anych</span><span class="li" data-lang="en">Sent</span><span class="li" data-lang="de">Gesendet</span></div></div>
+    <div class="pr-item"><div class="pr-num">10</div><div class="pr-label"><span class="li" data-lang="pl">Domen</span><span class="li" data-lang="en">Domains</span><span class="li" data-lang="de">Dom&auml;nen</span></div></div>
+    <div class="pr-item"><div class="pr-num">&lt;7 dni</div><div class="pr-label"><span class="li" data-lang="pl">Wdro&#380;enie</span><span class="li" data-lang="en">Deploy</span><span class="li" data-lang="de">Deployment</span></div></div>
+    <div class="pr-item"><div class="pr-num">24/7</div><div class="pr-label">Uptime</div></div>
+  </div>
+
+  <!-- AUTHORITY STRIP -->
+  <div class="auth-strip">
+    <div class="auth-item"><span class="auth-icon">&#127968;</span><span><span class="li" data-lang="pl">Dane przetwarzane w EU</span><span class="li" data-lang="en">Data processed in EU</span><span class="li" data-lang="de">Daten in EU</span></span></div>
+    <div class="auth-item"><span class="auth-icon">&#128274;</span><span>RODO / GDPR / DSGVO</span></div>
+    <div class="auth-item"><span class="auth-icon">&#9881;&#65039;</span><span>n8n + Supabase + Vapi.ai</span></div>
+    <div class="auth-item"><span class="auth-icon">&#128200;</span><span><span class="li" data-lang="pl">Live dashboard 24/7</span><span class="li" data-lang="en">Live dashboard 24/7</span><span class="li" data-lang="de">Live-Dashboard 24/7</span></span></div>
+  </div>
+
+  <!-- PAIN / GAIN — kontrast -->
+  <div class="pain-block">
+    <div class="pain-card pain-bad">
+      <div class="pain-title"><span class="li" data-lang="pl">&#10060; Bez automatyzacji</span><span class="li" data-lang="en">&#10060; Without automation</span><span class="li" data-lang="de">&#10060; Ohne Automatisierung</span></div>
+      <div class="pain-item"><span class="pain-ico">&#128383;</span><span class="li" data-lang="pl">Nieodebrane telefony po 17:00 = utraceni klienci</span><span class="li" data-lang="en">Missed calls after 5 PM = lost clients</span><span class="li" data-lang="de">Verpasste Anrufe = verlorene Kunden</span></div>
+      <div class="pain-item"><span class="pain-ico">&#128197;</span><span class="li" data-lang="pl">R&#281;czne umawianie wizyt po kilka minut ka&#380;da</span><span class="li" data-lang="en">Manual booking taking minutes each</span><span class="li" data-lang="de">Manuelle Terminbuchung kostet Minuten</span></div>
+      <div class="pain-item"><span class="pain-ico">&#128184;</span><span class="li" data-lang="pl">Etat recepcji: 4 500&ndash;8 000 PLN/mies. brutto</span><span class="li" data-lang="en">Reception salary: 4,500&ndash;8,000 PLN/mo gross</span><span class="li" data-lang="de">Rezeptionsgehalt: 4.500&ndash;8.000 PLN/Mo.</span></div>
+      <div class="pain-item"><span class="pain-ico">&#128308;</span><span class="li" data-lang="pl">Brak danych: nie wiesz ile tracisz</span><span class="li" data-lang="en">No data: you don&rsquo;t know what you&rsquo;re losing</span><span class="li" data-lang="de">Keine Daten: Sie wissen nicht was Sie verlieren</span></div>
     </div>
-    <div class="tcol">
-      <h5><span class="lang pl on">Obsługa klienta 24/7</span><span class="lang en">Customer Service 24/7</span><span class="lang de">Kundenservice 24/7</span></h5>
-      <div class="trow"><span class="name">🤖 AI Chatbot</span><span class="vals"><b>2 500</b> · 700/mc</span></div>
-      <div class="trow"><span class="name">📥 AI Email Triage</span><span class="vals"><b>2 000</b> · 600/mc</span></div>
-      <div class="trow"><span class="name">📅 <span class="lang pl on">Rezerwacja wizyt</span><span class="lang en">Booking</span><span class="lang de">Buchung</span></span><span class="vals"><b>1 500</b> · 400/mc</span></div>
-      <div class="trow"><span class="name">📱 SMS</span><span class="vals"><b>1 000</b> · 300/mc</span></div>
-      <div class="trow"><span class="name">🎛 <span class="lang pl on">Transkrypcja AI</span><span class="lang en">Transcription</span><span class="lang de">Transkription</span></span><span class="vals"><b>3 000</b> · 800/mc</span></div>
-    </div>
-    <div class="tcol">
-      <h5>Content & Marketing</h5>
-      <div class="trow"><span class="name">✍ Content Factory — 6 <span class="lang pl on">platform</span><span class="lang en">platforms</span><span class="lang de">Plattformen</span></span><span class="vals"><b>2 000</b> · 1 200/mc</span></div>
-      <div class="trow"><span class="name">📨 Newsletter</span><span class="vals"><b>1 500</b> · 500/mc</span></div>
-      <div class="trow"><span class="name">🔍 AI SEO</span><span class="vals"><b>1 500</b> · 800/mc</span></div>
-      <div class="trow"><span class="name">📊 <span class="lang pl on">Raporty PDF</span><span class="lang en">PDF Reports</span><span class="lang de">PDF-Berichte</span></span><span class="vals"><b>1 500</b> · 400/mc</span></div>
-    </div>
-    <div class="tcol">
-      <h5><span class="lang pl on">White Label & Partnerzy</span><span class="lang en">White Label & Partners</span><span class="lang de">White Label & Partner</span></h5>
-      <div class="trow"><span class="name">🏷 White Label</span><span class="vals"><b>5 000</b> · 1 500/mc</span></div>
-      <div class="trow"><span class="name">💰 Reseller</span><span class="vals"><b>20%</b></span></div>
-      <div class="trow"><span class="name">💻 SaaS Dashboard</span><span class="vals"><b>8 000</b> · 2 000/mc</span></div>
-      <div class="trow"><span class="name">🎓 <span class="lang pl on">Szkolenia n8n</span><span class="lang en">n8n Training</span><span class="lang de">n8n-Schulungen</span></span><span class="vals"><span class="lang pl on">od</span><span class="lang en">from</span><span class="lang de">ab</span> <b>1 500</b></span></div>
+    <div class="pain-card pain-good">
+      <div class="pain-title"><span class="li" data-lang="pl">&#10003; Z MV Automation</span><span class="li" data-lang="en">&#10003; With MV Automation</span><span class="li" data-lang="de">&#10003; Mit MV Automation</span></div>
+      <div class="pain-item"><span class="pain-ico">&#9989;</span><span class="li" data-lang="pl">AI odbiera 100% po&#322;&#261;cze&#324; &mdash; o ka&#380;dej porze</span><span class="li" data-lang="en">AI answers 100% of calls &mdash; at any time</span><span class="li" data-lang="de">KI beantwortet 100% der Anrufe &mdash; jederzeit</span></div>
+      <div class="pain-item"><span class="pain-ico">&#9989;</span><span class="li" data-lang="pl">Wizyty umawiane automatycznie do kalendarza</span><span class="li" data-lang="en">Appointments booked automatically to calendar</span><span class="li" data-lang="de">Termine automatisch in den Kalender</span></div>
+      <div class="pain-item"><span class="pain-ico">&#9989;</span><span class="li" data-lang="pl">2 500 PLN/mies. zamiast etatu &mdash; oszcz&#281;dno&#347;&#263; 2&ndash;5k PLN</span><span class="li" data-lang="en">2,500 PLN/mo instead of salary &mdash; saving 2&ndash;5k PLN</span><span class="li" data-lang="de">2.500 PLN/Mo. statt Gehalt &mdash; Ersparnis 2&ndash;5k PLN</span></div>
+      <div class="pain-item"><span class="pain-ico">&#9989;</span><span class="li" data-lang="pl">Live dashboard: ka&#380;dy kontakt, ka&#380;da wizyta, pe&#322;na analityka</span><span class="li" data-lang="en">Live dashboard: every contact, every booking, full analytics</span><span class="li" data-lang="de">Live-Dashboard: jeder Kontakt, jede Buchung, volle Analytik</span></div>
     </div>
   </div>
-  <p class="anchor-note"><span class="lang pl on">Najczęściej wybierana: <b>AI Recepcjonistka</b> — jeden system zastępuje koszt etatu na recepcji.</span><span class="lang en">Most chosen: <b>AI Voice Receptionist</b>.</span><span class="lang de">Beliebteste: <b>KI-Rezeptionistin</b>.</span></p>
-</div></section>
-<section class="final"><div class="wrap">
-  <h3><span class="lang pl on">Gotowy na <em>automatyzację?</em></span><span class="lang en">Ready to <em>automate?</em></span><span class="lang de">Bereit zur <em>Automatisierung?</em></span></h3>
-  <p><span class="lang pl on">Bezpłatna konsultacja. Wdrożenie w 5–7 dni. Ceny netto. Umowa M2M — odchodzisz, kiedy chcesz.</span><span class="lang en">Free consultation. Deploy in 5–7 days. M2M — cancel anytime.</span><span class="lang de">Kostenlose Beratung. 5–7 Tage. M2M-Vertrag.</span></p>
-  <div class="cta-row">
-    <a href="mailto:kontakt.mvautomation@gmail.com?subject=Bezp%C5%82atna%20konsultacja" class="btn btn-gold">✉️ <span class="lang pl on">Umów bezpłatną konsultację</span><span class="lang en">Book free consultation</span><span class="lang de">Kostenlose Beratung</span></a>
-    <a href="tel:500653369" class="btn btn-ghost">📞 500 653 369</a>
+
+  <!-- ANCHOR PRICING -->
+  <div class="anchor-block">
+    <div class="anchor-tag">&#x2728; <span class="li" data-lang="pl">Czerwiec 2026 &mdash; oferta specjalna</span><span class="li" data-lang="en">June 2026 &mdash; special offer</span><span class="li" data-lang="de">Juni 2026 &mdash; Sonderangebot</span></div>
+    <div class="anchor-old"><span class="li" data-lang="pl">Standardowy setup: 12 000 PLN</span><span class="li" data-lang="en">Standard setup: 12,000 PLN</span><span class="li" data-lang="de">Standard-Setup: 12.000 PLN</span></div>
+    <div class="anchor-new">9 000 PLN</div>
+    <div class="anchor-save"><span class="li" data-lang="pl">Oszczędzasz 3 000 PLN + 1 miesi&#261;c abonamentu gratis</span><span class="li" data-lang="en">Save 3,000 PLN + 1 month subscription free</span><span class="li" data-lang="de">Sparen Sie 3.000 PLN + 1 Monat Abo gratis</span></div>
+    <div class="anchor-items">
+      <div class="anch-i"><div class="anch-c">&#10003;</div><span class="li" data-lang="pl">Wdro&#380;enie 5&ndash;7 dni</span><span class="li" data-lang="en">Deployment 5&ndash;7 days</span><span class="li" data-lang="de">Deployment 5&ndash;7 Tage</span></div>
+      <div class="anch-i"><div class="anch-c">&#10003;</div><span class="li" data-lang="pl">1 godz. Twojego czasu</span><span class="li" data-lang="en">1 hour of your time</span><span class="li" data-lang="de">1 Stunde Ihrer Zeit</span></div>
+      <div class="anch-i"><div class="anch-c">&#10003;</div><span class="li" data-lang="pl">Umowa M2M &mdash; bez zobowi&#261;za&#324;</span><span class="li" data-lang="en">M2M contract &mdash; no commitment</span><span class="li" data-lang="de">M2M-Vertrag &mdash; keine Bindung</span></div>
+      <div class="anch-i"><div class="anch-c">&#10003;</div><span class="li" data-lang="pl">Konsultacja gratis</span><span class="li" data-lang="en">Free consultation</span><span class="li" data-lang="de">Beratung gratis</span></div>
+    </div>
+    <div class="anchor-alert">&#9888;&#65039; <span class="li" data-lang="pl">Przyjmujemy max. 2 nowe wdro&#380;enia miesi&#281;cznie &mdash; zosta&#322;y 3 miejsca</span><span class="li" data-lang="en">Max. 2 new deployments per month &mdash; 3 spots left</span><span class="li" data-lang="de">Max. 2 neue Implementierungen pro Monat &mdash; noch 3 Pl&auml;tze</span></div>
   </div>
-  <div class="spots" style="margin-top:18px">⚠️ <span class="lang pl on">Czerwiec 2026 — 3 miejsca promocyjne</span><span class="lang en">June 2026 — 3 promo spots</span><span class="lang de">Juni 2026 — 3 Plätze</span></div>
-</div></section>
-<footer><div class="wrap">
-  <div class="foot-links">
-    <a href="mailto:kontakt.mvautomation@gmail.com">kontakt.mvautomation@gmail.com</a>
-    <a href="tel:500653369">500 653 369</a>
-    <span>mvautomation.pl</span>
+</div>
+
+<div class="div"></div>
+
+<!-- LIVE SYSTEMS -->
+<div class="sh">
+  <div class="sh-tag"><span class="li" data-lang="pl">Dzia&#322;aj&#261;ce produkcyjnie</span><span class="li" data-lang="en">Running in production</span><span class="li" data-lang="de">Produktiv im Einsatz</span></div>
+  <div class="sh-title"><span class="li" data-lang="pl">Systemy kt&oacute;re wdro&#380;yli&#347;my <em>u siebie</em></span><span class="li" data-lang="en">Systems we deployed <em>ourselves</em></span><span class="li" data-lang="de">Systeme die wir <em>selbst einsetzen</em></span></div>
+  <p class="sh-sub"><span class="li" data-lang="pl">Nie sprzedajemy oprogramowania. Ka&#380;dy system uruchomili&#347;my na w&#322;asnej infrastrukturze zanim zaproponowali&#347;my go klientom.</span><span class="li" data-lang="en">We don&rsquo;t sell software. Every system was launched on our own infrastructure before we offered it to clients.</span><span class="li" data-lang="de">Wir verkaufen keine Software. Jedes System wurde auf unserer eigenen Infrastruktur gestartet.</span></p>
+</div>
+<div class="grid">
+  <div class="card gold"><span class="ci">&#127899;&#65039;</span><div class="cn"><span class="li" data-lang="pl">AI Recepcjonistka g&#322;osowa</span><span class="li" data-lang="en">AI Voice Receptionist</span><span class="li" data-lang="de">KI-Sprachrezeptionistin</span><span class="clive">LIVE</span></div><div class="cd"><span class="li" data-lang="pl">Odbiera 100% po&#322;&#261;cze&#324; 24/7. R&oacute;wnoleg&#322;e linie bez ogranicze&#324;. Wdro&#380;ona produkcyjnie.</span><span class="li" data-lang="en">Answers 100% of calls 24/7. Parallel lines without limits. Deployed in production.</span><span class="li" data-lang="de">Beantwortet 100% der Anrufe 24/7. Produktiv eingesetzt.</span></div><div class="cp"><span class="ps">Setup 9 000 PLN</span><span class="pm">2 500 PLN/mo</span></div></div>
+  <div class="card gold"><span class="ci">&#128231;</span><div class="cn">Cold Email Infrastructure<span class="clive">LIVE</span></div><div class="cd"><span class="li" data-lang="pl">10 domen. Primary Gmail delivery potwierdzone. Tysi&#261;ce dziennie.</span><span class="li" data-lang="en">10 domains. Primary Gmail delivery confirmed. Thousands daily.</span><span class="li" data-lang="de">10 Dom&auml;nen. Gmail-Zustellbarkeit best&auml;tigt.</span></div><div class="cp"><span class="ps">Setup 3 000 PLN</span><span class="pm">800 PLN/mo</span></div></div>
+  <div class="card gold"><span class="ci">&#128188;</span><div class="cn">LinkedIn Outreach<span class="clive">LIVE</span></div><div class="cd"><span class="li" data-lang="pl">Zautomatyzowane leady. R&oacute;wnoleg&#322;y pipeline sprzeda&#380;owy.</span><span class="li" data-lang="en">Automated leads. Parallel sales pipeline.</span><span class="li" data-lang="de">Automatisierte Leads. Parallele Sales-Pipeline.</span></div><div class="cp"><span class="ps">Setup 2 500 PLN</span><span class="pm">700 PLN/mo</span></div></div>
+  <div class="card gold"><span class="ci">&#128452;&#65039;</span><div class="cn"><span class="li" data-lang="pl">Bazy Lead&oacute;w B2B</span><span class="li" data-lang="en">B2B Lead Databases</span><span class="li" data-lang="de">B2B-Datenbanken</span><span class="clive">LIVE</span></div><div class="cd"><span class="li" data-lang="pl">28 711 zweryfikowanych rekord&oacute;w. Dostawa 24h.</span><span class="li" data-lang="en">28,711 verified records. 24h delivery.</span><span class="li" data-lang="de">28.711 verifizierte Datens&auml;tze. 24h Lieferung.</span></div><div class="cp"><span class="po">od 300 PLN</span></div></div>
+  <div class="card gold"><span class="ci">&#128260;</span><div class="cn">Followup Multichannel<span class="clive">LIVE</span></div><div class="cd"><span class="li" data-lang="pl">Email + SMS + LinkedIn. Zero manualnej pracy po starcie.</span><span class="li" data-lang="en">Email + SMS + LinkedIn. Zero manual work after launch.</span><span class="li" data-lang="de">E-Mail + SMS + LinkedIn. Null manuelle Arbeit nach Start.</span></div><div class="cp"><span class="ps">Setup 3 500 PLN</span><span class="pm">900 PLN/mo</span></div></div>
+</div>
+
+<div class="div"></div>
+
+<!-- TESTIMONIALS -->
+<div class="sh">
+  <div class="sh-tag"><span class="li" data-lang="pl">Co m&oacute;wi&#261; klienci</span><span class="li" data-lang="en">What clients say</span><span class="li" data-lang="de">Was Kunden sagen</span></div>
+  <div class="sh-title"><span class="li" data-lang="pl">Pierwsze <em>rezultaty</em></span><span class="li" data-lang="en">First <em>results</em></span><span class="li" data-lang="de">Erste <em>Ergebnisse</em></span></div>
+</div>
+<div class="testi-grid">
+  <div class="testi"><div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><div class="testi-text"><span class="li" data-lang="pl">&bdquo;System cold email dzia&#322;a bez naszego udzia&#322;u. Pierwsze zapytania pojawi&#322;y si&#281; w ci&#261;gu tygodnia od uruchomienia.&rdquo;</span><span class="li" data-lang="en">&ldquo;The cold email system works without our involvement. First inquiries appeared within a week of launch.&rdquo;</span><span class="li" data-lang="de">&bdquo;Das Cold-Email-System l&auml;uft ohne unser Zutun. Erste Anfragen kamen innerhalb einer Woche.&rdquo;</span></div><div class="testi-author"><div class="testi-avatar">K</div><div><div class="testi-name"><span class="li" data-lang="pl">Klient MV Automation</span><span class="li" data-lang="en">MV Automation client</span><span class="li" data-lang="de">MV Automation Kunde</span></div><div class="testi-role"><span class="li" data-lang="pl">Prywatna klinika, PL</span><span class="li" data-lang="en">Private clinic, PL</span><span class="li" data-lang="de">Privatklinik, PL</span></div></div></div></div>
+  <div class="testi"><div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><div class="testi-text"><span class="li" data-lang="pl">&bdquo;Wdro&#380;enie zaj&#281;&#322;o 6 dni. System sam generuje leady, sam wysy&#322;a follow-upy. Ja tylko zamykam sprzeda&#380;.&rdquo;</span><span class="li" data-lang="en">&ldquo;Deployment took 6 days. The system generates leads, sends follow-ups. I just close the sales.&rdquo;</span><span class="li" data-lang="de">&bdquo;Die Implementierung dauerte 6 Tage. Das System generiert Leads, sendet Follow-ups. Ich schlie&szlig;e nur ab.&rdquo;</span></div><div class="testi-author"><div class="testi-avatar">M</div><div><div class="testi-name"><span class="li" data-lang="pl">W&#322;a&#347;ciciel kliniki</span><span class="li" data-lang="en">Clinic owner</span><span class="li" data-lang="de">Klinikinhaber</span></div><div class="testi-role">Gda&#324;sk, PL</div></div></div></div>
+  <div class="testi"><div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><div class="testi-text"><span class="li" data-lang="pl">&bdquo;AI Recepcjonistka odbiera 80% po&#322;&#261;cze&#324; kt&oacute;re wcze&#347;niej przepada&#322;y. ROI zwr&oacute;ci&#322;o si&#281; w pierwszym miesi&#261;cu.&rdquo;</span><span class="li" data-lang="en">&ldquo;AI Receptionist handles 80% of calls that used to be missed. ROI paid back in the first month.&rdquo;</span><span class="li" data-lang="de">&bdquo;KI-Rezeptionistin beantwortet 80% der fr&uuml;her verpassten Anrufe. ROI bereits im ersten Monat.&rdquo;</span></div><div class="testi-author"><div class="testi-avatar">P</div><div><div class="testi-name">CEO</div><div class="testi-role"><span class="li" data-lang="pl">Agencja marketingowa, Warszawa</span><span class="li" data-lang="en">Marketing agency, Warsaw</span><span class="li" data-lang="de">Marketing-Agentur, Warschau</span></div></div></div></div>
+</div>
+
+<div class="div"></div>
+
+<div class="sh">
+  <div class="sh-tag"><span class="li" data-lang="pl">Pe&#322;na oferta</span><span class="li" data-lang="en">Full offer</span><span class="li" data-lang="de">Vollst&auml;ndiges Angebot</span></div>
+  <div class="sh-title">42 <span class="li" data-lang="pl">us&#322;ugi &mdash; <em>jeden dostawca</em></span><span class="li" data-lang="en">services &mdash; <em>one provider</em></span><span class="li" data-lang="de">Leistungen &mdash; <em>ein Anbieter</em></span></div>
+  <p class="sh-sub" style="margin-bottom:24px;"></p>
+</div>
+
+<div class="tbl"><table><thead><tr><th><span class="li" data-lang="pl">Outreach &amp; Sprzeda&#380;</span><span class="li" data-lang="en">Outreach &amp; Sales</span><span class="li" data-lang="de">Outreach &amp; Vertrieb</span></th><th>Setup</th><th>Mo.</th></tr></thead><tbody>
+<tr><td>&#129302; AI <span class="li" data-lang="pl">kwalifikacja</span><span class="li" data-lang="en">qualification</span><span class="li" data-lang="de">Qualifizierung</span></td><td class="p1">2 000 PLN</td><td class="p2">500 PLN</td></tr>
+<tr><td>&#128172; WhatsApp Business</td><td class="p1">2 000 PLN</td><td class="p2">600 PLN</td></tr>
+<tr><td>&#128222; Cold Calling AI</td><td class="p1">6 000 PLN</td><td class="p2">1 800 PLN</td></tr>
+<tr><td>&#128722; Retargeting</td><td class="p1">2 000 PLN</td><td class="p2">500 PLN</td></tr>
+</tbody></table></div>
+<div class="tbl"><table><thead><tr><th><span class="li" data-lang="pl">Obs&#322;uga Klienta 24/7</span><span class="li" data-lang="en">Customer Service 24/7</span><span class="li" data-lang="de">Kundenservice 24/7</span></th><th>Setup</th><th>Mo.</th></tr></thead><tbody>
+<tr><td>&#129302; AI Chatbot</td><td class="p1">2 500 PLN</td><td class="p2">700 PLN</td></tr>
+<tr><td>&#128229; AI Email Triage</td><td class="p1">2 000 PLN</td><td class="p2">600 PLN</td></tr>
+<tr><td>&#128197; <span class="li" data-lang="pl">Rezerwacja wizyt</span><span class="li" data-lang="en">Booking</span><span class="li" data-lang="de">Terminbuchung</span></td><td class="p1">1 500 PLN</td><td class="p2">400 PLN</td></tr>
+<tr><td>&#128241; SMS</td><td class="p1">1 000 PLN</td><td class="p2">300 PLN</td></tr>
+<tr><td>&#127899; AI <span class="li" data-lang="pl">Transkrypcja</span><span class="li" data-lang="en">Transcription</span><span class="li" data-lang="de">Transkription</span></td><td class="p1">3 000 PLN</td><td class="p2">800 PLN</td></tr>
+</tbody></table></div>
+<div class="tbl"><table><thead><tr><th>Content &amp; Marketing</th><th>Setup</th><th>Mo.</th></tr></thead><tbody>
+<tr><td>&#9997; AI Content Factory</td><td class="p1">2 000 PLN</td><td class="p2">1 200 PLN</td></tr>
+<tr><td>&#128232; Newsletter</td><td class="p1">1 500 PLN</td><td class="p2">500 PLN</td></tr>
+<tr><td>&#128269; AI SEO</td><td class="p1">1 500 PLN</td><td class="p2">800 PLN</td></tr>
+<tr><td>&#128202; PDF <span class="li" data-lang="pl">Raporty</span><span class="li" data-lang="en">Reports</span><span class="li" data-lang="de">Berichte</span></td><td class="p1">1 500 PLN</td><td class="p2">400 PLN</td></tr>
+</tbody></table></div>
+<div class="tbl"><table><thead><tr><th>White Label &amp; <span class="li" data-lang="pl">Partnerzy</span><span class="li" data-lang="en">Partners</span><span class="li" data-lang="de">Partner</span></th><th>Setup</th><th>Mo.</th></tr></thead><tbody>
+<tr><td>&#127991; White Label</td><td class="p1">5 000 PLN</td><td class="p2">1 500 PLN</td></tr>
+<tr><td>&#128176; Reseller 20%</td><td class="p1">&mdash;</td><td class="p2">20%</td></tr>
+<tr><td>&#128187; SaaS Dashboard</td><td class="p1">8 000 PLN</td><td class="p2">2 000 PLN</td></tr>
+<tr><td>&#127891; n8n <span class="li" data-lang="pl">Szkolenia</span><span class="li" data-lang="en">Training</span><span class="li" data-lang="de">Schulungen</span></td><td class="p1">&mdash;</td><td class="p2">od 1 500 PLN</td></tr>
+</tbody></table></div>
+
+<!-- CTA — URGENCY + LOSS -->
+<div class="cta-sec">
+  <div class="cta-title">
+    <span class="li" data-lang="pl">Ka&#380;dy dzie&#324; bez systemu<br><em>kosztuje Ci&#281; pieni&#261;dze</em></span>
+    <span class="li" data-lang="en">Every day without a system<br><em>costs you money</em></span>
+    <span class="li" data-lang="de">Jeder Tag ohne System<br><em>kostet Sie Geld</em></span>
   </div>
-  © 2026 MV Automation · EU Data · GDPR/RODO · 24/7
-</div></footer>
+  <p class="cta-sub"><span class="li" data-lang="pl">5&ndash;7 dni wdro&#380;enie. Ceny netto. Umowa M2M &mdash; wychodzimy kiedy chcesz.</span><span class="li" data-lang="en">5&ndash;7 days deployment. Net prices. M2M contract &mdash; exit when you want.</span><span class="li" data-lang="de">5&ndash;7 Tage Deployment. Netto. M2M &mdash; k&uuml;ndbar wann Sie wollen.</span></p>
+  <p class="cta-urg">&#9888;&#65039; <span class="li" data-lang="pl">Czerwiec 2026 &mdash; zosta&#322;y tylko 3 miejsca promocyjne. Po ko&#324;cu miesi&#261;ca ceny wracaj&#261; do pe&#322;nych.</span><span class="li" data-lang="en">June 2026 &mdash; only 3 promotional spots left. After month end, prices return to full.</span><span class="li" data-lang="de">Juni 2026 &mdash; nur noch 3 Aktionspl&auml;tze. Nach Monatsende volle Preise.</span></p>
+  <div class="btns">
+    <a href="tel:500653369" class="btn1">&#128222; <span class="li" data-lang="pl">Zadzwo&#324; &mdash; konsultacja gratis</span><span class="li" data-lang="en">Call &mdash; free consultation</span><span class="li" data-lang="de">Anrufen &mdash; Beratung gratis</span></a>
+    <a href="mailto:kontakt.mvautomation@gmail.com" class="btn2">&#9993;&#65039; Email</a>
+  </div>
+  <div class="phone">500 653 369</div>
+  <div class="email-c"><a href="mailto:kontakt.mvautomation@gmail.com">kontakt.mvautomation@gmail.com</a></div>
+  <div class="email-c" style="margin-top:5px;">mvautomation.pl</div>
+</div>
+
+</div>
+<div class="footer">&copy; 2026 MV Automation &middot; EU Data &middot; GDPR/RODO &middot; 24/7</div>
+
 <script>
-document.querySelectorAll('.langs button').forEach(function(b){
-  b.addEventListener('click',function(){
-    var l=b.dataset.l;
-    document.querySelectorAll('.langs button').forEach(function(x){x.classList.remove('active')});
-    b.classList.add('active');
-    document.querySelectorAll('.lang').forEach(function(e){e.classList.remove('on')});
-    document.querySelectorAll('.lang.'+l).forEach(function(e){e.classList.add('on')});
-    document.documentElement.lang=l;
-  });
-});
-(function(){
-  var el=document.getElementById('timer');
-  var t=new Date(Date.now()+5*864e5);
-  var cap=new Date('2026-06-30T23:59:59');
-  if(t>cap)t=cap;
-  function p(n){return String(n).padStart(2,'0')}
-  function tick(){
-    var d=Math.max(0,t-new Date());
-    var dd=Math.floor(d/864e5);d-=dd*864e5;
-    var hh=Math.floor(d/36e5);d-=hh*36e5;
-    var mm=Math.floor(d/6e4);d-=mm*6e4;
-    var ss=Math.floor(d/1e3);
-    el.textContent=p(dd)+'d '+p(hh)+'h '+p(mm)+'m '+p(ss)+'s';
-  }
-  tick();setInterval(tick,1000);
-})();
+function lang(l){document.querySelectorAll('[data-lang]').forEach(e=>{e.classList.toggle('on',e.dataset.lang===l);});document.querySelectorAll('.lb').forEach(b=>{b.classList.toggle('active',b.textContent.toLowerCase().includes(l));});}
+lang('pl');
+function tick(){const now=new Date(),end=new Date(now.getFullYear(),now.getMonth()+1,0,23,59,59),diff=end-now;if(diff<=0)return;document.getElementById('d').textContent=String(Math.floor(diff/86400000)).padStart(2,'0');document.getElementById('h').textContent=String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');document.getElementById('m').textContent=String(Math.floor((diff%3600000)/60000)).padStart(2,'0');document.getElementById('s').textContent=String(Math.floor((diff%60000)/1000)).padStart(2,'0');}
+tick();setInterval(tick,1000);
 </script>
 </body>
 </html>
