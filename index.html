@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MV Automation - AI dla Twojej kliniki</title>
+<title>MV Automation - AI Recepcjonistka dla kliniki</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Space+Grotesk:wght@700;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
@@ -14,9 +14,9 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overf
 .a2{position:absolute;bottom:-20%;right:-20%;width:700px;height:700px;background:radial-gradient(ellipse,rgba(245,158,11,.06) 0%,transparent 65%);}
 body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(139,92,246,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;}
 .wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 20px;}
-.top-bar{background:linear-gradient(90deg,#7f1d1d,#b91c1c,#7f1d1d);background-size:200%;animation:bar 4s linear infinite;padding:8px 20px;text-align:center;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:10px;}
+.top-bar{background:linear-gradient(90deg,#064e3b,#065f46,#064e3b);background-size:200%;animation:bar 4s linear infinite;padding:10px 20px;text-align:center;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:10px;}
 @keyframes bar{0%{background-position:0%}100%{background-position:200%}}
-.dot{width:7px;height:7px;background:#fca5a5;border-radius:50%;animation:bl 1.2s infinite;}
+.dot{width:7px;height:7px;background:#6ee7b7;border-radius:50%;animation:bl 1.2s infinite;}
 @keyframes bl{0%,100%{opacity:1;}50%{opacity:.2;}}
 .spots-bar{background:rgba(245,158,11,.08);border-bottom:1px solid rgba(245,158,11,.2);padding:7px 20px;text-align:center;font-size:11px;font-weight:600;color:#fbbf24;display:flex;align-items:center;justify-content:center;gap:8px;}
 .sdots{display:flex;gap:4px;}
@@ -36,90 +36,116 @@ body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(r
 .pb-text{font-size:16px;font-weight:700;}
 .pb-name{color:var(--g2);}
 .hero{padding:48px 0 24px;text-align:center;}
-.htag{display:inline-flex;align-items:center;gap:8px;background:rgba(109,40,217,.08);border:1px solid rgba(109,40,217,.25);border-radius:30px;padding:7px 18px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--p3);margin-bottom:20px;}
-h1{font-family:'Space Grotesk',sans-serif;font-weight:900;font-size:clamp(38px,8vw,80px);line-height:.95;letter-spacing:-3px;margin-bottom:18px;}
-.l1{display:block;color:#fff;}.l2{display:block;background:linear-gradient(135deg,var(--gold),var(--g2),#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.hsub{font-size:16px;color:#8080b0;max-width:520px;margin:0 auto 28px;}
-.stats{display:flex;border:1px solid var(--border);border-radius:14px;overflow:hidden;margin:24px 0;}
+.htag{display:inline-flex;align-items:center;gap:8px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);border-radius:30px;padding:7px 18px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:20px;}
+h1{font-family:'Space Grotesk',sans-serif;font-weight:900;font-size:clamp(36px,7vw,72px);line-height:.95;letter-spacing:-3px;margin-bottom:18px;}
+.l1{display:block;color:#fff;}.l2{display:block;background:linear-gradient(135deg,var(--green),#6ee7b7,#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hsub{font-size:17px;color:#8080b0;max-width:540px;margin:0 auto 28px;}
+.pilot-hero{background:linear-gradient(135deg,rgba(16,185,129,.1),rgba(109,40,217,.15));border:2px solid rgba(16,185,129,.5);border-radius:24px;padding:40px;margin:32px 0;text-align:center;}
+.ph-tag{font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:12px;}
+.ph-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,4vw,42px);font-weight:900;letter-spacing:-1px;margin-bottom:10px;}
+.ph-title em{font-style:normal;color:var(--green);}
+.ph-sub{color:#8080b0;font-size:15px;margin-bottom:24px;max-width:500px;margin-left:auto;margin-right:auto;}
+.checks{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:28px;}
+.ck{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#d4fae8;}
+.cki{width:20px;height:20px;background:rgba(16,185,129,.2);border:1px solid rgba(16,185,129,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--green);}
+.cta-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--green),#059669);border:none;border-radius:14px;padding:18px 40px;font-size:16px;font-weight:700;color:#fff;text-decoration:none;box-shadow:0 8px 40px rgba(16,185,129,.35);transition:transform .2s;}
+.cta-btn:hover{transform:translateY(-2px);}
+.no-risk{margin-top:14px;font-size:12px;color:var(--muted);}
+.stats{display:flex;border:1px solid var(--border);border-radius:14px;overflow:hidden;margin:32px 0;}
 .st{flex:1;text-align:center;padding:16px 8px;border-right:1px solid var(--border);}
 .st:last-child{border-right:none;}
 .sn{font-family:'Space Grotesk',sans-serif;font-size:clamp(16px,3vw,28px);font-weight:900;background:linear-gradient(135deg,var(--gold),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 .sl{font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:3px;}
-.pilot{background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(109,40,217,.12));border:2px solid rgba(16,185,129,.35);border-radius:20px;padding:32px;margin:32px 0;text-align:center;}
-.ptag{font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:10px;}
-.ptitle{font-family:'Space Grotesk',sans-serif;font-size:clamp(20px,4vw,34px);font-weight:900;letter-spacing:-1px;margin-bottom:8px;}
-.ptitle em{font-style:normal;color:var(--green);}
-.psub{color:#8080b0;font-size:14px;margin-bottom:18px;}
-.pchecks{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:20px;}
-.pch{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:#d4fae8;}
-.pcc{width:18px;height:18px;background:rgba(16,185,129,.2);border:1px solid rgba(16,185,129,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--green);}
-.pcta{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--green),#059669);border:none;border-radius:12px;padding:15px 32px;font-size:15px;font-weight:700;color:#fff;text-decoration:none;box-shadow:0 6px 30px rgba(16,185,129,.3);}
-.pain{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:28px 0;}
+.how{margin:40px 0;}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(20px,3vw,32px);font-weight:900;letter-spacing:-1px;text-align:center;margin-bottom:28px;}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.step{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;}
+.step-num{width:40px;height:40px;background:linear-gradient(135deg,var(--green),#059669);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;margin:0 auto 12px;}
+.step-t{font-weight:700;font-size:14px;margin-bottom:6px;}
+.step-d{font-size:12px;color:var(--muted);}
+.pain{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:40px 0;}
 .pc{border-radius:14px;padding:20px;}
 .pb2{background:rgba(239,68,68,.04);border:1px solid rgba(239,68,68,.12);}
 .pg{background:rgba(16,185,129,.04);border:1px solid rgba(16,185,129,.12);}
 .ptl{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
 .pb2 .ptl{color:#f87171;}.pg .ptl{color:var(--green);}
 .pi{display:flex;gap:7px;font-size:12px;color:#c0c0d8;margin-bottom:7px;}
-.price-block{background:linear-gradient(135deg,rgba(245,158,11,.06),rgba(109,40,217,.1));border:1px solid rgba(245,158,11,.2);border-radius:18px;padding:26px;margin:28px 0;text-align:center;}
-.pr-tag{font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--g2);margin-bottom:8px;}
-.pr-old{font-size:16px;color:var(--muted);text-decoration:line-through;}
-.pr-new{font-family:'Space Grotesk',sans-serif;font-size:clamp(26px,5vw,44px);font-weight:900;color:var(--g2);letter-spacing:-1px;}
-.pr-save{display:inline-block;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);border-radius:20px;padding:3px 12px;font-size:12px;font-weight:700;color:var(--green);margin:8px 0;}
+.price-block{background:linear-gradient(135deg,rgba(245,158,11,.06),rgba(109,40,217,.1));border:1px solid rgba(245,158,11,.2);border-radius:18px;padding:30px;margin:40px 0;text-align:center;}
+.pr-tag{font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--g2);margin-bottom:10px;}
+.pr-pilot{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,5vw,52px);font-weight:900;color:var(--green);letter-spacing:-1px;margin-bottom:8px;}
+.pr-after{font-size:14px;color:var(--muted);margin-bottom:16px;}
+.pr-after strong{color:var(--text);}
+.pr-save{display:inline-block;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);border-radius:20px;padding:4px 14px;font-size:12px;font-weight:700;color:var(--green);margin-bottom:10px;}
 .pr-alert{display:inline-flex;align-items:center;gap:5px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;color:#fca5a5;}
 .div{height:1px;background:linear-gradient(90deg,transparent,rgba(139,92,246,.4),transparent);margin:40px 0;}
 .cta{text-align:center;padding:60px 0;}
-.cta-t{font-family:'Space Grotesk',sans-serif;font-size:clamp(24px,5vw,48px);font-weight:900;letter-spacing:-2px;margin-bottom:20px;}
+.cta-t{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,4vw,42px);font-weight:900;letter-spacing:-2px;margin-bottom:12px;}
+.cta-sub{color:var(--muted);font-size:14px;margin-bottom:28px;}
 .phone{font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:900;letter-spacing:2px;background:linear-gradient(135deg,var(--gold),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 .footer{border-top:1px solid var(--border);padding:20px;text-align:center;color:var(--muted);font-size:11px;}
-@media(max-width:580px){.stats{flex-wrap:wrap;}.st{min-width:50%;border-bottom:1px solid var(--border);}.pain{grid-template-columns:1fr;}}
+@media(max-width:640px){.steps{grid-template-columns:1fr;}.stats{flex-wrap:wrap;}.st{min-width:50%;border-bottom:1px solid var(--border);}.pain{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
 <div class="amb"><div class="a1"></div><div class="a2"></div></div>
-<div class="top-bar"><div class="dot"></div>&#9888; Ka&#380;da godzina bez automatyzacji = utracone leady i pieni&#261;dze</div>
-<div class="spots-bar">Czerwiec 2026 &mdash; miejsca promocyjne: <div class="sdots"><div class="sd t"></div><div class="sd t"></div><div class="sd t"></div><div class="sd t"></div><div class="sd f"></div><div class="sd f"></div><div class="sd f"></div></div>4 zaj&#281;te &mdash; <strong style="color:#ef4444;">3 wolne</strong></div>
+<div class="top-bar"><div class="dot"></div>&#9889; Pilota&#380; 30 dni za darmo &#8212; bez umowy, bez zobowi&#261;za&#324;</div>
+<div class="spots-bar">Czerwiec 2026 &#8212; miejsca pilota&#380;owe: <div class="sdots"><div class="sd t"></div><div class="sd t"></div><div class="sd t"></div><div class="sd t"></div><div class="sd f"></div><div class="sd f"></div><div class="sd f"></div></div>4 zaj&#281;te &#8212; <strong style="color:#ef4444;">3 wolne</strong></div>
 <div class="wrap">
 <div class="pb" id="pb"><div class="pb-tag">&#128197; Oferta przygotowana specjalnie dla</div><div class="pb-text">Witamy, <span class="pb-name" id="cname"></span> &#128075;</div></div>
 <nav class="nav"><a href="#" class="logo">MV<span>.</span>Automation</a><div style="display:flex;align-items:center;gap:10px;"><span class="nlive"><span class="nd"></span>LIVE</span><a href="tel:+48500653369" class="nbtn">&#128222; Zadzwo&#324;</a></div></nav>
 <div class="hero">
-<div class="htag"><span class="nd"></span>AI Automation Agency &bull; Poland &bull; Est. 2024</div>
-<h1><span class="l1">Automatyzujemy</span><span class="l2">sprzeda&#380; i obs&#322;ug&#281;</span></h1>
-<p class="hsub">Systemy AI kt&oacute;re pracuj&#261; 24/7. Produkcyjnie &mdash; nie sprzedajemy teorii.</p>
-<div class="stats"><div class="st"><div class="sn">28 711</div><div class="sl">Lead&oacute;w w bazie</div></div><div class="st"><div class="sn">5 585+</div><div class="sl">Email&oacute;w</div></div><div class="st"><div class="sn">&lt;7 dni</div><div class="sl">Wdro&#380;enie</div></div><div class="st"><div class="sn">24/7</div><div class="sl">Uptime</div></div></div>
+<div class="htag"><span class="nd"></span>AI Voice Receptionist &#8226; Kliniki prywatne &#8226; Polska</div>
+<h1><span class="l1">AI odbiera telefony</span><span class="l2">za Ciebie 24/7</span></h1>
+<p class="hsub">Twoja klinika nigdy nie traci pacjenta przez nieodebrany telefon. Testuj 30 dni za darmo &#8212; p&#322;acisz tylko je&#347;li chcesz kontynuowa&#263;.</p>
 </div>
-<div class="pilot">
-<div class="ptag">&#9889; Oferta bez ryzyka &mdash; czerwiec 2026</div>
-<div class="ptitle">30 dni <em>za darmo</em> &mdash; bez zobowi&#261;za&#324;</div>
-<div class="psub">P&#322;atno&#347;&#263; tylko je&#347;li zdecydujesz si&#281; kontynuowa&#263;. Zero umowy na start.</div>
-<div class="pchecks">
-<div class="pch"><div class="pcc">&#10003;</div>AI odbiera 100% po&#322;&#261;cze&#324; 24/7</div>
-<div class="pch"><div class="pcc">&#10003;</div>Wdro&#380;enie 5-7 dni</div>
-<div class="pch"><div class="pcc">&#10003;</div>Pe&#322;ny raport po 30 dniach</div>
-<div class="pch"><div class="pcc">&#10003;</div>Zero zobowi&#261;za&#324;</div>
+<div class="pilot-hero">
+<div class="ph-tag">&#9889; Oferta bez ryzyka &#8212; czerwiec 2026</div>
+<div class="ph-title">30 dni <em>za darmo</em><br>bez &#380;adnych zobowi&#261;za&#324;</div>
+<div class="ph-sub">Wdra&#380;amy AI Recepcjonistk&#281; w Twojej klinice. Przez 30 dni pracuje. P&#322;atno&#347;&#263; tylko je&#347;li zdecydujesz si&#281; pozosta&#263;.</div>
+<div class="checks">
+<div class="ck"><div class="cki">&#10003;</div>Wdro&#380;enie 5&#8211;7 dni</div>
+<div class="ck"><div class="cki">&#10003;</div>AI odbiera 100% po&#322;&#261;cze&#324; 24/7</div>
+<div class="ck"><div class="cki">&#10003;</div>Pe&#322;ny raport po 30 dniach</div>
+<div class="ck"><div class="cki">&#10003;</div>Zero umowy na start</div>
 </div>
-<a href="mailto:michal@send.kgregenevia.pro?subject=Tak, chce pilotaz" class="pcta" id="cta-main">&#9993; Odpisz TAK &mdash; umawiam pilota&#380;</a>
+<a href="mailto:michal@send.kgregenevia.pro?subject=Tak, chce pilotaz" class="cta-btn" id="cta-main">&#9993; Odpisz TAK &#8212; umawiam pilota&#380;</a>
+<div class="no-risk">&#128274; Brak karty kredytowej. Brak d&#322;ugiej umowy. Rezygnacja jednym mailem.</div>
+</div>
+<div class="stats">
+<div class="st"><div class="sn">28 711</div><div class="sl">Lead&#243;w w bazie</div></div>
+<div class="st"><div class="sn">5 800+</div><div class="sl">Email&#243;w</div></div>
+<div class="st"><div class="sn">&lt;7 dni</div><div class="sl">Wdro&#380;enie</div></div>
+<div class="st"><div class="sn">24/7</div><div class="sl">Uptime AI</div></div>
+</div>
+<div class="how">
+<div class="section-title">Jak dzia&#322;a pilota&#380;?</div>
+<div class="steps">
+<div class="step"><div class="step-num">1</div><div class="step-t">Odpisujesz TAK</div><div class="step-d">Jeden email i umawiamy si&#281; na kr&#243;tk&#261; rozmow&#281; online &#8212; 20 minut</div></div>
+<div class="step"><div class="step-num">2</div><div class="step-t">Wdra&#380;amy w 5&#8211;7 dni</div><div class="step-d">Konfigurujemy AI pod Twoj&#261; klinik&#281; &#8212; procedury, specjalizacje, godziny przyj&#281;&#263;</div></div>
+<div class="step"><div class="step-num">3</div><div class="step-t">AI pracuje 30 dni</div><div class="step-d">Odbiera telefony, umawia wizyty, raportuje statystyki. Ty decydujesz czy zostaje</div></div>
+</div>
 </div>
 <div class="pain">
-<div class="pc pb2"><div class="ptl">&#10060; Bez automatyzacji</div><div class="pi">&#128383; Nieodebrane telefony = utraceni klienci</div><div class="pi">&#128184; Etat recepcji: 4 500&ndash;8 000 PLN/mies.</div><div class="pi">&#128308; Nie wiesz ile tracisz</div></div>
-<div class="pc pg"><div class="ptl">&#10003; Z MV Automation</div><div class="pi">&#9989; AI odbiera 100% po&#322;&#261;cze&#324; 24/7</div><div class="pi">&#9989; 2 500 PLN/mies. zamiast etatu</div><div class="pi">&#9989; Live dashboard &mdash; pe&#322;na analityka</div></div>
+<div class="pc pb2"><div class="ptl">&#10060; Bez AI recepcji</div><div class="pi">&#128383; Nieodebrane telefony = utraceni pacjenci</div><div class="pi">&#128184; Etat recepcji: 4 500&#8211;8 000 PLN/mies.</div><div class="pi">&#128308; Pacjenci dzwoni&#261; po godzinach &#8212; nikt nie odbiera</div></div>
+<div class="pc pg"><div class="ptl">&#10003; Z MV Automation</div><div class="pi">&#9989; AI odbiera 100% po&#322;&#261;cze&#324; 24/7</div><div class="pi">&#9989; 2 500 PLN/mies. zamiast etatu</div><div class="pi">&#9989; Live dashboard &#8212; pe&#322;na analityka</div></div>
 </div>
 <div class="price-block">
-<div class="pr-tag">&#10024; Po pilota&#380;u &mdash; cena specjalna</div>
-<div class="pr-old">Standardowy setup: 12 000 PLN</div>
-<div class="pr-new">9 000 PLN</div><br>
-<div class="pr-save">Oszcz&#281;dzasz 3 000 PLN + 1 miesi&#261;c gratis</div><br>
-<div class="pr-alert">&#9888;&#65039; Zosta&#322;y 3 miejsca w czerwcu</div>
+<div class="pr-tag">&#10024; Model cenowy &#8212; po pilota&#380;u</div>
+<div class="pr-pilot">0 PLN przez 30 dni</div>
+<div class="pr-after">Nast&#281;pnie: <strong>9 000 PLN setup + 2 500 PLN/mies.</strong> &#8212; bez d&#322;ugiej umowy</div>
+<div class="pr-save">Oszcz&#281;dzasz vs etat recepcji: 24 000&#8211;72 000 PLN/rok</div><br>
+<div class="pr-alert">&#9888;&#65039; Zosta&#322;y 3 miejsca pilota&#380;owe w czerwcu</div>
 </div>
 <div class="div"></div>
 <div class="cta">
-<div class="cta-t">Ka&#380;dy dzie&#324; bez systemu<br>kosztuje Ci&#281; pieni&#261;dze</div>
-<a href="mailto:michal@send.kgregenevia.pro?subject=Tak, chce pilotaz" class="pcta" id="cta-bottom" style="margin-bottom:20px;display:inline-flex;">&#9993; Odpisz TAK &mdash; umawiam pilota&#380;</a><br><br>
+<div class="cta-t">Jeden email<br>&#8212; uruchamiasz pilota&#380;</div>
+<div class="cta-sub">Bez ryzyka. Bez umowy. Wdro&#380;enie w tygodniu.</div>
+<a href="mailto:michal@send.kgregenevia.pro?subject=Tak, chce pilotaz" class="cta-btn" id="cta-bottom" style="margin-bottom:20px;display:inline-flex;">&#9993; Odpisz TAK &#8212; umawiam pilota&#380;</a><br><br>
 <a href="tel:+48500653369" style="text-decoration:none;"><div class="phone">+48 500 653 369</div></a>
 <div style="margin-top:8px;"><a href="mailto:michal@send.kgregenevia.pro" style="color:var(--p3);font-size:13px;text-decoration:none;">michal@send.kgregenevia.pro</a></div>
 </div>
 </div>
-<div class="footer">&copy; 2026 MV Automation &middot; EU Data &middot; GDPR/RODO</div>
+<div class="footer">&copy; 2026 MV Automation &#183; Micha&#322; &#183; EU Data &#183; GDPR/RODO</div>
 <script>
 (async()=>{
   const k=new URLSearchParams(location.search).get('k');
