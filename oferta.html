@@ -268,7 +268,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal()
 document.querySelectorAll('.cat').forEach(function(el){el.addEventListener('click',function(){document.querySelectorAll('.cat').forEach(function(c){c.classList.remove('active');});el.classList.add('active');activeCat=el.dataset.cat;render();});});
 document.getElementById('search').addEventListener('input',function(e){query=e.target.value.toLowerCase();render();});
 render();
-var REF='https://focustrading.app/r/875E9632';
+var REF='https://oferta.mvautoai.net';
 try{
  document.getElementById('reflink').value=REF;
  if(typeof QRCode!=='undefined'){new QRCode(document.getElementById('qr'),{text:REF,width:150,height:150,colorDark:'#04060d',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}
