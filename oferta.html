@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MV Automation — Oferta i Katalog Usług AI</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--g:#00ff80;--bg:#04060d;--card:rgba(0,255,128,.04);--border:rgba(0,255,128,.12);--text:#e8ffe8;--muted:rgba(255,255,255,.38);--violet:#a78bfa}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;overflow-x:hidden;line-height:1.6}
+canvas#c{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4}
+.wrap{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:0 20px 80px}
+nav{position:sticky;top:0;z-index:100;background:rgba(4,6,13,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:18px;font-weight:900;letter-spacing:-1px;color:#fff}.logo span{color:var(--g)}
+.nav-cta{background:var(--g);color:#04060d;padding:9px 20px;border-radius:8px;font-weight:700;font-size:13px;text-decoration:none}
+.topbar{background:linear-gradient(90deg,rgba(0,255,128,.12),rgba(167,139,250,.12),rgba(0,255,128,.12));background-size:200%;animation:bar 5s linear infinite;border-bottom:1px solid var(--border);text-align:center;padding:9px 20px;font-size:12px;font-weight:700;color:var(--g)}
+@keyframes bar{0%{background-position:0}100%{background-position:200%}}
+.hero{text-align:center;padding:64px 20px 36px}
+.hero-tag{display:inline-block;border:1px solid var(--border);border-radius:30px;padding:6px 18px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--g);margin-bottom:20px}
+.hero h1{font-size:clamp(34px,6.5vw,68px);font-weight:900;letter-spacing:-2px;line-height:1;margin-bottom:16px}
+.hero h1 span{color:var(--g)}
+.hero p{color:var(--muted);font-size:16px;max-width:560px;margin:0 auto 30px}
+.pilot{background:linear-gradient(135deg,rgba(0,255,128,.1),rgba(167,139,250,.1));border:2px solid rgba(0,255,128,.4);border-radius:24px;padding:40px;margin:24px 0;text-align:center}
+.pilot-tag{font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--g);margin-bottom:12px}
+.pilot h2{font-size:clamp(24px,4vw,42px);font-weight:900;letter-spacing:-1px;margin-bottom:10px}
+.pilot h2 em{font-style:normal;color:var(--g)}
+.pilot .sub{color:var(--muted);font-size:15px;max-width:520px;margin:0 auto 24px}
+.checks{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.ck{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#d4fae8}
+.cki{width:20px;height:20px;background:rgba(0,255,128,.18);border:1px solid rgba(0,255,128,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--g)}
+.cta-btn{display:inline-block;background:var(--g);color:#04060d;padding:16px 40px;border-radius:12px;font-weight:800;font-size:15px;text-decoration:none;transition:transform .2s}
+.cta-btn:hover{transform:translateY(-2px)}
+.no-risk{margin-top:14px;font-size:12px;color:var(--muted)}
+.stats{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin:36px 0}
+.hs{text-align:center}.hs-n{font-size:28px;font-weight:900;color:var(--g)}.hs-l{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+.section-title{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--g);margin:48px 0 20px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.step{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center}
+.step-num{width:40px;height:40px;background:var(--g);color:#04060d;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;margin:0 auto 12px}
+.step-t{font-weight:700;font-size:14px;margin-bottom:6px}.step-d{font-size:12px;color:var(--muted)}
+.pain{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0}
+.pc{border-radius:14px;padding:20px}
+.pc.bad{background:rgba(239,68,68,.04);border:1px solid rgba(239,68,68,.14)}
+.pc.good{background:rgba(0,255,128,.04);border:1px solid rgba(0,255,128,.14)}
+.ptl{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.pc.bad .ptl{color:#f87171}.pc.good .ptl{color:var(--g)}
+.pi{display:flex;gap:7px;font-size:12px;color:#c0c0d8;margin-bottom:7px}
+.promos{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.promo{position:relative;background:linear-gradient(135deg,rgba(167,139,250,.1),rgba(0,255,128,.06));border:1px solid rgba(167,139,250,.3);border-radius:18px;padding:24px;overflow:hidden}
+.promo .flag{position:absolute;top:14px;right:-30px;transform:rotate(45deg);background:#ef4444;color:#fff;font-size:9px;font-weight:800;letter-spacing:1px;padding:3px 36px}
+.promo h3{font-size:16px;font-weight:800;margin-bottom:8px}
+.promo .big{font-size:30px;font-weight:900;color:var(--g);letter-spacing:-1px;margin-bottom:6px}
+.promo p{font-size:12px;color:var(--muted);margin-bottom:14px}
+.promo .code{display:inline-block;border:1px dashed var(--g);border-radius:8px;padding:6px 14px;font-weight:800;letter-spacing:2px;color:var(--g);font-size:14px}
+.ref{display:flex;gap:28px;align-items:center;flex-wrap:wrap;background:linear-gradient(135deg,rgba(0,255,128,.08),rgba(167,139,250,.08));border:1px solid rgba(0,255,128,.2);border-radius:24px;padding:36px}
+.ref-txt{flex:1;min-width:240px}
+.ref-txt h2{font-size:clamp(22px,3.5vw,34px);font-weight:900;letter-spacing:-1px;margin-bottom:10px}
+.ref-txt h2 span{color:var(--g)}
+.ref-txt p{color:var(--muted);font-size:14px;margin-bottom:18px;max-width:440px}
+.ref-link{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ref-link input{flex:1;min-width:200px;background:rgba(0,255,128,.06);border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:#fff;font-size:13px;font-family:monospace}
+.copy-btn{background:var(--g);color:#04060d;border:none;border-radius:10px;padding:12px 22px;font-weight:800;font-size:13px;cursor:pointer}
+.qr-box{background:#fff;border-radius:18px;padding:18px;text-align:center;flex-shrink:0}
+.qr-box #qr{display:flex;justify-content:center}
+.qr-cap{color:#04060d;font-size:11px;font-weight:800;letter-spacing:1px;margin-top:10px;text-transform:uppercase}
+.search-wrap{max-width:500px;margin:0 auto 28px;position:relative}
+.search-wrap input{width:100%;background:rgba(0,255,128,.06);border:1px solid var(--border);border-radius:12px;padding:14px 20px;color:#fff;font-size:14px;outline:none}
+.search-wrap input::placeholder{color:var(--muted)}
+.cats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px;justify-content:center}
+.cat{border:1px solid var(--border);border-radius:30px;padding:7px 18px;font-size:12px;color:var(--muted);cursor:pointer;transition:.2s;white-space:nowrap}
+.cat:hover,.cat.active{border-color:var(--g);color:var(--g);background:rgba(0,255,128,.06)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-bottom:16px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;transition:.2s;cursor:pointer}
+.card:hover{border-color:rgba(0,255,128,.4);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,255,128,.08)}
+.card-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:12px}
+.icon{width:44px;height:44px;border-radius:12px;background:rgba(0,255,128,.08);border:1px solid rgba(0,255,128,.15);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--g);flex-shrink:0}
+.card-name{font-weight:700;font-size:14px;line-height:1.3;margin-bottom:4px}
+.badge{display:inline-block;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:2px 8px;border-radius:20px}
+.badge-hot{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.2)}
+.badge-new{background:rgba(0,255,128,.15);color:var(--g);border:1px solid rgba(0,255,128,.2)}
+.badge-top{background:rgba(139,92,246,.15);color:var(--violet);border:1px solid rgba(139,92,246,.2)}
+.card-desc{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:14px}
+.card-price{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:12px}
+.setup{font-size:11px;color:var(--muted)}.setup span{color:#fff;font-weight:700}.monthly{font-size:12px;font-weight:700;color:var(--g)}
+.more{margin-top:12px;font-size:11px;color:var(--g);font-weight:700;text-align:right}
+.footer-cta{background:linear-gradient(135deg,rgba(0,255,128,.08),rgba(139,92,246,.08));border:1px solid rgba(0,255,128,.2);border-radius:24px;padding:48px;text-align:center;margin-top:40px}
+.footer-cta h2{font-size:clamp(24px,4vw,40px);font-weight:900;letter-spacing:-1px;margin-bottom:12px}
+.footer-cta p{color:var(--muted);font-size:14px;margin-bottom:28px}
+footer{border-top:1px solid var(--border);padding:20px;text-align:center;color:var(--muted);font-size:11px;margin-top:20px}
+.modal{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.72);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.modal-box{background:#070c16;border:1px solid rgba(0,255,128,.35);border-radius:20px;max-width:480px;width:100%;padding:32px;position:relative;box-shadow:0 20px 80px rgba(0,255,128,.12)}
+.modal-close{position:absolute;top:12px;right:16px;background:none;border:none;color:var(--muted);font-size:28px;line-height:1;cursor:pointer}
+.modal-box h3{font-size:22px;font-weight:900;letter-spacing:-.5px;margin:8px 0 6px}
+.md-cat{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--violet);font-weight:800}
+.md-desc{color:#c8d8d0;font-size:14px;margin:14px 0 18px}
+.md-price{display:flex;gap:14px;margin-bottom:20px}
+.md-price>div{flex:1;background:rgba(0,255,128,.05);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center}
+.md-price .lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.md-price .val{font-size:18px;font-weight:900;color:var(--g);margin-top:4px}
+.md-note{font-size:12px;color:var(--muted);margin-bottom:18px}
+@media(max-width:640px){.steps,.promos{grid-template-columns:1fr}.pain{grid-template-columns:1fr}.stats{gap:24px}.grid{grid-template-columns:1fr}.ref{flex-direction:column;text-align:center}}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="topbar">⚡ Pilotaż 30 dni za 0 zł — bez umowy, bez zobowiązań · Czerwiec 2026</div>
+<nav>
+<div class="logo">MV<span>.</span>Automation</div>
+<a href="mailto:michal@send.kgregenevia.pro?subject=Tak, chce pilotaz" class="nav-cta">Umów pilotaż</a>
+</nav>
+<div class="wrap">
+<div class="hero">
+<div class="hero-tag">AI Voice Receptionist · Kliniki prywatne · Polska</div>
+<h1>AI odbiera telefony<br><span>za Ciebie 24/7</span></h1>
+<p>Twoja klinika nigdy nie traci pacjenta przez nieodebrany telefon. Testuj 30 dni za darmo — płacisz tylko jeśli chcesz kontynuować.</p>
+</div>
+<div class="pilot">
+<div class="pilot-tag">⚡ Oferta bez ryzyka — czerwiec 2026</div>
+<h2>30 dni <em>za darmo</em><br>bez żadnych zobowiązań</h2>
+<div class="sub">Wdrażamy AI Recepcjonistkę w Twojej klinice. Przez 30 dni pracuje. Płatność tylko jeśli zdecydujesz się zostać.</div>
+<div class="checks">
+<div class="ck"><div class="cki">✓</div>Wdrożenie 5–7 dni</div>
+<div class="ck"><div class="cki">✓</div>AI odbiera 100% połączeń 24/7</div>
+<div class="ck"><div class="cki">✓</div>Pełny raport po 30 dniach</div>
+<div class="ck"><div class="cki">✓</div>Zero umowy na start</div>
+</div>
+<a href="mailto:michal@send.kgregenevia.pro?subject=Tak, chce pilotaz" class="cta-btn">✉ Odpisz TAK — umawiam pilotaż</a>
+<div class="no-risk">🔒 Brak karty kredytowej. Brak długiej umowy. Rezygnacja jednym mailem.</div>
+</div>
+<div class="stats">
+<div class="hs"><div class="hs-n">42</div><div class="hs-l">Usługi AI</div></div>
+<div class="hs"><div class="hs-n">&lt;14 dni</div><div class="hs-l">Wdrożenie</div></div>
+<div class="hs"><div class="hs-n">24/7</div><div class="hs-l">Uptime AI</div></div>
+<div class="hs"><div class="hs-n">M2M</div><div class="hs-l">Umowa</div></div>
+</div>
+<div class="section-title">Jak działa pilotaż</div>
+<div class="steps">
+<div class="step"><div class="step-num">1</div><div class="step-t">Odpisujesz TAK</div><div class="step-d">Jeden email i umawiamy się na krótką rozmowę online — 20 minut</div></div>
+<div class="step"><div class="step-num">2</div><div class="step-t">Wdrażamy w 5–7 dni</div><div class="step-d">Konfigurujemy AI pod Twoją klinikę — procedury, specjalizacje, godziny przyjęć</div></div>
+<div class="step"><div class="step-num">3</div><div class="step-t">AI pracuje 30 dni</div><div class="step-d">Odbiera telefony, umawia wizyty, raportuje statystyki. Ty decydujesz czy zostaje</div></div>
+</div>
+<div class="section-title">Dlaczego to się opłaca</div>
+<div class="pain">
+<div class="pc bad"><div class="ptl">✗ Bez AI recepcji</div>
+<div class="pi">📵 Nieodebrane telefony = utraceni pacjenci</div>
+<div class="pi">💸 Etat recepcji: 4 500–8 000 PLN/mies.</div>
+<div class="pi">🔴 Pacjenci dzwonią po godzinach — nikt nie odbiera</div></div>
+<div class="pc good"><div class="ptl">✓ Z MV Automation</div>
+<div class="pi">✅ AI odbiera 100% połączeń 24/7</div>
+<div class="pi">✅ 2 500 PLN/mies. zamiast etatu</div>
+<div class="pi">✅ Live dashboard — pełna analityka</div></div>
+</div>
+<div class="section-title">Promocje czerwiec 2026</div>
+<div class="promos">
+<div class="promo"><div class="flag">HIT</div><h3>Pilotaż startowy</h3><div class="big">0 zł / 30 dni</div><p>Pełne wdrożenie AI recepcji, zero opłat przez miesiąc. Płacisz tylko jeśli zostajesz.</p><span class="code">PILOT30</span></div>
+<div class="promo"><h3>Decyzja w 7 dni</h3><div class="big">−20% setup</div><p>Podpisujesz w tydzień od demo — 9 000 → 7 200 zł za wdrożenie.</p><span class="code">SZYBKA7</span></div>
+<div class="promo"><h3>Drugi system</h3><div class="big">−50%</div><p>Dokładasz dowolną drugą usługę z katalogu — setup taniej o połowę.</p><span class="code">DUET50</span></div>
+</div>
+<div class="section-title">Poleć nas — zgarnij prowizję</div>
+<div class="ref">
+<div class="ref-txt">
+<h2>Twój <span>link polecający</span></h2>
+<p>Polecasz MV Automation dalej? Każdy, kto wejdzie z Twojego linku lub zeskanuje kod QR, jest przypisany do Ciebie. Udostępnij na WhatsApp, wizytówce albo wydruku oferty.</p>
+<div class="ref-link"><input id="reflink" type="text" readonly><button class="copy-btn" id="copybtn">Kopiuj link</button></div>
+</div>
+<div class="qr-box"><div id="qr"></div><div class="qr-cap">Zeskanuj telefonem</div></div>
+</div>
+<div class="section-title">Pełny katalog — 42 usługi AI · kliknij usługę po szczegóły</div>
+<div class="search-wrap"><input type="text" id="search" placeholder="Szukaj usługi..."></div>
+<div class="cats" id="cats">
+<div class="cat active" data-cat="all">Wszystkie</div>
+<div class="cat" data-cat="klinika">Kliniki</div>
+<div class="cat" data-cat="sprzedaz">Sprzedaż</div>
+<div class="cat" data-cat="marketing">Marketing</div>
+<div class="cat" data-cat="ops">Operacje</div>
+<div class="cat" data-cat="finanse">Finanse</div>
+<div class="cat" data-cat="hr">HR</div>
+<div class="cat" data-cat="ecom">E-commerce</div>
+<div class="cat" data-cat="pakiet">Pakiety</div>
+</div>
+<div id="catalog"></div>
+<div class="footer-cta">
+<h2>Gotowy na wdrożenie?</h2>
+<p>Bezpłatna konsultacja 30 min. Wycena w 24h. Wdrożenie w tydzień.</p>
+<a href="mailto:michal@send.kgregenevia.pro?subject=Zapytanie o wdrozenie" class="cta-btn">Napisz — odpiszę dziś</a>
+</div>
+</div>
+<footer>© 2026 MV Automation · Michał · EU Data · GDPR/RODO</footer>
+<div class="modal" id="modal"><div class="modal-box"><button class="modal-close" id="mclose">&times;</button><div id="mbody"></div></div></div>
+<script>
+var S=[
+{c:'klinika',i:'AI',n:'AI Recepcjonistka 24/7',b:'hot',d:'Głosowy AI odbiera 100% połączeń, zapisuje pacjentów, odpowiada na FAQ, integracja Google / Docplanner. Zero nieodebranych telefonów, 24/7.',s:'9 000',m:'2 500'},
+{c:'klinika',i:'KAL',n:'Automatyczne przypomnienia wizyt',b:'new',d:'SMS + email 24h i 2h przed wizytą. Potwierdzenia odpowiedzią. Redukcja no-show nawet o 60%.',s:'3 000',m:'800'},
+{c:'klinika',i:'WYW',n:'Automatyczny wywiad medyczny',b:'',d:'AI zbiera wywiad przed wizytą. Lekarz dostaje gotowe podsumowanie. Oszczędność ~15 min na wizycie.',s:'4 000',m:'1 000'},
+{c:'klinika',i:'OPI',n:'System zbierania opinii Google',b:'',d:'Po wizycie automatyczny SMS z prośbą o opinię Google Maps. Filtrowanie negatywnych przed publikacją.',s:'2 500',m:'600'},
+{c:'klinika',i:'KPI',n:'Dashboard KPI kliniki',b:'',d:'Live raport: zajętość, przychody, no-show, źródła pacjentów. Aktualizacja co godzinę.',s:'5 000',m:'1 200'},
+{c:'klinika',i:'BOT',n:'AI chatbot na stronie kliniki',b:'',d:'Odpowiada na pytania, pokazuje wolne terminy, zbiera dane kontaktowe 24/7.',s:'3 500',m:'900'},
+{c:'klinika',i:'ONB',n:'Onboarding pacjenta AI',b:'new',d:'Nowy pacjent dostaje sekwencję: powitanie, RODO, dojazd, przygotowanie do wizyty.',s:'2 000',m:'500'},
+{c:'sprzedaz',i:'MAI',n:'Cold Email Automation',b:'hot',d:'Baza leadów — personalizacja AI — wysyłka — follow-up — triage. System aktywny 24/7.',s:'6 000',m:'1 500'},
+{c:'sprzedaz',i:'SCR',n:'AI Lead Scoring',b:'',d:'Automatyczna ocena leadów 0-100. Priorytetyzacja dla handlowców. Integracja z CRM.',s:'5 000',m:'1 200'},
+{c:'sprzedaz',i:'FLW',n:'Automatyczny follow-up CRM',b:'',d:'Sekwencje follow-up wyzwalane stanem szansy w CRM. Personalizacja per etap lejka.',s:'4 000',m:'1 000'},
+{c:'sprzedaz',i:'TEL',n:'AI Kwalifikacja zgłoszeń',b:'hot',d:'AI przeprowadza pierwszą kwalifikację. Gorące leady trafiają do handlowca z notatką.',s:'8 000',m:'2 000'},
+{c:'sprzedaz',i:'OFF',n:'Automatyczne ofertowanie',b:'',d:'Na podstawie danych z formularza AI generuje spersonalizowaną ofertę PDF w 60 sekund.',s:'5 000',m:'1 200'},
+{c:'sprzedaz',i:'ALE',n:'Alert sprzedażowy real-time',b:'',d:'Powiadomienie w sekundę gdy lead wypełni formularz lub otworzy ofertę.',s:'2 000',m:'500'},
+{c:'sprzedaz',i:'ASY',n:'AI Asystent handlowca',b:'new',d:'Briefing przed rozmową: historia klienta, konkurencja, sugerowane odpowiedzi.',s:'6 000',m:'1 500'},
+{c:'marketing',i:'CON',n:'Fabryka Contentu AI',b:'hot',d:'100 postów miesięcznie: brief — AI — review — publikacja. LinkedIn, FB, Instagram, blog.',s:'5 000',m:'2 000'},
+{c:'marketing',i:'NEW',n:'Automatyczny newsletter',b:'',d:'Co tydzień AI zbiera newsy z branży, pisze newsletter, wysyła przez Mailchimp/Resend.',s:'3 000',m:'800'},
+{c:'marketing',i:'SEO',n:'SEO Content Machine',b:'',d:'Miesięczna analiza fraz — AI tworzy artykuły — publikacja WordPress z metadanymi.',s:'4 000',m:'1 500'},
+{c:'marketing',i:'VID',n:'Repurposing materiałów video',b:'new',d:'Film — transkrypcja — post LinkedIn — newsletter — 5 stories. Jeden film, 10 formatów.',s:'3 500',m:'1 000'},
+{c:'marketing',i:'MON',n:'Social Listening i Alerty',b:'',d:'Monitoring wzmianek o marce i konkurencji. Alert w Telegram w czasie rzeczywistym.',s:'3 000',m:'700'},
+{c:'marketing',i:'ABT',n:'A/B Testing Automation',b:'',d:'Automatyczne testy wariantów emaili i stron. Zwycięzca wybierany przez AI po 48h.',s:'4 000',m:'1 000'},
+{c:'marketing',i:'RPT',n:'Raportowanie kampanii',b:'',d:'Dane z Google Ads, Meta, email w jednym dashboardzie. Raport PDF co tydzień.',s:'3 500',m:'900'},
+{c:'ops',i:'INT',n:'Integracja systemów',b:'',d:'Łączenie narzędzi: CRM + ERP + magazyn + email. Zero ręcznego przepisywania danych.',s:'5 000',m:'1 200'},
+{c:'ops',i:'FAK',n:'Automatyczne faktury i dokumenty',b:'',d:'Zamówienie — faktura — wysyłka — KSeF — archiwizacja. W pełni automatyczne.',s:'4 000',m:'1 000'},
+{c:'ops',i:'SYS',n:'System alertów operacyjnych',b:'',d:'Monitoring procesów. Alert gdy coś pójdzie nie tak: brak zamówień, błąd, opóźnienie.',s:'3 000',m:'700'},
+{c:'ops',i:'LOG',n:'Automatyzacja logistyki',b:'',d:'Zamówienie — WMS — kurier — tracking — powiadomienie klienta. Zero ręcznej pracy.',s:'6 000',m:'1 500'},
+{c:'ops',i:'DOC',n:'Zarządzanie dokumentami AI',b:'',d:'AI kategoryzuje, opisuje i indeksuje dokumenty. Wyszukiwanie po treści w sekundę.',s:'4 000',m:'1 000'},
+{c:'ops',i:'BI',n:'BI Dashboard real-time',b:'top',d:'Agregacja danych z wszystkich systemów. Live KPI dla zarządu. Aktualizacja co minutę.',s:'8 000',m:'2 000'},
+{c:'ops',i:'B2B',n:'Automatyzacja B2B / produkcja',b:'',d:'Zamówienia hurtowe, ofertowanie, tracking dostaw, raporty dla handlowców.',s:'7 000',m:'1 500'},
+{c:'finanse',i:'STR',n:'Automatyczne rozliczenia',b:'',d:'Stripe / Przelewy24 — faktura — KSeF — księgowość. W pełni automatyczny cykl.',s:'5 000',m:'1 200'},
+{c:'finanse',i:'CFW',n:'Monitoring cashflow',b:'',d:'Integracja z kontem bankowym. Alert gdy saldo spada poniżej progu. Prognoza 30-dniowa.',s:'4 000',m:'1 000'},
+{c:'finanse',i:'ANL',n:'AI Analiza kosztów',b:'new',d:'AI przegląda wyciągi i wskazuje anomalie, zbędne subskrypcje, optymalizacje.',s:'3 000',m:'800'},
+{c:'finanse',i:'RAP',n:'Raporty finansowe auto',b:'',d:'Miesięczny P&L, cashflow, należności — generowany i wysyłany do zarządu automatycznie.',s:'4 000',m:'1 000'},
+{c:'hr',i:'REC',n:'AI Rekruter — selekcja CV',b:'',d:'AI ocenia CV 0-100, filtruje kandydatów, wysyła zaproszenia na rozmowę. 90% mniej pracy.',s:'5 000',m:'1 200'},
+{c:'hr',i:'HON',n:'Onboarding pracownika AI',b:'new',d:'Spersonalizowany plan onboardingu, materiały i quiz weryfikacyjny dla nowego pracownika.',s:'4 000',m:'1 000'},
+{c:'hr',i:'URL',n:'Automatyzacja urlopów i HR ops',b:'',d:'Wnioski urlopowe, akceptacje, zmiany w kalendarzu — w pełni automatyczne.',s:'3 000',m:'700'},
+{c:'hr',i:'PUL',n:'Pulpit pracownika self-service',b:'',d:'Pracownik sam sprawdza urlopy, payslip, polityki. Zero maili do HR w błahych sprawach.',s:'5 000',m:'1 200'},
+{c:'ecom',i:'ZAM',n:'Automatyzacja obsługi zamówień',b:'',d:'Zamówienie — potwierdzenie — magazyn — kurier — tracking — opinia. Zero ręcznego działania.',s:'6 000',m:'1 500'},
+{c:'ecom',i:'ZWT',n:'Zarządzanie zwrotami AI',b:'',d:'Klient inicjuje zwrot, AI weryfikuje, wystawia label, aktualizuje magazyn i zwraca środki.',s:'4 000',m:'1 000'},
+{c:'ecom',i:'ERC',n:'AI Rekomendacje produktowe',b:'hot',d:'Na podstawie historii zakupów AI sugeruje produkty w mailu i na stronie. +25% upsell.',s:'5 000',m:'1 500'},
+{c:'ecom',i:'MAG',n:'Synchronizacja stanów magazynowych',b:'',d:'Allegro + Ceneo + własny sklep zawsze zsynchronizowane. Alert przy niskim stanie.',s:'4 000',m:'1 000'},
+{c:'ecom',i:'CHA',n:'AI Obsługa klienta chat i email',b:'',d:'80% zapytań obsługuje AI automatycznie. Trudne trafiają do człowieka z kontekstem.',s:'5 000',m:'1 500'},
+{c:'pakiet',i:'STA',n:'Starter Pack — 3 usługi',b:'top',d:'3 dowolne usługi z katalogu. Zintegrowane, działają jako jeden system. Idealne na start.',s:'od 12 000',m:'od 1 500'},
+{c:'pakiet',i:'FUL',n:'Full Automation Suite',b:'hot',d:'Kompletna automatyzacja: recepcja, sprzedaż, marketing, back-office. SLA 24h.',s:'od 25 000',m:'od 4 000'},
+{c:'pakiet',i:'WHL',n:'White Label dla Agencji',b:'new',d:'Wdrażasz nasze systemy pod własną marką. Szkolenie, wsparcie, prowizja od wdrożenia.',s:'3 000',m:'od 500'}
+];
+var SEC={klinika:'Kliniki i Zdrowie',sprzedaz:'Sprzedaż i CRM',marketing:'Marketing i Content',ops:'Operacje i Back-office',finanse:'Finanse i Księgowość',hr:'HR i Rekrutacja',ecom:'E-commerce',pakiet:'Pakiety Specjalne'};
+var activeCat='all',query='';
+function bH(b){if(!b)return '';var m={hot:'badge-hot',new:'badge-new',top:'badge-top'},l={hot:'HOT',new:'NEW',top:'TOP'};return '<span class="badge '+m[b]+'">'+l[b]+'</span>';}
+function render(){
+ var f=S.filter(function(s){return (activeCat==='all'||s.c===activeCat)&&(!query||s.n.toLowerCase().indexOf(query)>-1||s.d.toLowerCase().indexOf(query)>-1);});
+ var bC={};f.forEach(function(s){(bC[s.c]=bC[s.c]||[]).push(s);});
+ var cats=activeCat==='all'?Object.keys(SEC):[activeCat];
+ var h='';
+ cats.forEach(function(cat){var it=bC[cat];if(!it||!it.length)return;
+  h+='<div class="section-title">'+SEC[cat]+' ('+it.length+')</div><div class="grid">';
+  it.forEach(function(s){var idx=S.indexOf(s);
+   h+='<div class="card" data-idx="'+idx+'"><div class="card-head"><div class="icon">'+s.i+'</div><div><div class="card-name">'+s.n+'</div>'+bH(s.b)+'</div></div><div class="card-desc">'+s.d+'</div><div class="card-price"><div class="setup">Setup: <span>'+s.s+' PLN</span></div><div class="monthly">'+s.m+' PLN/mc</div></div><div class="more">Szczegóły →</div></div>';
+  });
+  h+='</div>';
+ });
+ if(!h)h='<p style="text-align:center;color:rgba(255,255,255,.38);padding:40px">Brak wyników</p>';
+ document.getElementById('catalog').innerHTML=h;
+}
+function openModal(idx){
+ var s=S[idx];if(!s)return;
+ var subj=encodeURIComponent('Zapytanie: '+s.n);
+ document.getElementById('mbody').innerHTML='<div class="icon">'+s.i+'</div><div class="md-cat">'+(SEC[s.c]||'')+'</div><h3>'+s.n+' '+bH(s.b)+'</h3><div class="md-desc">'+s.d+'</div><div class="md-price"><div><div class="lbl">Wdrożenie</div><div class="val">'+s.s+' zł</div></div><div><div class="lbl">Abonament</div><div class="val">'+s.m+' zł/mc</div></div></div><div class="md-note">Wdrożenie 5–14 dni · umowa miesiąc do miesiąca · możliwy pilotaż.</div><a href="mailto:michal@send.kgregenevia.pro?subject='+subj+'" class="cta-btn" style="display:block;text-align:center">Zapytaj o tę usługę</a>';
+ document.getElementById('modal').classList.add('show');
+}
+function closeModal(){document.getElementById('modal').classList.remove('show');}
+document.getElementById('catalog').addEventListener('click',function(e){var card=e.target.closest('.card');if(card)openModal(parseInt(card.dataset.idx,10));});
+document.getElementById('mclose').addEventListener('click',closeModal);
+document.getElementById('modal').addEventListener('click',function(e){if(e.target.id==='modal')closeModal();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+document.querySelectorAll('.cat').forEach(function(el){el.addEventListener('click',function(){document.querySelectorAll('.cat').forEach(function(c){c.classList.remove('active');});el.classList.add('active');activeCat=el.dataset.cat;render();});});
+document.getElementById('search').addEventListener('input',function(e){query=e.target.value.toLowerCase();render();});
+render();
+var REF='https://focustrading.app/r/875E9632';
+try{
+ document.getElementById('reflink').value=REF;
+ if(typeof QRCode!=='undefined'){new QRCode(document.getElementById('qr'),{text:REF,width:150,height:150,colorDark:'#04060d',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}
+ document.getElementById('copybtn').addEventListener('click',function(e){navigator.clipboard.writeText(REF).then(function(){e.target.textContent='Skopiowano ✓';setTimeout(function(){e.target.textContent='Kopiuj link';},1500);});});
+}catch(err){}
+try{
+ var canvas=document.getElementById('c'),ctx=canvas.getContext('2d');
+ function resize(){canvas.width=innerWidth;canvas.height=innerHeight}resize();addEventListener('resize',resize);
+ var P=Array.from({length:60},function(){return{x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.5+.5};});
+ function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);P.forEach(function(p){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=canvas.width;if(p.x>canvas.width)p.x=0;if(p.y<0)p.y=canvas.height;if(p.y>canvas.height)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(0,255,128,.3)';ctx.fill();});for(var i=0;i<P.length;i++)for(var j=i+1;j<P.length;j++){var dx=P[i].x-P[j].x,dy=P[i].y-P[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<100){ctx.beginPath();ctx.moveTo(P[i].x,P[i].y);ctx.lineTo(P[j].x,P[j].y);ctx.strokeStyle='rgba(0,255,128,'+(0.08*(1-d/100))+')';ctx.stroke();}}requestAnimationFrame(draw);}draw();
+}catch(err){}
+</script>
+</body>
+                    </html>
