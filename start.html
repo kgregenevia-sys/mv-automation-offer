@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MV Automation — AI, leady i automatyzacja dla firm</title>
+<meta name="description" content="Recepcja AI dla klinik, zweryfikowane bazy leadów B2B i automatyzacja sprzedaży. Konkret, nie obietnice.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Space+Grotesk:wght@600;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+:root{--p:#6d28d9;--p2:#8b5cf6;--p3:#a78bfa;--gold:#f59e0b;--green:#10b981;--bg:#06030f;--bg2:#0c0820;--card:rgba(255,255,255,.045);--border:rgba(139,92,246,.18);--text:#f1f0ff;--muted:#8b86b8}
+body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.55;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.glow{position:fixed;inset:0;z-index:0;background:radial-gradient(60% 50% at 50% 0%,rgba(109,40,217,.35),transparent 70%),radial-gradient(40% 40% at 90% 20%,rgba(139,92,246,.18),transparent 70%);pointer-events:none}
+header,main,footer{position:relative;z-index:1}
+nav{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;max-width:1080px;margin:0 auto}
+.logo{font-family:'Space Grotesk';font-weight:900;font-size:20px;letter-spacing:-.5px}
+.logo span{color:var(--p3)}
+.nav-cta{font-weight:700;font-size:14px;background:var(--p);padding:9px 16px;border-radius:10px}
+.hero{text-align:center;padding:70px 0 50px}
+.badge{display:inline-block;font-size:12.5px;font-weight:700;color:var(--p3);background:rgba(139,92,246,.12);border:1px solid var(--border);padding:6px 14px;border-radius:999px;margin-bottom:22px;letter-spacing:.3px}
+.hero h1{font-family:'Space Grotesk';font-weight:900;font-size:clamp(32px,6vw,56px);line-height:1.05;letter-spacing:-1.5px;margin-bottom:18px}
+.hero h1 em{font-style:normal;background:linear-gradient(120deg,var(--p2),var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:clamp(16px,2.3vw,19px);color:var(--muted);max-width:640px;margin:0 auto 30px}
+.btn{display:inline-block;font-weight:800;font-size:15px;padding:14px 26px;border-radius:12px;transition:.15s;cursor:pointer}
+.btn-p{background:linear-gradient(120deg,var(--p),var(--p2));color:#fff;box-shadow:0 8px 30px rgba(109,40,217,.4)}
+.btn-p:hover{transform:translateY(-2px)}
+.btn-ghost{border:1px solid var(--border);color:var(--text)}
+.row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.section{padding:46px 0}
+.section h2{font-family:'Space Grotesk';font-weight:900;font-size:clamp(24px,4vw,34px);letter-spacing:-1px;margin-bottom:8px}
+.section .sub{color:var(--muted);margin-bottom:30px;max-width:620px}
+.flag{background:linear-gradient(160deg,rgba(109,40,217,.18),rgba(139,92,246,.05));border:1px solid var(--border);border-radius:22px;padding:38px}
+.flag h3{font-family:'Space Grotesk';font-size:26px;font-weight:800;margin-bottom:10px}
+.flag .price{font-size:15px;color:var(--p3);font-weight:700;margin:14px 0 20px}
+.flag ul{list-style:none;margin:0 0 24px;display:grid;gap:9px}
+.flag li{padding-left:26px;position:relative;color:#d9d6f5;font-size:15px}
+.flag li:before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:900}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px;display:flex;flex-direction:column;transition:.15s}
+.card:hover{border-color:var(--p2);transform:translateY(-3px)}
+.card .tag{font-size:11.5px;font-weight:700;color:var(--p3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.card h4{font-size:18px;font-weight:800;margin-bottom:6px}
+.card .desc{font-size:13.5px;color:var(--muted);flex:1;margin-bottom:16px}
+.card .pr{font-family:'Space Grotesk';font-size:28px;font-weight:900;margin-bottom:4px}
+.card .pr small{font-size:14px;color:var(--muted);font-weight:600}
+.card .buy{margin-top:14px;text-align:center;background:var(--p);color:#fff;font-weight:800;padding:11px;border-radius:10px;font-size:14px;transition:.15s}
+.card .buy:hover{background:var(--p2)}
+.card.feat{border-color:var(--gold);box-shadow:0 0 0 1px rgba(245,158,11,.2)}
+.card.feat .buy{background:linear-gradient(120deg,var(--gold),#fbbf24);color:#1a1205}
+.sub-banner{margin-top:24px;background:linear-gradient(120deg,rgba(16,185,129,.12),rgba(139,92,246,.08));border:1px solid rgba(16,185,129,.25);border-radius:18px;padding:26px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px}
+.sub-banner h4{font-size:19px;font-weight:800;margin-bottom:4px}
+.sub-banner p{color:var(--muted);font-size:14px;max-width:520px}
+.cta{text-align:center;padding:60px 0}
+.cta h2{margin-bottom:14px}
+.cta .mail{font-family:'Space Grotesk';font-size:clamp(18px,3vw,26px);font-weight:700;color:var(--p3)}
+footer{border-top:1px solid var(--border);padding:30px 0;color:var(--muted);font-size:13px;text-align:center;margin-top:30px}
+@media(max-width:560px){.flag{padding:26px}.hero{padding:48px 0 36px}}
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<header>
+<nav>
+<div class="logo">MV<span>Automation</span></div>
+<a class="nav-cta" href="#kontakt">Kontakt</a>
+</nav>
+</header>
+<main class="wrap">
+
+<section class="hero">
+<div class="badge">AI · LEADY · AUTOMATYZACJA SPRZEDAŻY</div>
+<h1>Twoja firma traci pacjentów,<br>klientów i <em>czas</em>. Naprawiamy to.</h1>
+<p>Recepcja AI, która odbiera 100% połączeń. Zweryfikowane bazy leadów B2B. Automatyzacje, które pracują, gdy Ty śpisz. Konkret, nie obietnice.</p>
+<div class="row">
+<a class="btn btn-p" href="#recepcja">Zobacz Recepcję AI</a>
+<a class="btn btn-ghost" href="#bazy">Bazy leadów B2B</a>
+</div>
+</section>
+
+<section class="section" id="recepcja">
+<div class="flag">
+<div class="badge" style="margin-bottom:14px">PRODUKT FLAGOWY</div>
+<h3>Recepcja AI — telefoniczny asystent dla kliniki/gabinetu</h3>
+<div class="price">Wdrożenie 9 000 zł · 2 500 zł/mc · start od audytu 499 zł</div>
+<ul>
+<li>Odbiera 100% połączeń — także po godzinach, w weekendy i gdy linia zajęta</li>
+<li>Umawia, przekłada i odwołuje wizyty — mówi naturalnie po polsku</li>
+<li>Zero utraconych pacjentów = zwrot z inwestycji już w pierwszym miesiącu</li>
+<li>Pełne wdrożenie po naszej stronie — Ty nic nie konfigurujesz</li>
+</ul>
+<div class="row" style="justify-content:flex-start">
+<a class="btn btn-p" href="https://buy.stripe.com/eVqbJ171pe5w7Gh7g8fbq0h" target="_blank" rel="noopener">Zamów audyt 499 zł</a>
+<a class="btn btn-ghost" href="#kontakt">Najpierw porozmawiajmy</a>
+</div>
+</div>
+</section>
+
+<section class="section" id="bazy">
+<h2>Bazy leadów B2B</h2>
+<p class="sub">Zweryfikowane dane (nazwa, e-mail, telefon, adres, NIP, REGON, WWW). Format CSV, dostawa po opłaceniu. Źródła: RPWDL + katalogi branżowe, aktualne 2026.</p>
+<div class="grid">
+
+<div class="card">
+<div class="tag">Wejście</div>
+<h4>Kliniki — Mazowieckie</h4>
+<div class="desc">4 574 prywatne placówki medyczne (Warszawa i okolice). 4 565 z telefonem.</div>
+<div class="pr">49 zł</div>
+<a class="buy" href="https://buy.stripe.com/cNi7sL0D15z0d0Bbwofbq0m" target="_blank" rel="noopener">Kup teraz</a>
+</div>
+
+<div class="card">
+<div class="tag">Research</div>
+<h4>Research Pack — 12 nisz B2B</h4>
+<div class="desc">Gotowy research 12 branż: PKD, pain point, średnia wartość dealu, tier. PDF + CSV.</div>
+<div class="pr">99 zł</div>
+<a class="buy" href="https://buy.stripe.com/7sY3cv99xf9A3q11VOfbq0l" target="_blank" rel="noopener">Kup teraz</a>
+</div>
+
+<div class="card">
+<div class="tag">Najpopularniejsze</div>
+<h4>Kliniki — TOP 5 miast</h4>
+<div class="desc">7 330 placówek: Warszawa, Kraków, Poznań, Łódź, Wrocław. Pełne dane kontaktowe.</div>
+<div class="pr">149 zł</div>
+<a class="buy" href="https://buy.stripe.com/aFabJ13Pd3qS4u543Wfbq0k" target="_blank" rel="noopener">Kup teraz</a>
+</div>
+
+<div class="card feat">
+<div class="tag">Komplet</div>
+<h4>Kliniki — Pełna Polska</h4>
+<div class="desc">28 220 prywatnych placówek z całej Polski, wszystkie 16 województw, 3 452 miasta.</div>
+<div class="pr">499 zł</div>
+<a class="buy" href="https://buy.stripe.com/7sYbJ15Xl9PgaSt0RKfbq0j" target="_blank" rel="noopener">Kup teraz</a>
+</div>
+
+</div>
+
+<div class="sub-banner">
+<div>
+<h4>Abonament leadów — stały dopływ świeżych kontaktów</h4>
+<p>Co miesiąc nowa paczka zweryfikowanych leadów w Twojej niszy, segment na wyłączność. Dla agencji i zespołów sprzedaży, które potrzebują paliwa co miesiąc.</p>
+</div>
+<a class="btn btn-p" href="https://buy.stripe.com/3cI7sLbhF3qS9Op8kcfbq0i" target="_blank" rel="noopener">499 zł/mc — start</a>
+</div>
+</section>
+
+<section class="cta" id="kontakt">
+<h2>Porozmawiajmy o Twojej firmie</h2>
+<p style="color:var(--muted);margin-bottom:18px">Wycena automatyzacji, partnerstwo, white-label, hurt leadów — wszystko mailem, bez spotkań.</p>
+<a class="mail" href="mailto:michal@mvautoai.net">michal@mvautoai.net</a>
+<div style="margin-top:10px;color:var(--muted)">+48 500 653 369</div>
+</section>
+
+</main>
+<footer>
+MV Automation — MATANGEL Sp. z o.o. · NIP 5833223695 · Gdańsk<br>
+Płatności obsługiwane bezpiecznie przez Stripe.
+</footer>
+</body>
+</html>
