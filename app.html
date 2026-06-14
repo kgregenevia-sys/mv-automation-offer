@@ -1,6 +1,8 @@
 <!DOCTYPE html><html lang="pl"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#06080f"><title>MV Automation — Platforma</title>
+<link rel="manifest" href="app-manifest.json"><link rel="apple-touch-icon" href="icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=Fraunces:ital,opsz,wght@1,9..144,600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
@@ -58,6 +60,7 @@ table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}th,td{t
   <div class="spacer"></div>
   <span id="who" class="note hidden"></span>
   <button id="loginBtn" class="btn gold sm" onclick="document.getElementById('signup').scrollIntoView()">Załóż workspace</button>
+  <button id="installBtn" class="btn cyan sm hidden" onclick="installApp()">⬇ Zainstaluj</button>
   <button id="logoutBtn" class="btn ghost sm hidden" onclick="logout()">Wyloguj</button>
 </div></div>
 
@@ -113,6 +116,8 @@ table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}th,td{t
       <button data-v="camp" onclick="wsTab('camp')">🚀 Kampanie</button>
       <button data-v="social" onclick="wsTab('social')">✍️ Social Media</button>
       <button data-v="auto" onclick="wsTab('auto')">⚙️ Automatyzacje</button>
+      <button data-v="pilot" onclick="wsTab('pilot')">🤖 Autopilot<span style="font-size:9px;background:#37F5A0;color:#06120c;padding:1px 5px;border-radius:5px;margin-left:5px">PIONIER</span></button>
+      <button data-v="blue" onclick="wsTab('blue')">🧩 Generator AI<span style="font-size:9px;background:#37F5A0;color:#06120c;padding:1px 5px;border-radius:5px;margin-left:5px">PIONIER</span></button>
       <button data-v="plan" onclick="wsTab('plan')">💎 Plan</button>
     </div>
 
@@ -154,6 +159,22 @@ table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}th,td{t
       <p class="note">Trial daje 50 kredytów. Ulepsz, by pobierać tysiące leadów i odpalać pełne kampanie.</p>
       <div class="grid g3" id="plans2" style="margin-top:16px"></div>
     </div>
+
+    <div id="v_pilot" class="card hidden">
+      <h3 style="font-size:18px;font-weight:700">🤖 Autopilot kampanii <span style="font-size:11px;color:var(--green);font-weight:700">· PIONIER</span></h3>
+      <p class="note">Wpisz jedno zdanie o kliencie, którego chcesz zdobyć. App wykryje niszę, policzy odbiorców w bazie i napisze gotowego maila — koniec.</p>
+      <div class="field" style="margin-top:12px"><span class="lab">Opisz idealnego klienta / ofertę</span><input id="ap_brief" placeholder="np. chcę pozyskać kliniki stomatologiczne na chatbota"></div>
+      <button class="btn cyan sm" onclick="autopilotRun()">⚡ Uruchom autopilota</button>
+      <div class="out hidden" id="ap_out"></div>
+    </div>
+
+    <div id="v_blue" class="card hidden">
+      <h3 style="font-size:18px;font-weight:700">🧩 Generator automatyzacji <span style="font-size:11px;color:var(--green);font-weight:700">· PIONIER</span></h3>
+      <p class="note">Opisz proces po polsku — dostajesz gotowy plan automatyzacji n8n (wyzwalacz, kroki, integracje) do wdrożenia. Nikt nie daje tego self-serve.</p>
+      <div class="field" style="margin-top:12px"><span class="lab">Co chcesz zautomatyzować?</span><textarea id="bp_brief" placeholder="np. automatycznie przypominać pacjentom o wizytach i odpisywać na opinie Google"></textarea></div>
+      <button class="btn cyan sm" onclick="blueprintRun()">🛠 Zaprojektuj automatyzację</button>
+      <div class="out hidden" id="bp_out"></div>
+    </div>
   </div></section>
   <div class="foot wrap">Workspace MV Automation · Twój klucz dostępu jest zapisany na tym urządzeniu</div>
 </main>
@@ -186,13 +207,40 @@ function relogin(){const k=prompt('Wklej swój klucz dostępu (mvk_...)');if(k){
 function logout(){KEY=null;store('mv_saas_key',null);document.getElementById('workspace').classList.add('hidden');document.getElementById('landing').classList.remove('hidden');document.getElementById('logoutBtn').classList.add('hidden');document.getElementById('loginBtn').classList.remove('hidden');document.getElementById('who').classList.add('hidden');window.scrollTo(0,0);}
 async function loadMe(){const j=await saas('me');if(!j.ok)return false;ME=j;document.getElementById('ws_credits').textContent=j.credits;document.getElementById('ws_plan').textContent=j.plan;document.getElementById('ws_used').textContent=j.used;document.getElementById('wsTitle').textContent=j.company||'Twój panel';document.getElementById('who').textContent=j.email;document.getElementById('who').classList.remove('hidden');return true;}
 function enterWorkspace(){document.getElementById('landing').classList.add('hidden');document.getElementById('workspace').classList.remove('hidden');document.getElementById('loginBtn').classList.add('hidden');document.getElementById('logoutBtn').classList.remove('hidden');document.getElementById('autoGrid').innerHTML=AUTOS.map(a=>`<div class="card"><div style="display:flex;gap:12px;align-items:center"><div style="font-size:24px">${a.i}</div><div><div style="font-weight:700">${a.t}</div><div class="note" style="margin:0">${a.d}</div></div></div><button class="btn gold sm" style="margin-top:12px" onclick="activate('${a.t}')">Wdróż u mnie</button></div>`).join('');document.getElementById('plans2').innerHTML=PLANS.map(p=>planCard(p,`<a class="btn ${p.pop?'gold':''}" style="width:100%;justify-content:center" href="mailto:michal@mvautoai.net?subject=Upgrade%20${p.n}">Przejdź na ${p.n}</a>`)).join('');loadMe();window.scrollTo(0,0);}
-function wsTab(v){document.querySelectorAll('.wsbar button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));['leads','camp','social','auto','plan'].forEach(x=>document.getElementById('v_'+x).classList.toggle('hidden',x!==v));}
+function wsTab(v){document.querySelectorAll('.wsbar button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));['leads','camp','social','auto','plan','pilot','blue'].forEach(x=>document.getElementById('v_'+x).classList.toggle('hidden',x!==v));}
 async function pull(){const lim=Math.min(+document.getElementById('l_lim').value||25,200);toast('Pobieram...');const j=await saas('pull',{niche:document.getElementById('l_niche').value,city:document.getElementById('l_city').value,limit:lim});if(!j.ok){toast(j.error||'Błąd');return;}CSV=j.csv||'';document.getElementById('ws_credits').textContent=j.credits;document.getElementById('csvBtn').disabled=!CSV;const rows=j.rows||[];document.getElementById('l_tbl').innerHTML=`<div class="note">Pobrano ${j.count} leadów · zostało ${j.credits} kredytów</div><div class="tablewrap"><table><thead><tr><th>Firma</th><th>E-mail</th><th>Telefon</th><th>Miasto</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r.company||''}</td><td>${r.email||''}</td><td>${r.phone||''}</td><td>${r.miasto||''}</td></tr>`).join('')}</tbody></table></div>`;toast('Pobrano '+j.count);}
 function downloadCSV(){if(!CSV)return;const b=new Blob([CSV],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='leady-mv.csv';a.click();}
 async function campaign(){document.getElementById('cm_out').classList.remove('hidden');document.getElementById('cm_out').textContent='Piszę ofertę...';const j=await saas('campaign',{topic:document.getElementById('cm_topic').value});document.getElementById('cm_out').textContent=j.ok?(j.body||'—'):('Błąd: '+(j.error||''));window._camp=j.body;}
 async function campaignTest(){if(!ME)return;document.getElementById('cm_out').classList.remove('hidden');document.getElementById('cm_out').textContent='Wysyłam test...';const j=await saas('campaign',{topic:document.getElementById('cm_topic').value,body:window._camp,test_to:ME.email});document.getElementById('ws_credits').textContent=j.credits??document.getElementById('ws_credits').textContent;document.getElementById('cm_out').textContent=j.ok?('✔ Wysłano test na '+ME.email+'\n\n'+(j.body||'')):('Błąd: '+(j.error||''));toast(j.ok?'Test wysłany':'Błąd');}
 async function social(){document.getElementById('so_out').classList.remove('hidden');document.getElementById('so_out').textContent='Generuję...';const j=await saas('social',{platform:document.getElementById('so_plat').value,topic:document.getElementById('so_topic').value});document.getElementById('so_out').textContent=j.ok?j.text:('Błąd: '+(j.error||''));if(j.ok)document.getElementById('ws_credits').textContent=j.credits;}
 async function activate(item){const j=await saas('activate',{item});toast(j.ok?'Zgłoszenie wysłane ✔':'Błąd');}
+// ====== PIONIER: Autopilot kampanii ======
+const OPS="https://mdsvcobwuezriexyqqby.supabase.co/functions/v1/ops";
+let SNAP=null;
+async function getSnap(){if(SNAP)return SNAP;try{const r=await fetch(OPS,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'snapshot'})});SNAP=(await r.json()).data;}catch(e){}return SNAP;}
+const NICHE_MAP=[[/dentyst|stomatolog|dental|zęb|ząb/i,'stomatolog'],[/wetery|zwierz|przychodni.*zwierz/i,'weterynarz'],[/kosmet|uroda|beauty|paznok|salon/i,'salon_kosmetyczny'],[/adwokat|karn/i,'adwokat'],[/radca|prawn|kancelar/i,'radca_prawny'],[/nieruchomo|deweloper|mieszkan/i,'agencja_nieruchomosci'],[/fizjo|rehabilit|masaż/i,'fizjoterapia']];
+function detectNiche(t){for(const[re,n]of NICHE_MAP)if(re.test(t||''))return n;return '';}
+function nicheLabel(n){return ({stomatolog:'stomatolodzy',weterynarz:'weterynarze',salon_kosmetyczny:'salony kosmetyczne',adwokat:'adwokaci',radca_prawny:'radcy prawni',agencja_nieruchomosci:'agencje nieruchomości',fizjoterapia:'fizjoterapia'})[n]||n;}
+async function autopilotRun(){const brief=document.getElementById('ap_brief').value.trim();if(!brief){toast('Opisz klienta');return;}const out=document.getElementById('ap_out');out.classList.remove('hidden');out.innerHTML='Analizuję...';const niche=detectNiche(brief);const snap=await getSnap();let avail=0;if(snap&&niche){const f=(snap.realestate_by_niche||[]).find(x=>x.niche===niche);avail=f?f.c:0;}const subj='Współpraca — '+brief.slice(0,46);const body='Dzień dobry,\n\n'+brief+'. Pomagamy firmom z Waszej branży automatyzować obsługę, pozyskiwać klientów i oszczędzać czas dzięki AI.\n\nCzy to temat dla Was? Odpiszcie TAK — podeślę konkrety.\n\nPozdrawiam,\n'+((ME&&ME.company)?ME.company:'Zespół');window._apBody=subj+'\n'+body;window._apNiche=niche;out.innerHTML=`<div><b>Wykryta nisza:</b> ${niche?nicheLabel(niche):'— wybierz ręcznie w „Baza leadów" —'}</div><div><b>Dostępni odbiorcy w bazie:</b> ${avail.toLocaleString('pl-PL')}</div><div style="margin-top:8px"><b>Temat:</b> ${subj}</div><div style="white-space:pre-wrap;margin-top:6px;background:rgba(0,0,0,.3);border:1px solid var(--line);border-radius:10px;padding:11px">${body.replace(/</g,'&lt;')}</div><div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button class="btn cyan sm" onclick="apToLeads()">Ustaw niszę → pobierz odbiorców</button><button class="btn gold sm" onclick="apTest()">Wyślij test na mój e-mail</button></div>`;}
+function apToLeads(){if(window._apNiche)document.getElementById('l_niche').value=window._apNiche;wsTab('leads');toast('Nisza ustawiona — kliknij Pobierz');}
+async function apTest(){if(!ME)return;const t=(window._apBody||'').split('\n');toast('Wysyłam test...');const j=await saas('campaign',{subject:t[0],body:t.slice(1).join('\n'),test_to:ME.email});toast(j.ok?'Test wysłany ✔':'Błąd: '+(j.error||''));if(j.ok&&j.credits!=null)document.getElementById('ws_credits').textContent=j.credits;}
+// ====== PIONIER: Generator automatyzacji (NL → workflow) ======
+const BLUEPRINTS=[
+ [/przypomn|wizyt|no.?show|rezerwacj/i,{name:'Redukcja no-show (przypomnienia)',trigger:'Sync rezerwacji / webhook kalendarza',steps:['Pobierz wizyty na jutro','Wyślij przypomnienie SMS/WhatsApp','Obsłuż potwierdzenie/odwołanie','Zaloguj wynik'],integrations:['n8n','WhatsApp/SMS','Kalendarz','Supabase']}],
+ [/opini|google|recenzj|review/i,{name:'AI Responder opinii Google',trigger:'Nowa opinia (Google Business)',steps:['Pobierz nową opinię','Klasyfikuj ton (AI)','Wygeneruj odpowiedź w Twoim stylu','Opublikuj / do akceptacji'],integrations:['n8n','Google Business','AI']}],
+ [/faktur|invoice|rozlicz/i,{name:'Automatyczne faktury',trigger:'Nowe zamówienie / płatność Stripe',steps:['Odbierz dane zamówienia','Wygeneruj fakturę PDF','Wyślij do klienta','Zaksięguj'],integrations:['n8n','Stripe','PDF','E-mail']}],
+ [/lead|pozysk|sprzeda|kampani|cold/i,{name:'Maszyna leadowa + cold e-mail',trigger:'Harmonogram dzienny',steps:['Pobierz firmy z niszy','Waliduj e-maile','Personalizuj wiadomość (AI)','Wysyłaj batchami + followup','Śledź odpowiedzi'],integrations:['n8n','Resend','AI','Supabase']}],
+ [/newsletter|mailing/i,{name:'Newsletter AI',trigger:'Harmonogram (co tydzień)',steps:['Zbierz temat/produkty','Napisz newsletter (AI)','Segmentuj odbiorców','Wyślij + raportuj'],integrations:['n8n','Resend','AI']}],
+ [/social|post|linkedin|instagram|facebook|treśc/i,{name:'Silnik treści social',trigger:'Codzienny cron',steps:['Generuj posty per platforma (AI)','Zapisz do kolejki','Publikuj automatycznie','Raport'],integrations:['n8n','LinkedIn/Meta','AI']}],
+ [/telefon|recepcj|połączen|dzwoni|odbier/i,{name:'Recepcja AI (głos 24/7)',trigger:'Przychodzące połączenie',steps:['AI odbiera po polsku','Rozpoznaje intencję','Umawia/przekłada wizytę','Zapisuje i raportuje'],integrations:['Vapi','n8n','Kalendarz']}],
+ [/whatsapp|czat|chatbot|obsług/i,{name:'Chatbot obsługi klienta 24/7',trigger:'Wiadomość na stronie / WhatsApp',steps:['Odbierz pytanie','Odpowiedz z bazy wiedzy (AI)','Eskaluj trudne do człowieka','Zapisz rozmowę'],integrations:['n8n','WhatsApp','AI','Supabase']}],
+];
+function matchBP(t){for(const[re,bp]of BLUEPRINTS)if(re.test(t||''))return bp;return {name:'Automatyzacja na miarę',trigger:'Webhook / cron / zdarzenie',steps:['Zbierz dane wejściowe','Przetwórz / wzbogać AI','Wykonaj akcję (mail/CRM/dokument)','Zaloguj i powiadom'],integrations:['n8n','AI','Supabase']};}
+function blueprintRun(){const brief=document.getElementById('bp_brief').value.trim();if(!brief){toast('Opisz proces');return;}const bp=matchBP(brief);const out=document.getElementById('bp_out');out.classList.remove('hidden');out.innerHTML=`<div style="font-weight:700;font-size:16px" class="gold">${bp.name}</div><div class="note" style="margin-top:4px"><b>Wyzwalacz:</b> ${bp.trigger}</div><ol style="margin:10px 0 10px 18px;line-height:1.8">${bp.steps.map(s=>`<li>${s}</li>`).join('')}</ol><div class="note"><b>Integracje:</b> ${bp.integrations.join(' · ')}</div><button class="btn gold sm" style="margin-top:12px" onclick="activate('Automatyzacja: ${bp.name.replace(/'/g,'')}')">Wdróż u mnie</button>`;}
+// ====== PWA ======
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
+let _ip=null;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();_ip=e;const b=document.getElementById('installBtn');if(b)b.classList.remove('hidden');});
+function installApp(){if(_ip){_ip.prompt();_ip=null;}else{toast('W przeglądarce: menu → „Dodaj do ekranu głównego"');}}
 // boot
 (function(){const k=load('mv_saas_key');if(k){KEY=k;loadMe().then(ok=>ok?enterWorkspace():logout());}})();
 </script></body></html>
