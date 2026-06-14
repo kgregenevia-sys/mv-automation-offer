@@ -157,8 +157,36 @@ function effects(){
   ctx.globalCompositeOperation='source-over';requestAnimationFrame(draw);})();
 }
 
+function modalInit(){
+ if(document.getElementById('_modal'))return;
+ var ov=document.createElement('div');ov.id='_modal';ov.innerHTML='<div id="_mbox"><button id="_mclose" aria-label="x">\u00d7</button><div id="_mbody"></div></div>';document.body.appendChild(ov);
+ var box=document.getElementById('_mbox');
+ function close(){ov.classList.remove('on');setTimeout(function(){if(!ov.classList.contains('on'))ov.style.display='none';},420);}
+ window.__mvClose=close;
+ ov.addEventListener('click',function(e){if(e.target===ov)close();});
+ document.getElementById('_mclose').onclick=close;
+ addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+ function open(c){
+  var body=document.getElementById('_mbody');body.innerHTML='';
+  var clone=c.cloneNode(true);clone.removeAttribute('data-open');clone.style.cssText='background:none;border:0;box-shadow:none;padding:0;transform:none';
+  var ico=clone.querySelector('[data-ico]')||Array.prototype.find.call(clone.querySelectorAll('div'),function(d){return !d.children.length&&d.textContent.trim().length<=3&&/[\u2190-\u27bf\ud83c-\udbff]/.test(d.textContent);});
+  if(ico)ico.classList.add('m-ico');
+  body.appendChild(clone);
+  var cta=document.createElement('a');cta.className='btn gold';cta.style.cssText='margin-top:20px;display:inline-flex';cta.textContent='Zacznij teraz \u2192';
+  cta.href=document.getElementById('signup')?'#signup':'app.html#signup';cta.onclick=function(){close();};
+  body.appendChild(cta);
+  ov.style.display='flex';requestAnimationFrame(function(){ov.classList.add('on');});
+ }
+ var cards=document.querySelectorAll('.card');
+ Array.prototype.forEach.call(cards,function(c){
+  if(c.tagName==='A')return; if(c.classList.contains('plan'))return;
+  if(c.querySelector('input,textarea,select'))return; if(!c.querySelector('h3,h2'))return;
+  c.setAttribute('data-open','1');
+  c.addEventListener('click',function(e){if(e.target.closest('button,a,input,textarea,select'))return;open(c);});
+ });
+}
 function init(){
- collect(document.body);buildSwitch();effects();
+ collect(document.body);buildSwitch();effects();modalInit();
  var saved;try{saved=localStorage.getItem('mv_lang');}catch(e){}
  var url=new URLSearchParams(location.search).get('lang');
  var lang=url||saved||'pl';if(lang!=='pl')apply(lang);else apply('pl');
