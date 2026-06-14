@@ -1,9 +1,12 @@
 
-#_sp{position:fixed;top:0;left:0;width:0;height:3px;background:linear-gradient(90deg,#46E6FF,#C77BFF,#37F5A0);z-index:9999;transition:width .08s linear;pointer-events:none;border-radius:0 2px 2px 0}
-#_pc{position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.4}
+#_sp{position:fixed;top:0;left:0;width:0;height:3px;background:linear-gradient(90deg,#46E6FF,#C77BFF,#37F5A0);z-index:9999;transition:width .08s linear;pointer-events:none;border-radius:0 2px 2px 0;box-shadow:0 0 12px rgba(70,230,255,.6)}
+#_pc{position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.92}
+#_glow{position:fixed;top:0;left:0;width:600px;height:600px;border-radius:50%;pointer-events:none;z-index:-1;background:radial-gradient(circle,rgba(70,230,255,.13),rgba(199,123,255,.06) 40%,transparent 62%);filter:blur(8px);will-change:transform;transition:opacity .3s}
 .card,.tcard,.plan{transition:transform .28s var(--ease,ease),box-shadow .28s,border-color .28s!important}
-.card:hover,.tcard:hover{box-shadow:0 22px 60px rgba(70,230,255,.12)!important;border-color:rgba(70,230,255,.28)!important}
+.card:hover,.tcard:hover{box-shadow:0 22px 70px rgba(70,230,255,.16)!important;border-color:rgba(70,230,255,.32)!important}
 #_lang{display:inline-flex;gap:2px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:3px;margin-right:6px}
 #_lang button{font-family:'Sora',sans-serif;font-weight:700;font-size:11px;letter-spacing:.04em;color:#8B96B8;background:none;border:0;padding:6px 9px;border-radius:7px;cursor:pointer;transition:.2s}
 #_lang button.on{color:#06080f;background:linear-gradient(115deg,#FBE7B0,#C99A3A)}
-@media(max-width:560px){#_lang{margin-right:4px}#_lang button{padding:5px 7px;font-size:10px}}
+.serif.gold{background:linear-gradient(110deg,#C99A3A 0%,#FBE7B0 30%,#FFFDF4 48%,#FBE7B0 66%,#C99A3A 100%)!important;background-size:240% 100%!important;-webkit-background-clip:text!important;background-clip:text!important;-webkit-text-fill-color:transparent!important;animation:shmr 6.5s linear infinite}
+@keyframes shmr{0%{background-position:160% 0}100%{background-position:-60% 0}}
+@media(max-width:560px){#_lang{margin-right:4px}#_lang button{padding:5px 7px;font-size:10px}#_glow{display:none}}
