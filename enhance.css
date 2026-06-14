@@ -70,3 +70,15 @@ html.light #_grain{mix-blend-mode:multiply;opacity:.035}
 html.light #_mq span{color:rgba(12,19,38,.5)}
 html.light #_mbox{background:linear-gradient(180deg,#ffffff,#f2f5fc);border-color:rgba(12,19,38,.1)}
 html.light #_lang button,html.light #_snd,html.light #_thm{color:#0c1326}
+
+/* === KONTRAST (tryb ciemny) === */
+html:not(.light){--txt:#F5F8FF;--dim:#AAB6D6}
+html:not(.light) body{color:#F5F8FF}
+html:not(.light) .note,html:not(.light) .sub,html:not(.light) .lead,html:not(.light) .tlab,html:not(.light) .lab{color:#B3BEDC}
+html:not(.light) .feat li{color:#E4EAFA}
+html:not(.light) h1,html:not(.light) h2,html:not(.light) h3,html:not(.light) .h-sec{color:#FFFFFF}
+html:not(.light) .card,html:not(.light) .tcard,html:not(.light) .plan{border-color:rgba(255,255,255,.17)}
+html:not(.light) .card::before{background:linear-gradient(160deg,rgba(255,255,255,.26),transparent 42%)}
+html:not(.light) .feat li::before{box-shadow:0 0 10px rgba(55,245,160,.7)}
+html:not(.light) #_grain{opacity:.04}
+html:not(.light) #_pc{opacity:.82}
