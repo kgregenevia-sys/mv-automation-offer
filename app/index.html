@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0e17">
+<title>MV Automation — AI, Leady, Automatyzacja</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070a12; --bg2:#0b1020; --panel:rgba(255,255,255,.045); --line:rgba(255,255,255,.09);
+  --gold1:#f3d68b; --gold2:#b8862f; --cyan:#46e6ff; --green:#3df5a0; --red:#ff6b6b; --mag:#b98bff;
+  --txt:#eef2ff; --mut:#9aa6c4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--txt);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body{background:
+  radial-gradient(1200px 600px at 80% -10%, rgba(70,230,255,.08), transparent 60%),
+  radial-gradient(1000px 700px at 0% 0%, rgba(185,139,255,.07), transparent 55%),
+  radial-gradient(900px 900px at 50% 120%, rgba(243,214,139,.06), transparent 60%),
+  var(--bg);min-height:100vh}
+h1,h2,h3,.num{font-family:Sora,sans-serif}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+.gold{background:linear-gradient(120deg,var(--gold1),var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.cyan{color:var(--cyan)} .green{color:var(--green)} .mut{color:var(--mut)}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(7,10,18,.72);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:14px;height:62px}
+.logo{display:flex;align-items:center;gap:10px;font-family:Sora;font-weight:800;letter-spacing:.5px}
+.logo .mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--gold1),var(--gold2));color:#1a1407;display:grid;place-items:center;font-weight:800;box-shadow:0 0 22px rgba(243,214,139,.35)}
+.tabs{display:flex;gap:4px;margin-left:8px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:12px;padding:4px}
+.tab{padding:7px 14px;border-radius:9px;font-weight:600;font-size:14px;color:var(--mut);cursor:pointer;border:none;background:none}
+.tab.on{background:linear-gradient(120deg,rgba(243,214,139,.18),rgba(70,230,255,.12));color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.live{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--mut);font-variant-numeric:tabular-nums}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(61,245,160,.7);animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(61,245,160,.55)}70%{box-shadow:0 0 0 10px rgba(61,245,160,0)}100%{box-shadow:0 0 0 0 rgba(61,245,160,0)}}
+
+/* CARDS */
+.card{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;overflow:hidden}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);opacity:.5}
+.grid{display:grid;gap:16px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;cursor:pointer;font-weight:700;font-family:Sora;border-radius:12px;padding:13px 20px;font-size:15px;transition:.15s transform,.15s filter}
+.btn:active{transform:translateY(1px)}
+.btn-gold{background:linear-gradient(120deg,var(--gold1),var(--gold2));color:#1a1407;box-shadow:0 8px 30px rgba(243,214,139,.25)}
+.btn-gold:hover{filter:brightness(1.08)}
+.btn-ghost{background:rgba(255,255,255,.05);color:#fff;border:1px solid var(--line)}
+.btn-cy{background:linear-gradient(120deg,#2bd3ef,#1aa6ff);color:#04121a;box-shadow:0 8px 30px rgba(70,230,255,.2)}
+.btn-sm{padding:9px 13px;font-size:13px;border-radius:10px}
+.pill{font-size:11px;font-weight:700;letter-spacing:.4px;padding:4px 10px;border-radius:999px;display:inline-block}
+
+/* HERO */
+.hero{padding:54px 0 30px}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:3px;color:var(--cyan);text-transform:uppercase}
+.hero h1{font-size:clamp(34px,6vw,62px);line-height:1.03;font-weight:800;margin:14px 0 16px;letter-spacing:-1px}
+.hero p.sub{font-size:clamp(16px,2.4vw,20px);color:var(--mut);max-width:620px;line-height:1.55}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.trust{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:34px}
+.trust .t{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+.trust .t .v{font-family:Sora;font-weight:800;font-size:clamp(20px,3.4vw,30px)}
+.trust .t .l{font-size:12px;color:var(--mut);margin-top:3px}
+@media(max-width:680px){.trust{grid-template-columns:repeat(2,1fr)}}
+
+/* PRODUCTS */
+section.blk{padding:40px 0}
+.h-sec{font-size:13px;letter-spacing:2px;color:var(--mut);text-transform:uppercase;font-weight:700}
+.h-big{font-size:clamp(26px,4vw,40px);font-weight:800;margin:8px 0 26px;letter-spacing:-.5px}
+.prods{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:900px){.prods{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.prods{grid-template-columns:1fr}}
+.prod{display:flex;flex-direction:column;min-height:330px}
+.prod.flag{border-color:rgba(243,214,139,.5);box-shadow:0 0 60px rgba(243,214,139,.1)}
+.prod h3{font-size:20px;font-weight:700;margin:10px 0 6px}
+.prod .price{font-family:Sora;font-weight:800;font-size:30px;margin:8px 0}
+.prod .price small{font-size:14px;color:var(--mut);font-weight:600}
+.prod ul{list-style:none;margin:10px 0 18px;display:grid;gap:8px}
+.prod li{font-size:14px;color:#cdd6f0;display:flex;gap:9px;align-items:flex-start;line-height:1.4}
+.prod li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green);margin-top:6px;flex:none;box-shadow:0 0 8px var(--green)}
+.prod .foot{margin-top:auto}
+
+/* PANEL */
+#panel{display:none}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px}
+.kpi .v{font-family:Sora;font-weight:800;font-size:30px;letter-spacing:-.5px}
+.kpi .l{font-size:12px;color:var(--mut);margin-top:4px;letter-spacing:.3px}
+.cols{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;margin-top:16px}
+@media(max-width:900px){.cols{grid-template-columns:1fr}}
+.bar{height:7px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--cyan))}
+.brow{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:14px}
+.brow .nm{flex:1}.brow .ct{color:var(--mut);font-size:12px;font-variant-numeric:tabular-nums}
+.wfgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:7px;max-height:280px;overflow:auto;padding-right:4px}
+.wf{display:flex;align-items:center;gap:7px;font-size:11.5px;color:#c4cde6;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:7px 9px;line-height:1.2}
+.wf b{width:7px;height:7px;border-radius:50%;flex:none;background:#46506b}
+.wf.on b{background:var(--green);box-shadow:0 0 7px var(--green)}
+.hot{display:flex;flex-direction:column;gap:8px}
+.hotrow{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:11px;padding:11px}
+.hotrow .top{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.hotrow .nm{font-weight:700;font-size:14px}
+.hotrow .sn{font-size:12.5px;color:var(--mut);margin-top:3px}
+.tool{margin-top:14px}
+.tool h4{font-family:Sora;font-size:15px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.inp,textarea,select{width:100%;background:rgba(0,0,0,.3);border:1px solid var(--line);border-radius:10px;color:#fff;padding:11px 12px;font-size:14px;font-family:inherit;outline:none}
+.inp:focus,textarea:focus{border-color:var(--cyan)}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.row>*{flex:1;min-width:120px}
+.out{background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:13px;white-space:pre-wrap;max-height:260px;overflow:auto;margin-top:10px;line-height:1.45}
+.lock{position:fixed;inset:0;background:rgba(5,8,15,.88);backdrop-filter:blur(8px);display:none;place-items:center;z-index:100}
+.lock .box{width:min(380px,90vw);text-align:center}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#0d1428;border:1px solid var(--line);border-radius:12px;padding:12px 18px;font-size:14px;z-index:200;opacity:0;transition:.25s;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.toast.show{opacity:1}
+footer{border-top:1px solid var(--line);margin-top:30px;padding:26px 0;color:var(--mut);font-size:13px}
+.skel{color:var(--mut)}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <div class="logo"><div class="mark">MV</div><span>AUTOMATION</span></div>
+  <div class="tabs">
+    <button class="tab on" id="tab-of" onclick="mode('of')">Oferta</button>
+    <button class="tab" id="tab-pa" onclick="mode('pa')">Panel</button>
+  </div>
+  <div class="live"><span class="dot"></span><span id="clock">--:--:--</span></div>
+</div></nav>
+
+<!-- ================= OFERTA ================= -->
+<div id="oferta">
+<div class="wrap">
+  <div class="hero">
+    <div class="eyebrow">AI · Leady · Automatyzacja sprzedaży</div>
+    <h1>Automatyzacja, która <span class="gold">zarabia</span>,<br>gdy Ty śpisz.</h1>
+    <p class="sub">Stawiamy systemy AI, które odbierają telefony, pozyskują klientów i domykają sprzedaż — w pełni automatycznie. Konkret, nie obietnice.</p>
+    <div class="cta">
+      <a class="btn btn-gold" href="#produkty">Zobacz produkty</a>
+      <a class="btn btn-ghost" href="https://kgregenevia-sys.github.io/mv-automation-offer/start.html" target="_blank">Zamów audyt 499 zł</a>
+    </div>
+    <div class="trust" id="trust">
+      <div class="t"><div class="v num" id="t-leads">—</div><div class="l">zweryfikowanych firm w bazie</div></div>
+      <div class="t"><div class="v num" id="t-wf">—</div><div class="l">automatyzacji pracuje 24/7</div></div>
+      <div class="t"><div class="v num" id="t-mail">—</div><div class="l">maili dostarczonych</div></div>
+      <div class="t"><div class="v num" id="t-hot">—</div><div class="l">gorących zapytań w kolejce</div></div>
+    </div>
+  </div>
+</div>
+
+<section class="blk" id="produkty"><div class="wrap">
+  <div class="h-sec">Produkty</div>
+  <div class="h-big">Wybierz, co zacznie zarabiać u Ciebie</div>
+  <div class="prods">
+    <div class="card prod flag">
+      <span class="pill" style="background:linear-gradient(120deg,var(--gold1),var(--gold2));color:#1a1407">⚡ Produkt flagowy</span>
+      <h3>Recepcja AI</h3>
+      <div class="price">9 000 zł <small>+ 2 500 zł/mc</small></div>
+      <ul>
+        <li>Odbiera 100% połączeń — także po godzinach i w weekendy</li>
+        <li>Umawia, przekłada i odwołuje wizyty — naturalnie po polsku</li>
+        <li>Zero utraconych pacjentów = zwrot już w 1. miesiącu</li>
+        <li>Pełne wdrożenie po naszej stronie</li>
+      </ul>
+      <div class="foot"><a class="btn btn-gold" style="width:100%" href="https://kgregenevia-sys.github.io/mv-automation-offer/start.html" target="_blank">Zamów audyt 499 zł →</a></div>
+    </div>
+
+    <div class="card prod">
+      <span class="pill" style="background:rgba(70,230,255,.15);color:var(--cyan)">Najlepsza wartość</span>
+      <h3>Komplet baz B2B — 7 nisz</h3>
+      <div class="price">149 zł</div>
+      <ul>
+        <li id="p-komplet">Tysiące firm: nieruchomości, prawnicy, gabinety, weterynarze, kosmetyka</li>
+        <li>Pełne dane: nazwa, e-mail, telefon, miasto, WWW</li>
+        <li>Format CSV — dostawa po opłaceniu</li>
+      </ul>
+      <div class="foot"><a class="btn btn-cy" style="width:100%" href="https://buy.stripe.com/6oU6oH5Xl2mO9Op0RKfbq0n" target="_blank">Kup teraz →</a></div>
+    </div>
+
+    <div class="card prod">
+      <h3>Pojedyncza nisza B2B</h3>
+      <div class="price">49 zł</div>
+      <ul>
+        <li>Jedna branża na wyłączność Twojej oferty</li>
+        <li>Setki zweryfikowanych kontaktów</li>
+        <li>Idealne na test kampanii</li>
+      </ul>
+      <div class="foot"><a class="btn btn-ghost" style="width:100%" href="https://buy.stripe.com/14A7sLbhF3qSd0B1VOfbq0o" target="_blank">Kup teraz →</a></div>
+    </div>
+
+    <div class="card prod">
+      <h3>Baza klinik — Cała Polska</h3>
+      <div class="price">499 zł</div>
+      <ul>
+        <li>28 220 prywatnych placówek, 16 województw</li>
+        <li>Komplet danych kontaktowych</li>
+        <li>Źródło: RPWDL + katalogi 2026</li>
+      </ul>
+      <div class="foot"><a class="btn btn-ghost" style="width:100%" href="https://buy.stripe.com/7sYbJ15Xl9PgaSt0RKfbq0j" target="_blank">Kup teraz →</a></div>
+    </div>
+
+    <div class="card prod">
+      <h3>Research Pack — 12 nisz</h3>
+      <div class="price">99 zł</div>
+      <ul>
+        <li>PKD, pain point, średnia wartość dealu, tier</li>
+        <li>Gotowy research 12 branż B2B</li>
+        <li>PDF + CSV</li>
+      </ul>
+      <div class="foot"><a class="btn btn-ghost" style="width:100%" href="https://kgregenevia-sys.github.io/mv-automation-offer/start.html" target="_blank">Kup teraz →</a></div>
+    </div>
+
+    <div class="card prod">
+      <span class="pill" style="background:rgba(185,139,255,.15);color:var(--mag)">Na zamówienie</span>
+      <h3>Automatyzacja szyta na miarę</h3>
+      <div class="price">wycena <small>mailem</small></div>
+      <ul>
+        <li>n8n + AI: procesy, integracje, lejki, treści</li>
+        <li>Pozyskiwanie klientów i obsługa zapytań 24/7</li>
+        <li>White-label dla agencji</li>
+      </ul>
+      <div class="foot"><a class="btn btn-ghost" style="width:100%" href="mailto:michal@mvautoai.net?subject=Wycena%20automatyzacji">Napisz do nas →</a></div>
+    </div>
+  </div>
+</div></section>
+
+<section class="blk"><div class="wrap">
+  <div class="card" style="text-align:center;padding:34px">
+    <div class="h-sec">Dlaczego MV Automation</div>
+    <div class="h-big" style="margin-bottom:6px">Liczby, nie obietnice</div>
+    <div class="trust" id="proof">
+      <div class="t"><div class="v num" id="pr-1">—</div><div class="l">leadów w systemie</div></div>
+      <div class="t"><div class="v num" id="pr-2">—</div><div class="l">aktywnych automatyzacji</div></div>
+      <div class="t"><div class="v num" id="pr-3">—</div><div class="l">linii biznesowych</div></div>
+      <div class="t"><div class="v num" id="pr-4">100%</div><div class="l">async — bez spotkań</div></div>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  MV Automation — MATANGEL Sp. z o.o. · NIP 5833223695 · Gdańsk · michal@mvautoai.net · +48 500 653 369<br>
+  Płatności obsługiwane bezpiecznie przez Stripe · RODO/GDPR
+</div></footer>
+</div>
+
+<!-- ================= PANEL ================= -->
+<div id="panel"><div class="wrap" style="padding-top:24px">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+    <div class="h-big" style="margin:0;font-size:24px">Centrum Dowodzenia</div>
+    <span class="pill" style="background:rgba(61,245,160,.14);color:var(--green)" id="cachetag">live</span>
+    <button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="load(true)">↻ Odśwież</button>
+  </div>
+
+  <div class="kpis" id="kpis"><div class="kpi skel">ładowanie…</div></div>
+
+  <div class="cols">
+    <div class="card">
+      <h4 style="font-family:Sora;margin-bottom:6px">Marki / linie biznesu</h4>
+      <div id="brands" class="skel">…</div>
+    </div>
+    <div class="card">
+      <h4 style="font-family:Sora;margin-bottom:6px">Silnik e-mail (dziś)</h4>
+      <div id="email" class="skel">…</div>
+    </div>
+  </div>
+
+  <div class="cols">
+    <div class="card">
+      <h4 style="font-family:Sora;margin-bottom:6px">🔥 Gorące leady</h4>
+      <div id="hot" class="hot skel">…</div>
+    </div>
+    <div class="card">
+      <h4 style="font-family:Sora;margin-bottom:6px">Workflowy n8n <span class="mut" id="wfcount" style="font-size:12px"></span></h4>
+      <div id="wf" class="wfgrid skel">…</div>
+    </div>
+  </div>
+
+  <!-- NARZĘDZIA -->
+  <div class="card" style="margin-top:16px">
+    <div class="h-sec">Narzędzia operatora</div>
+    <div class="h-big" style="font-size:22px;margin:6px 0 4px">Szukaj · Twórz · Wysyłaj · Odpalaj · Zarabiaj</div>
+
+    <div class="tool">
+      <h4>🔎 Szukaj leadów</h4>
+      <div class="row">
+        <select class="inp" id="s-niche">
+          <option value="">— nisza —</option>
+          <option>stomatolog</option><option>weterynarz</option><option>salon_kosmetyczny</option>
+          <option>adwokat</option><option>radca_prawny</option><option>fizjoterapia</option><option>agencja_nieruchomosci</option>
+        </select>
+        <input class="inp" id="s-city" placeholder="miasto (np. Gdańsk)">
+        <button class="btn btn-cy btn-sm" onclick="searchLeads()">Szukaj</button>
+      </div>
+      <div class="out" id="s-out" style="display:none"></div>
+    </div>
+
+    <div class="tool">
+      <h4>🧠 Generator AI (oferty · maile · landing)</h4>
+      <textarea id="ai-p" rows="3" placeholder="Opisz co wygenerować, np.: 'Krótki mail sprzedażowy oferty Recepcja AI do prywatnej kliniki stomatologicznej, CTA TAK/STOP'"></textarea>
+      <div class="row" style="margin-top:8px">
+        <button class="btn btn-cy btn-sm" onclick="aiGen()">Generuj</button>
+        <button class="btn btn-ghost btn-sm" onclick="aiGen('landing')">Generuj landing HTML</button>
+      </div>
+      <div class="out" id="ai-out" style="display:none"></div>
+      <div class="row" id="ai-acts" style="display:none;margin-top:8px">
+        <input class="inp" id="ai-to" placeholder="e-mail testowy (wyślij sobie)">
+        <button class="btn btn-ghost btn-sm" onclick="aiSend()">Wyślij testowo</button>
+        <button class="btn btn-gold btn-sm" onclick="aiDeploy()">🚀 Odpal jako stronę</button>
+      </div>
+    </div>
+
+    <div class="tool">
+      <h4>📣 Kolejka ofert (auto-wysyłka co 30 min)</h4>
+      <div class="row">
+        <input class="inp" id="q-mail" placeholder="e-mail odbiorcy">
+        <input class="inp" id="q-comp" placeholder="nazwa firmy">
+        <select class="inp" id="q-niche">
+          <option value="automation">automatyzacja (oferta usług)</option>
+          <option value="dental">bazy: dental</option><option value="vet">bazy: vet</option>
+          <option value="beauty">bazy: beauty</option><option value="legal">bazy: legal</option>
+          <option value="realestate">bazy: nieruchomości</option><option value="agency">bazy: komplet 7 nisz</option>
+        </select>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <button class="btn btn-ghost btn-sm" onclick="queueOne()">Dodaj do kolejki</button>
+        <button class="btn btn-gold btn-sm" onclick="sendNow()">⚡ Wyślij teraz (25)</button>
+      </div>
+      <div class="out" id="q-out" style="display:none"></div>
+    </div>
+
+    <div class="tool">
+      <h4>🔔 Alert na Telegram</h4>
+      <div class="row">
+        <input class="inp" id="tg" placeholder="treść alertu">
+        <button class="btn btn-ghost btn-sm" onclick="tgSend()">Wyślij</button>
+      </div>
+    </div>
+  </div>
+  <div style="height:40px"></div>
+</div></div>
+
+<!-- LOCK -->
+<div class="lock" id="lock"><div class="box card">
+  <div class="logo" style="justify-content:center;margin-bottom:14px"><div class="mark">MV</div></div>
+  <h3 style="font-family:Sora;margin-bottom:8px">Panel operatora</h3>
+  <p class="mut" style="font-size:13px;margin-bottom:14px">Wpisz kod dostępu, aby odblokować narzędzia.</p>
+  <input class="inp" id="lock-in" type="password" placeholder="kod dostępu" style="text-align:center;margin-bottom:10px">
+  <button class="btn btn-gold" style="width:100%" onclick="unlock()">Odblokuj</button>
+</div></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const OPS='https://mdsvcobwuezriexyqqby.supabase.co/functions/v1/ops';
+const ANTHROPIC='https://api.anthropic.com/v1/messages';
+let TOKEN=localStorage.getItem('mv_ops')||''; // unlocked panel token
+let SNAP=null, unlocked=!!TOKEN, lastAI='', lastAItype='mail';
+
+const $=s=>document.querySelector(s);
+const fmt=n=>(n==null?'—':Number(n).toLocaleString('pl-PL'));
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(t._);t._=setTimeout(()=>t.classList.remove('show'),2600);}
+function clock(){const d=new Date();$('#clock').textContent=d.toLocaleTimeString('pl-PL');}
+setInterval(clock,1000);clock();
+
+async function ops(action,extra={},auth=true){
+  const h={'Content-Type':'application/json'};
+  const body={action,...extra};
+  const r=await fetch(OPS,{method:'POST',headers:h,body:JSON.stringify(auth?{...body,token:TOKEN}:body)});
+  return r.json();
+}
+
+/* ---------- LOAD SNAPSHOT ---------- */
+async function load(force){
+  try{
+    const j= force? await ops('refresh',{},false): await ops('snapshot',{},false);
+    SNAP=j.data; render();
+  }catch(e){ toast('Błąd ładowania'); }
+}
+function animateCounters(){
+  document.querySelectorAll('.num[data-v]').forEach(el=>{
+    const target=+el.dataset.v||0;let cur=0;const step=Math.max(1,Math.ceil(target/40));
+    const t=setInterval(()=>{cur+=step;if(cur>=target){cur=target;clearInterval(t);}el.textContent=fmt(cur);},18);
+  });
+}
+function render(){
+  if(!SNAP)return;const k=SNAP.kpi||{},e=SNAP.email_today||{};
+  // trust (oferta)
+  set('#t-leads',k.leads_total);set('#t-wf',k.wf_active);set('#t-mail',e.delivered);set('#t-hot',k.hot_total);
+  set('#pr-1',k.leads_total);set('#pr-2',k.wf_active);set('#pr-3',(SNAP.brands||[]).length);
+  const kc=(SNAP.realestate_total)||0;
+  $('#p-komplet').textContent=fmt(SNAP.kpi.realestate_total)+' firm B2B w 7 niszach — komplet';
+  // kpis (panel)
+  $('#kpis').innerHTML=[
+    ['Leady',k.leads_total],['Firmy B2B',k.realestate_total],
+    ['Workflowy', (k.wf_active||0)+' / '+(k.wf_total||0)],
+    ['Gorące leady',(k.hot_total||0)+' ('+(k.hot_positive||0)+' TAK)'],
+    ['Maile dziś',e.sent],['Dostarczone',e.delivered],
+    ['Bounce %',(e.bounce_rate_pct!=null?e.bounce_rate_pct+'%':'—')],
+    ['Sprzedaże',k.sales_total]
+  ].map(([l,v])=>`<div class="kpi"><div class="v">${typeof v==='number'?fmt(v):(v??'—')}</div><div class="l">${l}</div></div>`).join('');
+  // brands
+  $('#brands').innerHTML=(SNAP.brands||[]).map(b=>{
+    const p=b.total?Math.round(b.active/b.total*100):0;
+    return `<div class="brow"><span class="nm">${b.brand}</span><span class="ct">${b.active}/${b.total}</span><div class="bar" style="width:90px"><i style="width:${p}%"></i></div></div>`;
+  }).join('');
+  // email
+  $('#email').innerHTML=`
+    <div style="display:flex;gap:14px;flex-wrap:wrap">
+      ${miniStat('Wysłane',e.sent)}${miniStat('Dostarczone',e.delivered)}${miniStat('Bounce',(e.bounced??0))}${miniStat('Skargi',(e.complained??0))}
+    </div>
+    <div style="margin-top:12px" class="mut" style="font-size:12px">Bounce ${e.bounce_rate_pct??0}% · Open ${e.open_rate_pct??0}%</div>`;
+  // hot
+  $('#hot').innerHTML=(SNAP.hot||[]).map(h=>`
+    <div class="hotrow"><div class="top"><span class="nm">${esc(h.clinic||h.email||'—')}</span>
+    <span class="pill" style="background:${h.cls==='positive'?'rgba(61,245,160,.16);color:var(--green)':'rgba(255,255,255,.08);color:var(--mut)'}">${h.cls||''}</span></div>
+    <div class="sn">${esc((h.snip||'').slice(0,90))}</div>
+    <div style="margin-top:7px"><a class="btn btn-ghost btn-sm" href="mailto:${h.email}">Odpisz</a></div></div>`).join('')||'<span class="mut">brak</span>';
+  // workflows
+  const wf=SNAP.workflows||[];$('#wfcount').textContent=`(${wf.filter(w=>w.active).length} aktywne / ${wf.length})`;
+  $('#wf').innerHTML=wf.map(w=>`<div class="wf ${w.active?'on':''}"><b></b><span>${esc(w.name)}</span></div>`).join('');
+  document.querySelectorAll('.skel').forEach(el=>el.classList.remove('skel'));
+  // animate trust numbers once
+  ['#t-leads','#t-wf','#t-mail','#t-hot','#pr-1','#pr-2','#pr-3'].forEach(s=>{const el=$(s);if(el&&el.dataset.done!=='1'){el.dataset.v=el.textContent.replace(/\D/g,'')||0;}});
+}
+function set(s,v){const el=$(s);if(el)el.textContent=fmt(v);}
+function miniStat(l,v){return `<div><div style="font-family:Sora;font-weight:800;font-size:20px">${fmt(v)}</div><div class="mut" style="font-size:11px">${l}</div></div>`;}
+function esc(s){return (s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+
+/* ---------- MODE / LOCK ---------- */
+function mode(m){
+  $('#tab-of').classList.toggle('on',m==='of');$('#tab-pa').classList.toggle('on',m==='pa');
+  $('#oferta').style.display=m==='of'?'block':'none';
+  if(m==='pa'){ if(!unlocked){$('#lock').style.display='grid';} else {$('#panel').style.display='block';} }
+  else {$('#panel').style.display='none';$('#lock').style.display='none';}
+}
+function unlock(){
+  const v=$('#lock-in').value.trim();
+  TOKEN=v;localStorage.setItem('mv_ops',v);unlocked=true;
+  $('#lock').style.display='none';$('#panel').style.display='block';
+  toast('Panel odblokowany');
+}
+
+/* ---------- TOOLS ---------- */
+async function searchLeads(){
+  const o=$('#s-out');o.style.display='block';o.textContent='Szukam…';
+  const j=await ops('search_leads',{niche:$('#s-niche').value,city:$('#s-city').value,limit:30});
+  if(!j.ok){o.textContent='Błąd: '+(j.error||'');return;}
+  o.textContent=`${j.count} wyników:\n`+ (j.rows||[]).map(r=>`• ${r.company} — ${r.email} ${r.phone?'· '+r.phone:''} ${r.miasto?'· '+r.miasto:''}`).join('\n');
+}
+async function aiGen(kind){
+  lastAItype=kind==='landing'?'landing':'mail';
+  const o=$('#ai-out');o.style.display='block';o.textContent='Generuję…';$('#ai-acts').style.display='none';
+  let prompt=$('#ai-p').value.trim()||'Krótki mail sprzedażowy oferty Recepcja AI do prywatnej kliniki, CTA TAK/STOP';
+  if(lastAItype==='landing') prompt='Zwróć WYŁĄCZNIE kompletny, nowoczesny, ciemny landing HTML (jeden plik, inline CSS, premium) sprzedający: '+prompt+'. Bez komentarzy, sam kod od <!DOCTYPE html>.';
+  try{
+    const r=await fetch(ANTHROPIC,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1500,messages:[{role:'user',content:prompt}]})});
+    const d=await r.json();
+    const txt=(d.content||[]).filter(c=>c.type==='text').map(c=>c.text).join('\n').trim();
+    lastAI=txt;o.textContent=txt;$('#ai-acts').style.display='flex';
+  }catch(e){o.textContent='Błąd AI: '+e;}
+}
+async function aiSend(){
+  const to=$('#ai-to').value.trim();if(!to)return toast('Podaj e-mail');
+  const j=await ops('resend_send',{to,subject:'MV Automation — podgląd',html:lastAItype==='landing'?lastAI:'<pre style="font-family:sans-serif;white-space:pre-wrap">'+esc(lastAI)+'</pre>'});
+  toast(j.ok?'Wysłano test na '+to:'Błąd wysyłki');
+}
+async function aiDeploy(){
+  if(lastAItype!=='landing'&&!/<!DOCTYPE|<html/i.test(lastAI))return toast('Najpierw wygeneruj landing HTML');
+  const path='live/'+Date.now()+'.html';
+  const j=await ops('deploy_store',{path,html:lastAI});
+  if(j.ok){$('#ai-out').textContent='🚀 STRONA NA ŻYWO:\n'+j.url+'\n\n'+lastAI.slice(0,400)+'…';toast('Strona odpalona');}
+  else toast('Błąd deploy: '+(j.error||''));
+}
+async function queueOne(){
+  const m=$('#q-mail').value.trim();if(!m)return toast('Podaj e-mail');
+  const j=await ops('queue_outreach',{rows:[{to_email:m,company:$('#q-comp').value,niche:$('#q-niche').value}]});
+  const o=$('#q-out');o.style.display='block';o.textContent=j.ok?('Dodano do kolejki ('+j.queued+'). Cron wyśle w ≤30 min lub kliknij „Wyślij teraz”.'):'Błąd: '+(j.error||'');
+}
+async function sendNow(){
+  const o=$('#q-out');o.style.display='block';o.textContent='Wysyłam…';
+  const j=await ops('send_now',{limit:25});
+  o.textContent=j.ok?('Wysłane: '+JSON.stringify(j.result)):'Błąd: '+(j.error||'');
+  load(true);
+}
+async function tgSend(){
+  const t=$('#tg').value.trim();if(!t)return;
+  const j=await ops('telegram',{text:'🛰️ '+t});toast(j.ok?'Wysłano na Telegram':'Błąd');
+}
+
+/* init */
+load();setInterval(()=>load(),60000);
+if('serviceWorker'in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
+</script>
+</body>
+</html>
