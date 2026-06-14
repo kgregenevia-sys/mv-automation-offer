@@ -127,7 +127,7 @@ function buildSwitch(){
 function effects(){
  if(!document.getElementById('_sp')){var sp=document.createElement('div');sp.id='_sp';document.body.appendChild(sp);
   addEventListener('scroll',function(){var h=document.documentElement;sp.style.width=(h.scrollTop/((h.scrollHeight-h.clientHeight)||1)*100)+'%';},{passive:true});}
- var top=document.querySelector('.top');if(top){addEventListener('scroll',function(){top.style.background=scrollY>10?'rgba(6,8,15,.92)':'';},{passive:true});}
+ var top=document.querySelector('.top');if(top){addEventListener('scroll',function(){top.style.background=scrollY>10?(document.documentElement.classList.contains('light')?'rgba(255,255,255,.9)':'rgba(6,8,15,.92)'):'';},{passive:true});}
  if(!document.getElementById('_glow')&&matchMedia('(pointer:fine)').matches){var g=document.createElement('div');g.id='_glow';document.body.appendChild(g);addEventListener('mousemove',function(e){g.style.transform='translate('+(e.clientX-340)+'px,'+(e.clientY-340)+'px)';},{passive:true});}
  if(document.getElementById('_pc'))return;
  var c=document.createElement('canvas');c.id='_pc';document.body.appendChild(c);
@@ -224,8 +224,13 @@ function firstLeague(){
  if(window.IntersectionObserver){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var t=e.target;t.classList.add('_in');setTimeout(function(){t.classList.remove('_pre','_in');t.style.filter='';t.style.transform='';},840);io.unobserve(t);}});},{threshold:.12});
   Array.prototype.forEach.call(document.querySelectorAll('section .card, section .h-sec, section h2, #_mq'),function(el){var r=el.getBoundingClientRect();if(r.top>innerHeight*0.92){el.classList.add('_pre');io.observe(el);}});}
 }
+function intro(){try{if(sessionStorage.getItem('mv_intro'))return;sessionStorage.setItem('mv_intro','1');}catch(e){}
+ var ov=document.createElement('div');ov.id='_intro';ov.innerHTML='<div class="_ic"><div class="_iring"></div><div class="_ilogo">MV</div><div class="_iname">MV AUTOMATION</div></div>';document.body.appendChild(ov);
+ setTimeout(function(){ov.classList.add('_out');setTimeout(function(){if(ov.parentNode)ov.remove();},760);},1550);}
+function theme(){var s;try{s=localStorage.getItem('mv_theme');}catch(e){}if(s==='light')document.documentElement.classList.add('light');
+ var wrap=document.querySelector('.top .wrap');if(wrap&&!document.getElementById('_thm')){var t=document.createElement('button');t.id='_thm';t.title='Tryb dzien/noc';function lab(){t.textContent=document.documentElement.classList.contains('light')?'\u2600\ufe0f':'\ud83c\udf19';}lab();t.onclick=function(){document.documentElement.classList.toggle('light');try{localStorage.setItem('mv_theme',document.documentElement.classList.contains('light')?'light':'dark');}catch(e){}lab();if(typeof sfx==='function')sfx('click');};var ref=document.getElementById('_snd')||document.getElementById('_lang');wrap.insertBefore(t,ref||wrap.children[wrap.children.length-1]);}}
 function init(){
- collect(document.body);buildSwitch();effects();modalInit();surprises();surprises2();firstLeague();
+ collect(document.body);buildSwitch();effects();modalInit();surprises();surprises2();firstLeague();theme();intro();
  var saved;try{saved=localStorage.getItem('mv_lang');}catch(e){}
  var url=new URLSearchParams(location.search).get('lang');
  var lang=url||saved||'pl';if(lang!=='pl')apply(lang);else apply('pl');
