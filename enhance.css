@@ -27,3 +27,9 @@
 .card[data-open]{cursor:pointer}
 .card[data-open]::after{content:'\2197';position:absolute;top:13px;right:15px;font-size:14px;color:rgba(255,255,255,.32);transition:.25s;z-index:2}
 .card[data-open]:hover::after{color:var(--cyan);transform:translate(2px,-2px)}
+
+.btn{position:relative;overflow:hidden}
+.mv-ripple{position:absolute;width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.55);transform:translate(-50%,-50%) scale(0);animation:mvrip .62s ease-out forwards;pointer-events:none}
+@keyframes mvrip{to{transform:translate(-50%,-50%) scale(16);opacity:0}}
+#_mvt{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);z-index:10002;background:linear-gradient(135deg,rgba(20,26,46,.97),rgba(10,13,26,.97));border:1px solid rgba(70,230,255,.3);color:#EEF2FF;font-family:'Sora',sans-serif;font-weight:600;font-size:14px;padding:12px 20px;border-radius:14px;box-shadow:0 18px 50px rgba(0,0,0,.5),0 0 30px rgba(70,230,255,.18);opacity:0;transition:.4s cubic-bezier(.2,.9,.2,1);pointer-events:none;max-width:90vw;text-align:center}
+#_mvt.on{opacity:1;transform:translateX(-50%) translateY(0)}
