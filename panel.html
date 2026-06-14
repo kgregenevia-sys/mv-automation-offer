@@ -142,7 +142,7 @@ textarea{resize:vertical;min-height:90px}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(-4px)}
 @media(max-width:880px){.trust,.kpi{grid-template-columns:repeat(2,1fr)}.g3,.g4,.g2{grid-template-columns:1fr}.row2{grid-template-columns:1fr}.tag{display:none}}
 </style>
-<link rel="stylesheet" href="enhance.css?v=10"></head>
+<link rel="stylesheet" href="enhance.css?v=11"></head>
 <body>
 
 <div class="top"><div class="wrap">
@@ -380,5 +380,5 @@ async function tg(){const j=await api('telegram',{text:document.getElementById('
 (function(){const t=load('mv_tok');if(t){TOKEN=t;api('search_leads',{niche:'stomatolog',limit:1}).then(j=>{if(j.ok){setUnlocked(true);}else{TOKEN=null;store('mv_tok',null);}refresh();});}else{refresh();}})();
 setInterval(()=>refresh(),60000);
 </script>
-<script src="enhance.js?v=10"></script></body>
+<script src="enhance.js?v=11"></script></body>
 </html>
