@@ -128,12 +128,32 @@ function effects(){
  if(!document.getElementById('_sp')){var sp=document.createElement('div');sp.id='_sp';document.body.appendChild(sp);
   addEventListener('scroll',function(){var h=document.documentElement;sp.style.width=(h.scrollTop/((h.scrollHeight-h.clientHeight)||1)*100)+'%';},{passive:true});}
  var top=document.querySelector('.top');if(top){addEventListener('scroll',function(){top.style.background=scrollY>10?'rgba(6,8,15,.92)':'';},{passive:true});}
+ if(!document.getElementById('_glow')&&matchMedia('(pointer:fine)').matches){var g=document.createElement('div');g.id='_glow';document.body.appendChild(g);addEventListener('mousemove',function(e){g.style.transform='translate('+(e.clientX-300)+'px,'+(e.clientY-300)+'px)';},{passive:true});}
  if(!document.getElementById('_pc')){var c=document.createElement('canvas');c.id='_pc';document.body.appendChild(c);
-  var ctx=c.getContext('2d'),W,H,pts=[];function rs(){W=c.width=innerWidth;H=c.height=innerHeight;}rs();addEventListener('resize',rs);
-  for(var i=0;i<46;i++)pts.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:Math.random()*1.7+.6});
-  var col=['rgba(70,230,255,.7)','rgba(199,123,255,.6)','rgba(55,245,160,.5)'];
-  (function draw(){ctx.clearRect(0,0,W,H);for(var i=0;i<pts.length;i++){var p=pts[i];p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,6.283);ctx.fillStyle=col[i%3];ctx.fill();for(var j=i+1;j<pts.length;j++){var q=pts[j],dx=p.x-q.x,dy=p.y-q.y,dd=dx*dx+dy*dy;if(dd<11000){ctx.globalAlpha=1-dd/11000;ctx.strokeStyle='rgba(70,230,255,.18)';ctx.lineWidth=.6;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();ctx.globalAlpha=1;}}}requestAnimationFrame(draw);})();}
+  var ctx=c.getContext('2d'),W,H,DPR=Math.min(devicePixelRatio||1,2);
+  function rs(){W=c.width=innerWidth*DPR;H=c.height=innerHeight*DPR;c.style.width=innerWidth+'px';c.style.height=innerHeight+'px';}rs();addEventListener('resize',rs);
+  var N=innerWidth<560?36:66,pts=[],pal=[[94,235,255],[208,140,255],[255,217,138],[91,255,176]];
+  for(var i=0;i<N;i++){var col=pal[i%4];pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.5*DPR,vy:(Math.random()-.5)*.5*DPR,r:(Math.random()*2.8+1.7)*DPR,c:col,tw:Math.random()*6.28});}
+  var mx=-99999,my=-99999;addEventListener('mousemove',function(e){mx=e.clientX*DPR;my=e.clientY*DPR;},{passive:true});addEventListener('mouseout',function(){mx=-99999;my=-99999;});
+  var LINK=152*DPR,MOUSE=210*DPR;
+  (function draw(){ctx.clearRect(0,0,W,H);ctx.globalCompositeOperation='lighter';
+   for(var i=0;i<pts.length;i++){var p=pts[i];p.x+=p.vx;p.y+=p.vy;p.tw+=0.03;
+    if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+    var dxm=mx-p.x,dym=my-p.y,dm=dxm*dxm+dym*dym;if(dm<MOUSE*MOUSE){p.vx+=dxm*0.00002;p.vy+=dym*0.00002;}
+    if(p.vx>1.4)p.vx=1.4;if(p.vx<-1.4)p.vx=-1.4;if(p.vy>1.4)p.vy=1.4;if(p.vy<-1.4)p.vy=-1.4;
+    var pulse=0.72+0.28*Math.sin(p.tw),rad=p.r*pulse;
+    ctx.shadowBlur=20*DPR;ctx.shadowColor='rgba('+p.c[0]+','+p.c[1]+','+p.c[2]+',.95)';
+    ctx.beginPath();ctx.arc(p.x,p.y,rad,0,6.283);ctx.fillStyle='rgba('+p.c[0]+','+p.c[1]+','+p.c[2]+',.95)';ctx.fill();
+    ctx.shadowBlur=0;ctx.beginPath();ctx.arc(p.x,p.y,rad*0.42,0,6.283);ctx.fillStyle='rgba(255,255,255,.92)';ctx.fill();}
+   ctx.shadowBlur=0;
+   for(var i=0;i<pts.length;i++){var p=pts[i];
+    for(var j=i+1;j<pts.length;j++){var q=pts[j],dx=p.x-q.x,dy=p.y-q.y,dd=dx*dx+dy*dy;
+     if(dd<LINK*LINK){var a=(1-Math.sqrt(dd)/LINK)*0.55;ctx.strokeStyle='rgba(130,228,255,'+a+')';ctx.lineWidth=1.15*DPR;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();}}
+    var dxm=mx-p.x,dym=my-p.y,ddm=dxm*dxm+dym*dym;
+    if(ddm<MOUSE*MOUSE){var am=(1-Math.sqrt(ddm)/MOUSE)*0.85;ctx.strokeStyle='rgba(210,145,255,'+am+')';ctx.lineWidth=1.3*DPR;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(mx,my);ctx.stroke();}}
+   ctx.globalCompositeOperation='source-over';requestAnimationFrame(draw);})();}
 }
+
 function init(){
  collect(document.body);buildSwitch();effects();
  var saved;try{saved=localStorage.getItem('mv_lang');}catch(e){}
