@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MV Automation — Centrum Dowodzenia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070a12; --bg2:#0b1020; --panel:rgba(255,255,255,.045); --line:rgba(255,255,255,.09);
+  --gold1:#F2D08A; --gold2:#B8862F; --cyan:#39E1FF; --green:#37F5A0; --red:#FF5C7A; --mag:#C77BFF;
+  --txt:#EAF0FF; --dim:#8C96B5;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased}
+body{min-height:100vh;overflow-x:hidden;
+  background:
+   radial-gradient(1200px 600px at 80% -10%, rgba(57,225,255,.10), transparent 60%),
+   radial-gradient(1000px 500px at 0% 0%, rgba(199,123,255,.08), transparent 55%),
+   radial-gradient(900px 700px at 50% 120%, rgba(242,208,138,.06), transparent 60%),
+   var(--bg);}
+h1,h2,h3,.font-d{font-family:'Sora',sans-serif}
+.mono{font-family:'JetBrains Mono',monospace}
+.wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+a{color:inherit;text-decoration:none}
+.gold{background:linear-gradient(120deg,var(--gold1),var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.glow{text-shadow:0 0 26px rgba(57,225,255,.35)}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(7,10,18,.72);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:16px;height:64px}
+.brand{display:flex;align-items:center;gap:11px;font-family:'Sora';font-weight:800;letter-spacing:.5px}
+.logo{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--gold1),var(--gold2));display:grid;place-items:center;color:#1a1305;font-weight:800;box-shadow:0 0 22px rgba(242,208,138,.35)}
+.tag{font-size:11px;color:var(--dim);font-weight:500;letter-spacing:2px;text-transform:uppercase}
+.spacer{flex:1}
+.live{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--green);font-weight:600}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+.switch{display:flex;background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:4px;gap:4px}
+.switch button{font-family:'Sora';font-weight:700;font-size:13px;color:var(--dim);background:none;border:0;padding:8px 16px;border-radius:8px;cursor:pointer;transition:.2s}
+.switch button.on{color:#0a0e18;background:linear-gradient(120deg,var(--gold1),var(--gold2));box-shadow:0 4px 16px rgba(242,208,138,.3)}
+
+section{padding:40px 0}
+.eyebrow{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);font-weight:600;margin-bottom:14px}
+.h-sec{font-size:clamp(26px,4vw,40px);font-weight:800;line-height:1.05;letter-spacing:-.5px}
+.sub{color:var(--dim);font-size:15px;margin-top:10px;max-width:640px;line-height:1.6}
+
+/* hero */
+.hero{padding:64px 0 28px;position:relative}
+.hero h1{font-size:clamp(34px,6vw,62px);font-weight:800;line-height:1.02;letter-spacing:-1.5px}
+.hero p.lead{color:#C3CCE6;font-size:clamp(16px,2.2vw,20px);margin-top:18px;max-width:660px;line-height:1.55}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.btn{font-family:'Sora';font-weight:700;font-size:14px;padding:13px 22px;border-radius:12px;cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--txt);transition:.2s;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.22)}
+.btn.gold{background:linear-gradient(120deg,var(--gold1),var(--gold2));color:#1a1305;border:0;box-shadow:0 8px 28px rgba(242,208,138,.32)}
+.btn.cyan{background:linear-gradient(120deg,#2bd6ff,#1f9dff);color:#06121c;border:0;box-shadow:0 8px 28px rgba(57,225,255,.28)}
+.btn.ghost{background:transparent}
+.btn.sm{padding:9px 14px;font-size:13px}
+
+/* trust strip */
+.trust{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:40px}
+.tcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px 16px;position:relative;overflow:hidden}
+.tcard::before{content:'';position:absolute;inset:0 0 auto 0;height:1px;background:linear-gradient(90deg,transparent,rgba(57,225,255,.5),transparent)}
+.tnum{font-family:'Sora';font-weight:800;font-size:clamp(24px,3.4vw,34px);line-height:1}
+.tlab{color:var(--dim);font-size:12px;margin-top:7px;letter-spacing:.4px}
+
+/* cards grid */
+.grid{display:grid;gap:16px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px;position:relative;transition:.25s}
+.card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.18);box-shadow:0 20px 50px rgba(0,0,0,.4)}
+.badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.5px;padding:4px 10px;border-radius:999px;text-transform:uppercase}
+.b-hot{background:rgba(255,92,122,.15);color:#ff90a6;border:1px solid rgba(255,92,122,.3)}
+.b-high{background:rgba(57,225,255,.13);color:#8fe9ff;border:1px solid rgba(57,225,255,.28)}
+.b-grow{background:rgba(55,245,160,.12);color:#7df5c2;border:1px solid rgba(55,245,160,.28)}
+.b-flag{background:linear-gradient(120deg,var(--gold1),var(--gold2));color:#1a1305}
+.price{font-family:'Sora';font-weight:800;font-size:30px;margin:10px 0 2px}
+.price small{font-size:14px;color:var(--dim);font-weight:600}
+.feat{list-style:none;margin:14px 0 18px;display:flex;flex-direction:column;gap:8px}
+.feat li{font-size:14px;color:#C3CCE6;display:flex;gap:9px;align-items:flex-start}
+.feat li::before{content:'';width:16px;height:16px;flex:0 0 16px;margin-top:2px;border-radius:50%;background:radial-gradient(circle at 50% 50%,var(--green),rgba(55,245,160,.2));box-shadow:0 0 10px rgba(55,245,160,.5)}
+.cardttl{font-family:'Sora';font-weight:700;font-size:19px}
+.cardlead{color:var(--dim);font-size:14px;margin-top:6px;line-height:1.5}
+
+/* service tiles */
+.svc{display:flex;flex-direction:column;gap:10px}
+.svc .ico{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;font-size:20px;background:linear-gradient(135deg,rgba(57,225,255,.18),rgba(199,123,255,.14));border:1px solid var(--line)}
+
+/* proof band */
+.band{background:linear-gradient(120deg,rgba(57,225,255,.08),rgba(199,123,255,.06));border:1px solid var(--line);border-radius:22px;padding:30px;text-align:center}
+
+/* PANEL */
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;position:relative;overflow:hidden}
+.kcard .v{font-family:'Sora';font-weight:800;font-size:clamp(22px,3vw,30px);line-height:1}
+.kcard .l{color:var(--dim);font-size:12px;margin-top:6px}
+.kcard .spark{position:absolute;right:14px;top:14px;font-size:11px;color:var(--green)}
+.bar{height:7px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden;margin-top:10px}
+.bar>i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--cyan),var(--mag))}
+.brandrow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.brandrow:last-child{border:0}
+.bname{font-weight:600;font-size:14px}
+.bcount{font-family:'JetBrains Mono';font-size:13px;color:var(--dim)}
+.wfgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;max-height:340px;overflow:auto;padding-right:6px}
+.wf{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:10px;padding:9px 11px;font-size:12.5px}
+.wf .d{width:8px;height:8px;border-radius:50%;flex:0 0 8px}
+.wf .d.on{background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 1.8s infinite}
+.wf .d.off{background:#3a4258}
+.wf .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hot{display:flex;flex-direction:column;gap:9px}
+.hotrow{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;gap:12px;align-items:center}
+.hotrow .tag2{font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;text-transform:uppercase}
+.t-pos{background:rgba(55,245,160,.16);color:#7df5c2}
+.t-lat{background:rgba(242,208,138,.14);color:#f2d08a}
+
+/* tools */
+.tool{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px}
+.tool h3{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:12px}
+input,select,textarea{width:100%;background:rgba(0,0,0,.3);border:1px solid var(--line);border-radius:10px;color:var(--txt);padding:11px 13px;font-family:'Inter';font-size:14px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--cyan)}
+textarea{resize:vertical;min-height:90px}
+.field{margin-bottom:10px}
+.lab{font-size:12px;color:var(--dim);margin-bottom:5px;display:block}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.out{background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:13px;white-space:pre-wrap;max-height:260px;overflow:auto;margin-top:10px;line-height:1.5}
+.note{font-size:12px;color:var(--dim);margin-top:8px}
+.locked{filter:blur(3px);pointer-events:none;opacity:.5}
+.lockbar{background:linear-gradient(120deg,rgba(242,208,138,.12),rgba(199,123,255,.08));border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.hidden{display:none!important}
+.foot{border-top:1px solid var(--line);padding:30px 0;color:var(--dim);font-size:13px;text-align:center}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0d1424;border:1px solid var(--line);border-radius:12px;padding:13px 20px;font-size:14px;z-index:200;box-shadow:0 18px 50px rgba(0,0,0,.5);opacity:0;transition:.3s}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(-6px)}
+@media(max-width:860px){.trust,.kpi{grid-template-columns:repeat(2,1fr)}.g3,.g4,.g2{grid-template-columns:1fr}.row2{grid-template-columns:1fr}.top .wrap{gap:8px}.tag{display:none}}
+</style>
+</head>
+<body>
+
+<div class="top"><div class="wrap">
+  <div class="brand"><div class="logo">MV</div><div>MV AUTOMATION<div class="tag">Centrum Dowodzenia</div></div></div>
+  <div class="spacer"></div>
+  <div class="live"><span class="dot"></span><span id="liveTxt">SYSTEM ONLINE</span></div>
+  <div class="switch"><button id="tabO" class="on" onclick="setMode('oferta')">Oferta</button><button id="tabP" onclick="setMode('panel')">Panel</button></div>
+</div></div>
+
+<!-- ============ OFERTA ============ -->
+<main id="oferta">
+  <section class="hero"><div class="wrap">
+    <div class="eyebrow">AI · Leady · Automatyzacja dla firm</div>
+    <h1>Automatyzacja, która <span class="gold">pracuje za Ciebie</span><br>— 24 godziny na dobę.</h1>
+    <p class="lead">Recepcja AI odbiera 100% połączeń. Zweryfikowane bazy klientów B2B. Boty, które sprzedają, gdy Ty śpisz. Konkret, nie obietnice — zobacz liczby, które robi nasz system na żywo.</p>
+    <div class="cta-row">
+      <a class="btn gold" href="#produkty">Zobacz ofertę ↓</a>
+      <a class="btn ghost" href="mailto:michal@mvautoai.net?subject=Wycena%20automatyzacji">Bezpłatna wycena</a>
+    </div>
+    <div class="trust" id="trust">
+      <div class="tcard"><div class="tnum gold" data-k="leads_total">—</div><div class="tlab">firm w bazie</div></div>
+      <div class="tcard"><div class="tnum glow" data-k="wf_active">—</div><div class="tlab">automatyzacji działa teraz</div></div>
+      <div class="tcard"><div class="tnum" data-k="delivered">—</div><div class="tlab">maili dostarczonych</div></div>
+      <div class="tcard"><div class="tnum" data-k="hot_total">—</div><div class="tlab">gorących zapytań</div></div>
+    </div>
+  </div></section>
+
+  <section id="produkty"><div class="wrap">
+    <div class="eyebrow">Produkty</div>
+    <h2 class="h-sec">Wybierz i kup w 1 kliknięciu</h2>
+    <p class="sub">Płatność online przez Stripe. Bazy dostarczane automatycznie po opłaceniu. Recepcja AI wdrażana po naszej stronie — Ty nic nie konfigurujesz.</p>
+    <div class="grid g3" style="margin-top:26px">
+      <div class="card" style="border-color:rgba(242,208,138,.35)">
+        <span class="badge b-flag">Produkt flagowy</span>
+        <div class="cardttl" style="margin-top:12px">Recepcja AI</div>
+        <div class="cardlead">Telefoniczny asystent dla kliniki/gabinetu. Mówi naturalnie po polsku, umawia wizyty, nie śpi.</div>
+        <div class="price">499 zł <small>/ audyt startowy</small></div>
+        <div class="cardlead">Wdrożenie 9 000 zł · 2 500 zł/mc — bez długiej umowy</div>
+        <ul class="feat"><li>Odbiera 100% połączeń, też po godzinach</li><li>Umawia, przekłada i odwołuje wizyty</li><li>Pełne wdrożenie w 5–7 dni</li></ul>
+        <a class="btn gold" style="width:100%;justify-content:center" href="https://kgregenevia-sys.github.io/mv-automation-offer/start.html" target="_blank">Zamów audyt 499 zł</a>
+      </div>
+      <div class="card">
+        <span class="badge b-high">Bestseller</span>
+        <div class="cardttl" style="margin-top:12px">Komplet baz B2B — 7 nisz</div>
+        <div class="cardlead">Cały rynek docelowy w jednym pliku: <b id="reTotal">4 129</b> zweryfikowanych firm (e-mail, telefon, miasto, WWW).</div>
+        <div class="price">149 zł <small>/ jednorazowo</small></div>
+        <ul class="feat"><li>Stomatolodzy, weterynarze, kosmetyka, prawnicy, nieruchomości, fizjo</li><li>Format CSV + Excel, dostawa od razu</li><li>Licencja komercyjna + RODO</li></ul>
+        <a class="btn cyan" style="width:100%;justify-content:center" href="https://buy.stripe.com/6oU6oH5Xl2mO9Op0RKfbq0n" target="_blank">Kup teraz — 149 zł</a>
+      </div>
+      <div class="card">
+        <span class="badge b-grow">Wejście</span>
+        <div class="cardttl" style="margin-top:12px">Pojedyncza nisza</div>
+        <div class="cardlead">Jedna branża, ~500 firm z pełnymi danymi kontaktowymi. Idealne na test kampanii.</div>
+        <div class="price">49 zł <small>/ jednorazowo</small></div>
+        <ul class="feat"><li>Wybrana nisza w CSV</li><li>100% rekordów z e-mailem</li><li>Dostawa automatyczna po płatności</li></ul>
+        <a class="btn" style="width:100%;justify-content:center" href="https://buy.stripe.com/14A7sLbhF3qSd0B1VOfbq0o" target="_blank">Kup teraz — 49 zł</a>
+      </div>
+      <div class="card">
+        <span class="badge b-high">Kliniki</span>
+        <div class="cardttl" style="margin-top:12px">Baza klinik — Cała Polska</div>
+        <div class="cardlead">28 220 prywatnych placówek medycznych z 16 województw. Paliwo dla sprzedaży i kampanii.</div>
+        <div class="price">499 zł <small>/ jednorazowo</small></div>
+        <ul class="feat"><li>Wszystkie województwa, 3 452 miasta</li><li>RPWDL + katalogi, aktualne 2026</li><li>CSV, dostawa od razu</li></ul>
+        <a class="btn" style="width:100%;justify-content:center" href="https://buy.stripe.com/7sYbJ15Xl9PgaSt0RKfbq0j" target="_blank">Kup teraz — 499 zł</a>
+      </div>
+      <div class="card">
+        <span class="badge b-grow">Research</span>
+        <div class="cardttl" style="margin-top:12px">Research Pack — 12 nisz</div>
+        <div class="cardlead">Gotowy research 12 branż: PKD, pain point, średnia wartość dealu, tier. PDF + CSV.</div>
+        <div class="price">99 zł <small>/ jednorazowo</small></div>
+        <ul class="feat"><li>12 branż przeanalizowanych</li><li>Gdzie i jak uderzać</li><li>Dla agencji i zespołów sprzedaży</li></ul>
+        <a class="btn" style="width:100%;justify-content:center" href="https://kgregenevia-sys.github.io/mv-automation-offer/start.html" target="_blank">Zobacz w katalogu</a>
+      </div>
+      <div class="card" style="border-color:rgba(57,225,255,.3)">
+        <span class="badge b-high">Na zamówienie</span>
+        <div class="cardttl" style="margin-top:12px">Automatyzacja szyta na miarę</div>
+        <div class="cardlead">Procesy, integracje, boty, lejki sprzedaży. Wyceniamy mailem — bez spotkań.</div>
+        <div class="price">wycena <small>/ indywidualnie</small></div>
+        <ul class="feat"><li>n8n / AI / integracje pod Twój biznes</li><li>White-label dla agencji</li><li>Wdrożenie i utrzymanie po naszej stronie</li></ul>
+        <a class="btn cyan" style="width:100%;justify-content:center" href="mailto:michal@mvautoai.net?subject=Automatyzacja%20na%20zam%C3%B3wienie">Poproś o wycenę</a>
+      </div>
+    </div>
+  </div></section>
+
+  <section><div class="wrap">
+    <div class="eyebrow">Usługi AI · największe zapotrzebowanie 2026</div>
+    <h2 class="h-sec">Funkcje, za które firmy płacą najwięcej</h2>
+    <p class="sub">Każda z nich działa już w naszym silniku. Wdrażamy ją u Ciebie pod klucz — albo testujesz ją od razu w zakładce <b>Panel → Studio AI</b>.</p>
+    <div class="grid g4" style="margin-top:26px" id="svcGrid"></div>
+  </div></section>
+
+  <section><div class="wrap"><div class="band">
+    <div class="eyebrow" style="justify-content:center">Dowód, nie obietnice</div>
+    <h2 class="h-sec">Nasz system pracuje <span class="gold">non-stop</span></h2>
+    <p class="sub" style="margin:10px auto 0">W tej chwili: <b id="proofWf">—</b> automatyzacji aktywnych, <b id="proofLeads">—</b> firm w bazie, <b id="proofMail">—</b> maili dostarczonych. To samo postawimy u Ciebie.</p>
+    <div class="cta-row" style="justify-content:center"><a class="btn gold" href="mailto:michal@mvautoai.net?subject=Chc%C4%99%20automatyzacj%C4%99">Chcę to u siebie</a></div>
+  </div></div></section>
+
+  <div class="foot wrap">MV Automation — MATANGEL Sp. z o.o. · NIP 5833223695 · Gdańsk · michal@mvautoai.net · +48 500 653 369 · Płatności przez Stripe · RODO/GDPR</div>
+</main>
+
+<!-- ============ PANEL ============ -->
+<main id="panel" class="hidden">
+  <section style="padding-top:28px"><div class="wrap">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div><div class="eyebrow">Konsola operatora</div><h2 class="h-sec">Imperium na żywo</h2></div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span class="note mono" id="cachedAt"></span>
+        <button class="btn sm" onclick="refresh(true)">↻ Odśwież</button>
+      </div>
+    </div>
+
+    <div class="kpi" style="margin-top:20px">
+      <div class="kcard"><div class="v gold" id="k_leads">—</div><div class="l">leady w bazie</div></div>
+      <div class="kcard"><div class="v" id="k_re">—</div><div class="l">firmy B2B (produkt)</div></div>
+      <div class="kcard"><div class="v glow" id="k_wf">—</div><div class="l">workflowy aktywne / total</div><div class="bar"><i id="k_wfbar" style="width:0"></i></div></div>
+      <div class="kcard"><div class="v" id="k_hot" style="color:var(--red)">—</div><div class="l">gorące leady (na TAK)</div></div>
+      <div class="kcard"><div class="v" id="k_sent">—</div><div class="l">maile wysłane (oferty baz)</div></div>
+      <div class="kcard"><div class="v" id="k_today">—</div><div class="l">maile dziś · bounce <span id="k_bounce">—</span></div></div>
+      <div class="kcard"><div class="v" id="k_sales">—</div><div class="l">sprzedaże cyfrowe</div></div>
+      <div class="kcard"><div class="v" id="k_intake">—</div><div class="l">wdrożenia (intake)</div></div>
+    </div>
+  </div></section>
+
+  <section style="padding-top:6px"><div class="wrap"><div class="grid g2">
+    <div class="card"><div class="eyebrow">Marki / linie biznesu</div><div id="brands"></div></div>
+    <div class="card"><div class="eyebrow">Gorący pipeline — pieniądze</div><div class="hot" id="hotList"></div></div>
+  </div></div></section>
+
+  <section style="padding-top:6px"><div class="wrap"><div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+      <div class="eyebrow" style="margin:0">Silnik automatyzacji — wszystkie gałęzie n8n</div>
+      <div class="note">🟢 pracuje teraz &nbsp; ⚫ wstrzymane</div>
+    </div>
+    <div class="wfgrid" id="wfGrid" style="margin-top:14px"></div>
+  </div></div></section>
+
+  <!-- OPERATOR TOOLS -->
+  <section style="padding-top:6px"><div class="wrap">
+    <div id="lockbar" class="lockbar">
+      <div style="flex:1;min-width:200px"><b>🔒 Narzędzia operatora zablokowane.</b><div class="note">Wpisz token operatora, aby odpalić akcje (szukanie, wysyłka, deploy, Studio AI).</div></div>
+      <input id="tokIn" placeholder="token operatora" style="max-width:220px">
+      <button class="btn gold sm" onclick="unlock()">Odblokuj</button>
+    </div>
+
+    <div id="tools" class="locked">
+      <div class="eyebrow" style="margin-top:24px">Narzędzia — realne akcje</div>
+      <div class="grid g2" style="margin-top:14px">
+
+        <div class="tool"><h3>🔎 Wyszukiwarka leadów</h3>
+          <div class="row2"><div class="field"><span class="lab">Nisza</span>
+            <select id="s_niche"><option value="">— dowolna —</option><option>stomatolog</option><option>weterynarz</option><option>salon_kosmetyczny</option><option>adwokat</option><option>radca_prawny</option><option>agencja_nieruchomosci</option><option>fizjoterapia</option></select></div>
+            <div class="field"><span class="lab">Miasto</span><input id="s_city" placeholder="np. Gdańsk"></div></div>
+          <button class="btn cyan sm" onclick="searchLeads()">Szukaj</button>
+          <div class="out hidden" id="s_out"></div>
+        </div>
+
+        <div class="tool"><h3>🚀 Kolejkuj i wyślij ofertę</h3>
+          <div class="field"><span class="lab">E-mail odbiorcy</span><input id="q_email" placeholder="kontakt@firma.pl"></div>
+          <div class="row2"><div class="field"><span class="lab">Firma</span><input id="q_company" placeholder="Nazwa firmy"></div>
+            <div class="field"><span class="lab">Typ oferty</span><select id="q_niche"><option value="automation">Automatyzacja (full)</option><option value="dental">Baza — dental</option><option value="vet">Baza — wet</option><option value="beauty">Baza — beauty</option><option value="legal">Baza — legal</option><option value="realestate">Baza — nieruchomości</option><option value="agency">Pakiet 7 nisz</option></select></div></div>
+          <div style="display:flex;gap:8px"><button class="btn sm" onclick="queueOnly()">Dodaj do kolejki</button><button class="btn gold sm" onclick="queueSend()">Kolejkuj + wyślij teraz</button></div>
+          <div class="note">Cron i tak wyśle kolejkę co 30 min. „Wyślij teraz" odpala od razu.</div>
+          <div class="out hidden" id="q_out"></div>
+        </div>
+      </div>
+
+      <div class="eyebrow" style="margin-top:26px">Studio AI — funkcje o największym popycie</div>
+      <div class="grid g2" style="margin-top:14px">
+
+        <div class="tool"><h3>✍️ Generator treści social</h3>
+          <div class="row2"><div class="field"><span class="lab">Platforma</span><select id="c_plat"><option>LinkedIn</option><option>Facebook</option><option>Instagram</option><option>X/Twitter</option></select></div>
+            <div class="field"><span class="lab">Marka/temat</span><input id="c_topic" placeholder="np. Recepcja AI dla klinik"></div></div>
+          <button class="btn cyan sm" onclick="aiContent()">Generuj post</button>
+          <div class="out hidden" id="c_out"></div>
+        </div>
+
+        <div class="tool"><h3>📧 Newsletter / e-mail (AI)</h3>
+          <div class="field"><span class="lab">Temat / cel</span><input id="n_topic" placeholder="np. promocja baz B2B -20%"></div>
+          <div class="field"><span class="lab">Wyślij testowo na</span><input id="n_to" placeholder="kg.regenevia@gmail.com"></div>
+          <div style="display:flex;gap:8px"><button class="btn cyan sm" onclick="aiNews()">Generuj</button><button class="btn gold sm" onclick="sendNews()">Wyślij testowo</button></div>
+          <div class="out hidden" id="n_out"></div>
+        </div>
+
+        <div class="tool"><h3>⭐ Odpowiedź na opinię Google</h3>
+          <div class="field"><span class="lab">Treść opinii</span><textarea id="r_in" placeholder="Wklej opinię klienta..."></textarea></div>
+          <button class="btn cyan sm" onclick="aiReview()">Wygeneruj odpowiedź</button>
+          <div class="out hidden" id="r_out"></div>
+        </div>
+
+        <div class="tool"><h3>💬 Odpowiedź obsługi klienta</h3>
+          <div class="field"><span class="lab">Zapytanie klienta</span><textarea id="su_in" placeholder="Wklej wiadomość/zapytanie..."></textarea></div>
+          <button class="btn cyan sm" onclick="aiSupport()">Wygeneruj odpowiedź</button>
+          <div class="out hidden" id="su_out"></div>
+        </div>
+
+        <div class="tool"><h3>🏬 Odpal landing / sklep (AI → live)</h3>
+          <div class="row2"><div class="field"><span class="lab">Co sprzedajemy</span><input id="d_topic" placeholder="np. Recepcja AI dla weterynarzy"></div>
+            <div class="field"><span class="lab">Ścieżka pliku</span><input id="d_path" placeholder="lp/wet.html"></div></div>
+          <div style="display:flex;gap:8px"><button class="btn cyan sm" onclick="aiStore()">Generuj stronę</button><button class="btn gold sm" onclick="deployStore()">Publikuj na żywo</button></div>
+          <div class="note">Publikuje na GitHub Pages — dostajesz działający link od razu.</div>
+          <div class="out hidden" id="d_out"></div>
+        </div>
+
+        <div class="tool"><h3>📣 Alert na Telegram</h3>
+          <div class="field"><span class="lab">Wiadomość</span><input id="t_msg" placeholder="np. Nowy gorący lead!"></div>
+          <button class="btn gold sm" onclick="tg()">Wyślij alert</button>
+          <div class="out hidden" id="t_out"></div>
+        </div>
+      </div>
+    </div>
+  </div></section>
+  <div class="foot wrap">Centrum Dowodzenia MV Automation · dane na żywo z Supabase · akcje przez edge fn <span class="mono">ops</span></div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const OPS="https://mdsvcobwuezriexyqqby.supabase.co/functions/v1/ops";
+let TOKEN=null, SNAP=null;
+
+const SERVICES=[
+ {i:'📞',t:'Recepcja AI (telefon 24/7)',d:'Odbiera 100% połączeń, umawia wizyty, mówi po polsku.',b:'b-hot',bl:'Hit'},
+ {i:'💬',t:'Chatbot obsługi klienta',d:'Odpowiada na zapytania na stronie/WhatsApp 24/7.',b:'b-high',bl:'Wysoki popyt'},
+ {i:'🎯',t:'Generowanie leadów + cold mailing',d:'Scraping + zweryfikowane bazy + kampanie z auto-followup.',b:'b-high',bl:'Wysoki popyt'},
+ {i:'✍️',t:'Treści social media (AI)',d:'Codzienne posty na LinkedIn/FB/IG generowane i publikowane.',b:'b-high',bl:'Wysoki popyt'},
+ {i:'🧾',t:'Automatyczne faktury (AI)',d:'Generowanie i wysyłka faktur bez ręcznej roboty.',b:'b-grow',bl:'Rośnie'},
+ {i:'⭐',t:'Odpowiedzi na opinie Google',d:'AI odpisuje na każdą opinię w Twoim tonie.',b:'b-grow',bl:'Rośnie'},
+ {i:'📧',t:'Newsletter / e-mail marketing',d:'Pisze i wysyła newslettery, segmentuje odbiorców.',b:'b-high',bl:'Stały popyt'},
+ {i:'📅',t:'Redukcja no-show (WhatsApp)',d:'Przypomnienia o wizytach — mniej pustych terminów.',b:'b-grow',bl:'Kliniki'},
+];
+
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._);t._=setTimeout(()=>t.classList.remove('show'),2600);}
+function fmt(n){return (n??0).toLocaleString('pl-PL');}
+function setMode(m){
+  document.getElementById('oferta').classList.toggle('hidden',m!=='oferta');
+  document.getElementById('panel').classList.toggle('hidden',m!=='panel');
+  document.getElementById('tabO').classList.toggle('on',m==='oferta');
+  document.getElementById('tabP').classList.toggle('on',m==='panel');
+  window.scrollTo(0,0);
+}
+function animate(el,to){const s=performance.now(),from=0,dur=900;function f(t){const p=Math.min((t-s)/dur,1),e=1-Math.pow(1-p,3);el.textContent=fmt(Math.round(from+(to-from)*e));if(p<1)requestAnimationFrame(f);}requestAnimationFrame(f);}
+
+async function api(action,payload={}){
+  const r=await fetch(OPS,{method:'POST',headers:{'Content-Type':'application/json',...(TOKEN?{'x-ops-token':TOKEN}:{})},body:JSON.stringify({action,...payload})});
+  return await r.json();
+}
+async function refresh(force){
+  try{
+    const j=await api('snapshot'); if(!j.ok){toast('Błąd snapshotu');return;}
+    SNAP=j.data; render(SNAP);
+    if(force)toast('Odświeżono');
+  }catch(e){toast('Brak połączenia');}
+}
+function render(d){
+  const k=d.kpi||{}, et=d.email_today||{}, ef=d.email_funnel||{};
+  // trust + proof (oferta)
+  document.querySelectorAll('#trust .tnum').forEach(el=>{
+    const key=el.dataset.k; let v=key==='delivered'?(ef.delivered??et.delivered??0):k[key];
+    animate(el,v||0);
+  });
+  document.getElementById('reTotal').textContent=fmt(k.realestate_total);
+  document.getElementById('proofWf').textContent=fmt(k.wf_active);
+  document.getElementById('proofLeads').textContent=fmt(k.leads_total);
+  document.getElementById('proofMail').textContent=fmt(ef.delivered??et.delivered??0);
+  // KPIs (panel)
+  animate(document.getElementById('k_leads'),k.leads_total);
+  animate(document.getElementById('k_re'),k.realestate_total);
+  document.getElementById('k_wf').textContent=k.wf_active+' / '+k.wf_total;
+  document.getElementById('k_wfbar').style.width=(100*k.wf_active/Math.max(k.wf_total,1))+'%';
+  document.getElementById('k_hot').textContent=k.hot_total+' · '+k.hot_positive+' TAK';
+  animate(document.getElementById('k_sent'),k.outreach_sent);
+  animate(document.getElementById('k_today'),et.sent||0);
+  document.getElementById('k_bounce').textContent=(et.bounce_rate_pct??0)+'%';
+  animate(document.getElementById('k_sales'),k.sales_total);
+  animate(document.getElementById('k_intake'),k.intake_total);
+  document.getElementById('cachedAt').textContent='dane: '+new Date(d.cached_at||d.ts).toLocaleTimeString('pl-PL');
+  // brands
+  document.getElementById('brands').innerHTML=(d.brands||[]).map(b=>`<div class="brandrow"><div class="bname">${b.brand}</div><div class="bcount">${b.active}/${b.total} <span style="color:var(--green)">●</span></div></div>`).join('');
+  // hot
+  document.getElementById('hotList').innerHTML=(d.hot||[]).map(h=>{const pos=h.cls==='positive';return `<div class="hotrow"><span class="tag2 ${pos?'t-pos':'t-lat'}">${pos?'TAK':h.cls}</span><div style="flex:1;min-width:0"><div style="font-weight:600;font-size:14px">${h.clinic||'—'}</div><div class="note" style="margin:2px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${(h.snip||'').slice(0,70)}</div></div><a class="btn sm" href="mailto:${h.email}">Pisz</a></div>`;}).join('');
+  // workflows
+  document.getElementById('wfGrid').innerHTML=(d.workflows||[]).map(w=>`<div class="wf"><span class="d ${w.active?'on':'off'}"></span><span class="nm" title="${w.name}">${w.name}</span></div>`).join('');
+}
+
+// services grid (oferta)
+document.getElementById('svcGrid').innerHTML=SERVICES.map(s=>`<div class="card svc"><div class="ico">${s.i}</div><span class="badge ${s.b}" style="align-self:flex-start">${s.bl}</span><div class="cardttl" style="font-size:16px">${s.t}</div><div class="cardlead">${s.d}</div><a class="btn sm" style="margin-top:auto" href="mailto:michal@mvautoai.net?subject=${encodeURIComponent(s.t)}">Chcę to →</a></div>`).join('');
+
+// unlock
+function unlock(){const v=document.getElementById('tokIn').value.trim();if(!v){toast('Wpisz token');return;}TOKEN=v;
+  // verify by a cheap authed call
+  api('search_leads',{niche:'stomatolog',limit:1}).then(j=>{
+    if(j.ok){document.getElementById('tools').classList.remove('locked');document.getElementById('lockbar').classList.add('hidden');toast('Odblokowano');}
+    else{TOKEN=null;toast('Zły token');}
+  });
+}
+
+// AI via Claude-in-Claude
+async function ai(prompt,max=900){
+  const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:max,messages:[{role:'user',content:prompt}]})});
+  const d=await r.json();return (d.content||[]).filter(x=>x.type==='text').map(x=>x.text).join('\n');
+}
+function show(id,txt){const e=document.getElementById(id);e.classList.remove('hidden');e.textContent=txt;}
+
+async function searchLeads(){show('s_out','Szukam...');const j=await api('search_leads',{niche:document.getElementById('s_niche').value,city:document.getElementById('s_city').value,limit:30});
+  if(!j.ok){show('s_out','Błąd: '+(j.error||''));return;}
+  show('s_out',`Znaleziono ${j.count}:\n`+ (j.rows||[]).map(r=>`• ${r.company} — ${r.email}${r.miasto?' ('+r.miasto+')':''}`).join('\n'));}
+
+async function queueOnly(){const j=await api('queue_outreach',{rows:[{to_email:document.getElementById('q_email').value,company:document.getElementById('q_company').value,niche:document.getElementById('q_niche').value}]});show('q_out',j.ok?`Dodano do kolejki (${j.queued}). Cron wyśle ≤30 min.`:'Błąd: '+(j.error||''));toast(j.ok?'W kolejce':'Błąd');}
+async function queueSend(){show('q_out','Kolejkuję i wysyłam...');await api('queue_outreach',{rows:[{to_email:document.getElementById('q_email').value,company:document.getElementById('q_company').value,niche:document.getElementById('q_niche').value}]});const j=await api('send_now',{limit:5});show('q_out',j.ok?'Wysłane ✔ '+JSON.stringify(j.result):'Błąd: '+(j.error||''));toast(j.ok?'Wysłano':'Błąd');refresh();}
+
+async function aiContent(){show('c_out','Generuję...');const t=await ai(`Napisz angażujący post na ${document.getElementById('c_plat').value} po polsku o: ${document.getElementById('c_topic').value}. Marka MV Automation. Konkret, hak na początku, CTA, 2-4 hashtagi. Bez emoji-spamu.`);show('c_out',t);}
+async function aiNews(){show('n_out','Generuję...');const t=await ai(`Napisz e-mail marketingowy po polsku: ${document.getElementById('n_topic').value}. Nadawca: MV Automation. Krótko, wartość, jedno CTA. Zwróć: pierwsza linia = temat maila, potem treść.`);show('n_out',t);window._news=t;}
+async function sendNews(){const body=window._news||document.getElementById('n_out').textContent;const lines=body.split('\n').filter(Boolean);const subj=(lines[0]||'MV Automation').replace(/^temat:?\s*/i,'');const html='<div style="font-family:sans-serif">'+body.split('\n').slice(1).join('<br>')+'</div>';const j=await api('resend_send',{to:document.getElementById('n_to').value,subject:subj,html});toast(j.ok?'Wysłano testowo':'Błąd');show('n_out',(j.ok?'✔ Wysłano na '+document.getElementById('n_to').value+'\n\n':'Błąd\n\n')+body);}
+async function aiReview(){show('r_out','Generuję...');const t=await ai(`Napisz profesjonalną, ciepłą odpowiedź firmy na opinię Google (po polsku). Podziękuj, odnieś się konkretnie, zaproś ponownie. Opinia: """${document.getElementById('r_in').value}"""`,400);show('r_out',t);}
+async function aiSupport(){show('su_out','Generuję...');const t=await ai(`Jesteś obsługą klienta MV Automation. Odpowiedz po polsku profesjonalnie i pomocnie na zapytanie: """${document.getElementById('su_in').value}""". Konkret, miły ton, następny krok.`,500);show('su_out',t);}
+async function aiStore(){show('d_out','Generuję stronę...');const t=await ai(`Wygeneruj kompletny, nowoczesny, ciemny landing page HTML (jeden plik, inline CSS, premium look, po polsku) sprzedający: ${document.getElementById('d_topic').value}. Marka MV Automation, kontakt michal@mvautoai.net, +48 500 653 369. Sekcje: hero z CTA, korzyści, jak działa, cennik/CTA, stopka. Zwróć TYLKO kod HTML, bez komentarzy.`,3500);window._store=t.replace(/^```html?/,'').replace(/```$/,'').trim();show('d_out','Gotowe ('+window._store.length+' znaków). Kliknij „Publikuj na żywo".');}
+async function deployStore(){if(!window._store){toast('Najpierw generuj');return;}const path=document.getElementById('d_path').value||'lp/auto.html';const j=await api('deploy_store',{path,html:window._store});show('d_out',j.ok?'✔ NA ŻYWO:\n'+j.url:'Błąd: '+JSON.stringify(j.error||j));toast(j.ok?'Opublikowano!':'Błąd');}
+async function tg(){const j=await api('telegram',{text:document.getElementById('t_msg').value});show('t_out',j.ok?'✔ Wysłano na Telegram':'Błąd: '+(j.error||''));toast(j.ok?'Wysłano':'Błąd');}
+
+refresh();
+setInterval(()=>refresh(),60000);
+</script>
+</body>
+</html>
