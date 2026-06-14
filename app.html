@@ -58,6 +58,8 @@ table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}th,td{t
 <div class="top"><div class="wrap">
   <div class="brand"><div class="logo">MV</div><div>MV AUTOMATION<div class="tag">Platforma</div></div></div>
   <div class="spacer"></div>
+  <a class="btn ghost sm" href="hub.html">Start</a>
+  <a class="btn ghost sm" href="panel.html">Oferta</a>
   <span id="who" class="note hidden"></span>
   <button id="loginBtn" class="btn gold sm" onclick="document.getElementById('signup').scrollIntoView()">Załóż workspace</button>
   <button id="installBtn" class="btn cyan sm hidden" onclick="installApp()">⬇ Zainstaluj</button>
@@ -71,6 +73,12 @@ table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}th,td{t
     <h1 class="reveal d1">Twoja firma robi kampanie<br><span class="serif gold">sama</span> — na naszym silniku.</h1>
     <p class="lead reveal d2">Rejestrujesz się, pobierasz zweryfikowane leady B2B, odpalasz kampanie e-mail i social, włączasz automatyzacje AI. Ten sam zestaw, którym my robimy wyniki — w Twoich rękach.</p>
     <div class="cta-row reveal d3"><a class="btn gold" href="#signup">Zacznij za darmo — 50 leadów</a><a class="btn ghost" href="#cennik">Zobacz cennik</a></div>
+    <div class="grid g4 reveal d3" id="ltrust" style="margin-top:36px">
+      <div class="card" style="padding:18px"><div class="gold" style="font-family:'Sora';font-weight:800;font-size:30px" data-k="leads_total">—</div><div class="note" style="margin-top:4px">firm w bazie</div></div>
+      <div class="card" style="padding:18px"><div class="cy" style="font-family:'Sora';font-weight:800;font-size:30px" data-k="wf_active">—</div><div class="note" style="margin-top:4px">automatyzacji działa</div></div>
+      <div class="card" style="padding:18px"><div style="font-family:'Sora';font-weight:800;font-size:30px" data-k="delivered">—</div><div class="note" style="margin-top:4px">maili dostarczonych</div></div>
+      <div class="card" style="padding:18px"><div style="font-family:'Sora';font-weight:800;font-size:30px" data-k="hot_total">—</div><div class="note" style="margin-top:4px">gorących zapytań</div></div>
+    </div>
   </div></section>
 
   <section><div class="wrap">
@@ -241,6 +249,8 @@ function blueprintRun(){const brief=document.getElementById('bp_brief').value.tr
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
 let _ip=null;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();_ip=e;const b=document.getElementById('installBtn');if(b)b.classList.remove('hidden');});
 function installApp(){if(_ip){_ip.prompt();_ip=null;}else{toast('W przeglądarce: menu → „Dodaj do ekranu głównego"');}}
+async function fillLanding(){const s=await getSnap();if(!s)return;const k=s.kpi||{},ef=s.email_funnel||{};const m={leads_total:k.leads_total,wf_active:k.wf_active,delivered:ef.delivered||0,hot_total:k.hot_total};document.querySelectorAll('#ltrust [data-k]').forEach(el=>{const to=m[el.dataset.k]||0;let st=performance.now();function f(t){const p=Math.min((t-st)/900,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(to*e).toLocaleString('pl-PL');if(p<1)requestAnimationFrame(f)}requestAnimationFrame(f);});}
+fillLanding();
 // boot
 (function(){const k=load('mv_saas_key');if(k){KEY=k;loadMe().then(ok=>ok?enterWorkspace():logout());}})();
 </script></body></html>
