@@ -53,7 +53,7 @@ table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}th,td{t
 .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(10px);background:#0c1322;border:1px solid var(--line);border-radius:13px;padding:13px 22px;font-size:14px;z-index:200;box-shadow:0 20px 56px rgba(0,0,0,.55);opacity:0;transition:.32s var(--ease)}.toast.show{opacity:1;transform:translateX(-50%) translateY(-4px)}
 .foot{border-top:1px solid var(--line);padding:34px 0;color:var(--dim);font-size:13px;text-align:center;line-height:1.7}
 @media(max-width:880px){.g3,.g4,.g2{grid-template-columns:1fr}.row2,.row3{grid-template-columns:1fr}.tag{display:none}}
-</style><link rel="stylesheet" href="enhance.css?v=7"></head><body>
+</style><link rel="stylesheet" href="enhance.css?v=8"></head><body>
 
 <div class="top"><div class="wrap">
   <div class="brand"><div class="logo">MV</div><div>MV AUTOMATION<div class="tag">Platforma</div></div></div>
@@ -261,4 +261,4 @@ async function fillLanding(){const s=await getSnap();if(!s)return;const k=s.kpi|
 fillLanding();
 // boot
 (function(){const k=load('mv_saas_key');if(k){KEY=k;loadMe().then(ok=>ok?enterWorkspace():logout());}})();
-</script><script src="enhance.js?v=7"></script></body></html>
+</script><script src="enhance.js?v=8"></script></body></html>
