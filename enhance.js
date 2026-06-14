@@ -185,8 +185,22 @@ function modalInit(){
   c.addEventListener('click',function(e){if(e.target.closest('button,a,input,textarea,select'))return;open(c);});
  });
 }
+function _cfCanvas(){var c=document.getElementById('_cf');if(c)return c;c=document.createElement('canvas');c.id='_cf';c.style.cssText='position:fixed;inset:0;z-index:10001;pointer-events:none';document.body.appendChild(c);return c;}
+function fireConfetti(x,y,n){var c=_cfCanvas(),ctx=c.getContext('2d'),DPR=Math.min(devicePixelRatio||1,2);c.width=innerWidth*DPR;c.height=innerHeight*DPR;c.style.width=innerWidth+'px';c.style.height=innerHeight+'px';x=(x==null?innerWidth/2:x)*DPR;y=(y==null?innerHeight*0.4:y)*DPR;n=n||80;var cols=['#FBE7B0','#46E6FF','#C77BFF','#37F5A0','#ffffff'],ps=[];for(var i=0;i<n;i++){var a=Math.random()*6.283,sp=(Math.random()*7+3)*DPR;ps.push({x:x,y:y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-4*DPR,g:0.2*DPR,r:(Math.random()*4+2)*DPR,c:cols[i%5],rot:Math.random()*6.283,vr:(Math.random()-.5)*.45,life:1});}var t0=performance.now();(function run(){ctx.clearRect(0,0,c.width,c.height);var alive=false;for(var i=0;i<ps.length;i++){var p=ps[i];if(p.life<=0)continue;alive=true;p.vy+=p.g;p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;p.life-=0.011;ctx.save();ctx.globalAlpha=Math.max(p.life,0);ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.c;ctx.fillRect(-p.r,-p.r,p.r*2,p.r*2.6);ctx.restore();}if(alive&&performance.now()-t0<2400)requestAnimationFrame(run);else ctx.clearRect(0,0,c.width,c.height);})();}
+function mvToast(msg){var t=document.getElementById('_mvt');if(!t){t=document.createElement('div');t.id='_mvt';document.body.appendChild(t);}t.textContent=msg;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('on');},3200);}
+function surprises(){
+ try{if(!sessionStorage.getItem('mv_hi')){sessionStorage.setItem('mv_hi','1');var h=new Date().getHours();var g=h<18?'Dzie\u0144 dobry':'Dobry wiecz\u00f3r';setTimeout(function(){mvToast(g+'! Witaj w MV Automation \u2728');},1000);}}catch(e){}
+ document.addEventListener('click',function(e){var b=e.target.closest('.btn');if(!b)return;var r=b.getBoundingClientRect();var s=document.createElement('span');s.className='mv-ripple';s.style.left=(e.clientX-r.left)+'px';s.style.top=(e.clientY-r.top)+'px';b.appendChild(s);setTimeout(function(){s.remove();},650);});
+ if(matchMedia('(pointer:fine)').matches){
+  Array.prototype.forEach.call(document.querySelectorAll('.btn.gold,.btn.cyan'),function(b){b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*0.25)+'px,'+((e.clientY-r.top-r.height/2)*0.3)+'px)';});b.addEventListener('mouseleave',function(){b.style.transform='';});});
+  Array.prototype.forEach.call(document.querySelectorAll('.card[data-open],.tcard'),function(c){c.addEventListener('mousemove',function(e){var r=c.getBoundingClientRect();var px=(e.clientX-r.left)/r.width-0.5,py=(e.clientY-r.top)/r.height-0.5;c.style.transition='transform .08s';c.style.transform='perspective(820px) rotateX('+(-py*6)+'deg) rotateY('+(px*6)+'deg) translateY(-4px)';});c.addEventListener('mouseleave',function(){c.style.transition='transform .35s';c.style.transform='';});});
+ }
+ var mo=document.getElementById('_modal');if(mo&&window.MutationObserver){new MutationObserver(function(){if(mo.classList.contains('on'))fireConfetti(innerWidth/2,innerHeight*0.4,70);}).observe(mo,{attributes:true,attributeFilter:['class']});}
+ var logo=document.querySelector('.logo');if(logo){var lc=0,lt;logo.style.cursor='pointer';logo.addEventListener('click',function(){lc++;clearTimeout(lt);lt=setTimeout(function(){lc=0;},700);if(lc>=3){lc=0;var r=logo.getBoundingClientRect();fireConfetti(r.left+r.width/2,r.top+r.height/2,120);mvToast('\u2728 MV Automation \u2014 tryb PRO MAX');}});}
+ var seq=[38,38,40,40,37,39,37,39,66,65],ki=0;addEventListener('keydown',function(e){ki=(e.keyCode===seq[ki])?ki+1:(e.keyCode===seq[0]?1:0);if(ki===seq.length){ki=0;fireConfetti(innerWidth/2,innerHeight/2,170);mvToast('\ud83d\ude80 TRYB MULTI-PRO odblokowany');}});
+}
 function init(){
- collect(document.body);buildSwitch();effects();modalInit();
+ collect(document.body);buildSwitch();effects();modalInit();surprises();
  var saved;try{saved=localStorage.getItem('mv_lang');}catch(e){}
  var url=new URLSearchParams(location.search).get('lang');
  var lang=url||saved||'pl';if(lang!=='pl')apply(lang);else apply('pl');
