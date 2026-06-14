@@ -216,8 +216,16 @@ function surprises2(){
  var ws=document.getElementById('workspace');if(ws&&window.MutationObserver){var seen=!ws.classList.contains('hidden');new MutationObserver(function(){var vis=!ws.classList.contains('hidden');if(vis&&!seen){seen=true;goldRain();sfx('success');mvToast('\ud83c\udf89 Workspace gotowy \u2014 witaj na pok\u0142adzie!');}else if(!vis){seen=false;}}).observe(ws,{attributes:true,attributeFilter:['class']});}
  cursorFX();
 }
+function _marquee(){var a=document.getElementById('trust')||document.getElementById('ltrust');if(!a||document.getElementById('_mq'))return;var items=[['29 136','firm B2B'],['32','automatyzacje live'],['PL\u00b7EN\u00b7DE','interfejs'],['99.8%','uptime'],['<2s','odpowied\u017a AI'],['50','lead\u00f3w gratis'],['24/7','monitoring'],['AI','w ka\u017cdym module']];var bar=document.createElement('div');bar.id='_mq';var inner=items.concat(items).map(function(it){return '<span><b>'+it[0]+'</b> '+it[1]+'</span>';}).join('');bar.innerHTML='<div class="_mqi">'+inner+'</div>';a.parentNode.insertBefore(bar,a.nextSibling);}
+function firstLeague(){
+ if(!document.getElementById('_grain')){var gr=document.createElement('div');gr.id='_grain';document.body.appendChild(gr);}
+ var pc=document.getElementById('_pc');if(pc){addEventListener('scroll',function(){pc.style.transform='translateY('+(scrollY*0.05)+'px)';},{passive:true});}
+ _marquee();
+ if(window.IntersectionObserver){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var t=e.target;t.classList.add('_in');setTimeout(function(){t.classList.remove('_pre','_in');t.style.filter='';t.style.transform='';},840);io.unobserve(t);}});},{threshold:.12});
+  Array.prototype.forEach.call(document.querySelectorAll('section .card, section .h-sec, section h2, #_mq'),function(el){var r=el.getBoundingClientRect();if(r.top>innerHeight*0.92){el.classList.add('_pre');io.observe(el);}});}
+}
 function init(){
- collect(document.body);buildSwitch();effects();modalInit();surprises();surprises2();
+ collect(document.body);buildSwitch();effects();modalInit();surprises();surprises2();firstLeague();
  var saved;try{saved=localStorage.getItem('mv_lang');}catch(e){}
  var url=new URLSearchParams(location.search).get('lang');
  var lang=url||saved||'pl';if(lang!=='pl')apply(lang);else apply('pl');
