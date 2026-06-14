@@ -53,7 +53,7 @@ table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}th,td{t
 .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(10px);background:#0c1322;border:1px solid var(--line);border-radius:13px;padding:13px 22px;font-size:14px;z-index:200;box-shadow:0 20px 56px rgba(0,0,0,.55);opacity:0;transition:.32s var(--ease)}.toast.show{opacity:1;transform:translateX(-50%) translateY(-4px)}
 .foot{border-top:1px solid var(--line);padding:34px 0;color:var(--dim);font-size:13px;text-align:center;line-height:1.7}
 @media(max-width:880px){.g3,.g4,.g2{grid-template-columns:1fr}.row2,.row3{grid-template-columns:1fr}.tag{display:none}}
-</style><link rel="stylesheet" href="enhance.css"></head><body>
+</style><link rel="stylesheet" href="enhance.css?v=5"></head><body>
 
 <div class="top"><div class="wrap">
   <div class="brand"><div class="logo">MV</div><div>MV AUTOMATION<div class="tag">Platforma</div></div></div>
@@ -210,9 +210,11 @@ function load(k){try{return localStorage.getItem(k)}catch(e){return null}}
 // ── PŁATNOŚCI: wklej tu 3 linki Stripe Payment Link (subskrypcja /mc) ──
 const STRIPE_LINKS={start:'',pro:'',skala:''};
 function checkout(id){const url=STRIPE_LINKS[id];if(url){location.href=url;return;}
- const names={start:'Start (990 zł/mc)',pro:'Pro (2 900 zł/mc)',skala:'Skala (9 900 zł/mc)'};
- toast('Uruchamiam płatność dla planu '+(names[id]||id)+'…');
- location.href='mailto:michal@mvautoai.net?subject='+encodeURIComponent('Zamówienie planu '+(names[id]||id))+'&body='+encodeURIComponent('Chcę uruchomić plan '+(names[id]||id)+'. Proszę o link do płatności.');}
+ const names={start:'Start — 990 zł/mc',pro:'Pro — 2 900 zł/mc',skala:'Skala — 9 900 zł/mc'};
+ window._mvplan=id;
+ const s=document.getElementById('signup'); if(s){s.scrollIntoView({behavior:'smooth',block:'center'}); s.firstElementChild&&s.querySelector('.card')&&(s.querySelector('.card').style.boxShadow='0 0 0 2px var(--cyan),0 22px 70px rgba(70,230,255,.25)');setTimeout(()=>{const c=s.querySelector('.card');if(c)c.style.boxShadow='';},2000);}
+ setTimeout(()=>{const em=document.getElementById('su_email');if(em)em.focus();},520);
+ toast('Wybrałeś plan '+(names[id]||id)+' — załóż konto poniżej, wyślemy link do płatności.');}
 function planCard(p,btn){return `<div class="card plan ${p.pop?'pop':''}">${p.pop?'<span class="badge">Najpopularniejszy</span>':''}<h3 style="font-size:20px;font-weight:700;margin-top:6px">${p.n}</h3><div class="price ${p.pop?'gold':''}">${p.p} zł <small>/mc</small></div><ul class="feat">${p.f.map(x=>`<li>${x}</li>`).join('')}</ul>${btn}</div>`;}
 document.getElementById('plans').innerHTML=PLANS.map(p=>planCard(p,`<button class="btn ${p.pop?'gold':''}" style="width:100%;justify-content:center" onclick="checkout('${p.id}')">Wybierz ${p.n}</button>`)).join('');
 async function saas(action,payload={}){const r=await fetch(SAAS,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,key:KEY,...payload})});return await r.json();}
@@ -259,4 +261,4 @@ async function fillLanding(){const s=await getSnap();if(!s)return;const k=s.kpi|
 fillLanding();
 // boot
 (function(){const k=load('mv_saas_key');if(k){KEY=k;loadMe().then(ok=>ok?enterWorkspace():logout());}})();
-</script><script src="enhance.js"></script></body></html>
+</script><script src="enhance.js?v=5"></script></body></html>
