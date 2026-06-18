@@ -4,93 +4,220 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Bezpłatne szkolenie: zdrowy styl życia i długowieczność | Purtier</title>
-<meta name="description" content="Bezpłatne szkolenie online o świadomym dbaniu o formę, regeneracji i zdrowym stylu życia po 40-tce. Zapisz się — kilka miejsc w turze.">
+<meta name="description" content="Bezpłatne szkolenie online o świadomym dbaniu o energię, regenerację i zdrowy styl życia. Konkrety zamiast mitów. Kilka miejsc w turze — zapisz się.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#070611;--card:rgba(255,255,255,.04);--bd:rgba(168,139,250,.18);--p:#7c3aed;--p2:#a78bfa;--g:#34d399;--tx:#f2f0ff;--mut:#9a93c4}
+:root{
+  --cream:#faf8f3; --paper:#fffdf9; --ink:#18241d; --soft:#5d685e;
+  --forest:#1f4d3a; --emerald:#2e7d5b; --gold:#bd9a4e; --gold-d:#a07f37;
+  --line:rgba(31,77,58,.14); --shadow:0 24px 60px -24px rgba(24,36,29,.35);
+}
 html{scroll-behavior:smooth}
-body{font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;overflow-x:hidden}
-.amb{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.a1{position:absolute;top:-25%;left:50%;transform:translateX(-50%);width:900px;height:900px;background:radial-gradient(ellipse,rgba(124,58,237,.16),transparent 65%)}
-.a2{position:absolute;bottom:-20%;right:-15%;width:600px;height:600px;background:radial-gradient(ellipse,rgba(52,211,153,.07),transparent 65%)}
-.wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:0 20px}
-.nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0;border-bottom:1px solid var(--bd)}
-.logo{font-weight:800;font-size:19px;letter-spacing:-.3px}
-.logo span{color:var(--p2)}
-.tag{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--p2);border:1px solid var(--bd);border-radius:30px;padding:6px 14px}
-.hero{padding:54px 0 24px}
-.kicker{display:inline-block;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--g);background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.25);border-radius:30px;padding:6px 14px;margin-bottom:20px}
-h1{font-size:clamp(32px,6.5vw,54px);line-height:1.08;font-weight:900;letter-spacing:-1.5px;margin-bottom:18px}
-h1 span{background:linear-gradient(135deg,var(--p2),#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.sub{font-size:18px;color:#c7c1e6;max-width:600px;margin-bottom:26px}
-.pts{display:grid;gap:12px;margin:24px 0 8px}
-.pt{display:flex;gap:12px;font-size:15.5px;color:#ded9f5}
-.pt b{color:#fff;font-weight:600}
-.chk{flex:none;width:22px;height:22px;border-radius:50%;background:rgba(52,211,153,.15);border:1px solid rgba(52,211,153,.45);color:var(--g);display:flex;align-items:center;justify-content:center;font-size:12px;margin-top:2px}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:28px;margin:30px 0}
-.card h2{font-size:22px;font-weight:800;margin-bottom:6px}
-.card p.lead{color:var(--mut);font-size:14px;margin-bottom:18px}
-.f{display:grid;gap:12px}
-label{font-size:13px;color:var(--mut);display:block;margin-bottom:5px}
-input,textarea{width:100%;background:#0e0c1c;border:1px solid var(--bd);border-radius:10px;padding:13px 14px;color:var(--tx);font-size:15px;font-family:inherit}
-input:focus,textarea:focus{outline:none;border-color:var(--p2)}
+body{font-family:'Inter',-apple-system,Segoe UI,Roboto,sans-serif;background:var(--cream);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+a{color:inherit}
+
+/* NAV */
+.nav{position:absolute;top:0;left:0;right:0;z-index:5}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;padding:24px}
+.brand{font-family:'Fraunces',serif;font-size:22px;font-weight:600;color:#fff;letter-spacing:.02em}
+.brand b{color:var(--gold)}
+.nav .pill{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#fff;border:1px solid rgba(255,255,255,.4);border-radius:40px;padding:8px 16px;backdrop-filter:blur(6px)}
+
+/* HERO */
+.hero{position:relative;min-height:92vh;display:flex;align-items:center;color:#fff;overflow:hidden}
+.hero-img{position:absolute;inset:0;background:
+  linear-gradient(180deg,rgba(15,30,24,.55) 0%,rgba(15,30,24,.35) 40%,rgba(15,30,24,.78) 100%),
+  url('https://images.unsplash.com/photo-1754206351637-42eb767d11c3?fm=jpg&q=80&w=2400&auto=format&fit=crop') center/cover no-repeat;
+  transform:scale(1.03)}
+.hero .wrap{position:relative;z-index:2;padding-top:120px;padding-bottom:70px}
+.kicker{display:inline-flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#f3ead0;margin-bottom:26px}
+.kicker::before{content:"";width:34px;height:1px;background:var(--gold)}
+.hero h1{font-size:clamp(40px,6.4vw,76px);line-height:1.04;color:#fff;max-width:15ch;margin-bottom:22px;font-weight:500}
+.hero h1 em{font-style:italic;color:#f0d99a}
+.hero p.lead{font-size:clamp(17px,2vw,21px);color:#eae7df;max-width:54ch;margin-bottom:36px;font-weight:400}
+.cta-row{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:16px;border-radius:50px;padding:16px 30px;border:none;cursor:pointer;text-decoration:none;transition:transform .15s ease,box-shadow .2s ease}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-d));color:#1c1605;box-shadow:0 14px 34px -10px rgba(189,154,78,.7)}
+.btn-gold:hover{transform:translateY(-2px)}
+.btn-ghost{color:#fff;border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.06)}
+.hero .meta{margin-top:30px;display:flex;gap:26px;flex-wrap:wrap;font-size:14px;color:#e7e3d8}
+.hero .meta span{display:flex;align-items:center;gap:8px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--gold)}
+
+/* VALUE */
+.section{padding:90px 0}
+.eyebrow{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--emerald);font-weight:600;margin-bottom:14px}
+.section h2{font-size:clamp(28px,4vw,42px);line-height:1.12;max-width:20ch;margin-bottom:18px}
+.section .intro{color:var(--soft);max-width:60ch;font-size:18px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:48px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:30px;box-shadow:0 1px 0 rgba(0,0,0,.02)}
+.card .ic{width:46px;height:46px;border-radius:13px;background:rgba(46,125,91,.1);color:var(--emerald);display:flex;align-items:center;justify-content:center;margin-bottom:18px;font-size:22px}
+.card h3{font-size:21px;margin-bottom:8px}
+.card p{color:var(--soft);font-size:15.5px}
+
+/* SPLIT */
+.split{background:var(--forest);color:#f3f1ea}
+.split .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center;padding:84px 24px}
+.split h2{color:#fff;font-size:clamp(26px,3.6vw,38px);margin-bottom:18px}
+.split ul{list-style:none;display:grid;gap:14px;margin-top:8px}
+.split li{display:flex;gap:14px;font-size:16.5px;color:#e6e9e2}
+.chk{flex:none;width:24px;height:24px;border-radius:50%;background:rgba(189,154,78,.2);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:13px;margin-top:3px}
+.split .imgcol{border-radius:20px;overflow:hidden;min-height:340px;box-shadow:var(--shadow);
+  background:linear-gradient(0deg,rgba(31,77,58,.25),rgba(31,77,58,.05)),url('https://images.unsplash.com/photo-1754206351637-42eb767d11c3?fm=jpg&q=80&w=1400&auto=format&fit=crop') center/cover}
+
+/* FORM */
+.form-sec{padding:90px 0}
+.form-card{background:var(--paper);border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow);max-width:640px;margin:0 auto;padding:46px}
+.form-card .eyebrow{text-align:center}
+.form-card h2{font-size:30px;text-align:center;margin-bottom:8px}
+.form-card .sub{text-align:center;color:var(--soft);margin-bottom:30px}
+.f{display:grid;gap:16px}
+label{font-size:13.5px;color:var(--soft);display:block;margin-bottom:6px;font-weight:500}
+input,textarea{width:100%;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:15.5px;font-family:inherit;color:var(--ink);transition:border .15s}
+input:focus,textarea:focus{outline:none;border-color:var(--emerald);box-shadow:0 0 0 3px rgba(46,125,91,.12)}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
-.btn{width:100%;border:none;border-radius:12px;padding:16px;font-size:16px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--p),var(--p2));cursor:pointer;box-shadow:0 8px 30px rgba(124,58,237,.35);margin-top:6px}
-.fine{font-size:12px;color:var(--mut);margin-top:12px;line-height:1.5}
-.ok{display:none;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.35);border-radius:18px;padding:30px;text-align:center;margin:30px 0}
+.form-card .btn-gold{width:100%;justify-content:center;margin-top:6px;font-size:16.5px}
+.fine{font-size:12.5px;color:var(--soft);text-align:center;margin-top:14px;line-height:1.5}
+
+/* THANKYOU */
+.ok{display:none;max-width:640px;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow);padding:54px 40px;text-align:center}
 .ok.show{display:block}
-.ok h2{color:var(--g);font-size:24px;margin-bottom:8px}
-.foot{border-top:1px solid var(--bd);padding:22px 0 40px;color:var(--mut);font-size:12px;line-height:1.6}
-.foot b{color:#cfc8ee}
-@media(max-width:560px){.card{padding:20px}}
+.ok .tick{width:64px;height:64px;border-radius:50%;background:rgba(46,125,91,.12);color:var(--emerald);display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 18px}
+.ok h2{font-size:30px;margin-bottom:10px}
+.ok p{color:var(--soft);max-width:46ch;margin:0 auto}
+
+/* FOOTER */
+.foot{background:#14201a;color:#aeb6ad;padding:46px 0 56px}
+.foot .wrap{display:grid;gap:18px}
+.foot .disc{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px 20px;font-size:13px;line-height:1.6;color:#c4ccc2}
+.foot .disc b{color:#fff}
+.foot .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:13px;color:#8c948a}
+.foot .brand{font-size:18px}
+
+@media(max-width:860px){
+  .cards{grid-template-columns:1fr}
+  .split .wrap{grid-template-columns:1fr;gap:32px}
+  .split .imgcol{min-height:240px;order:-1}
+  .form-card{padding:30px}
+  .hero .wrap{padding-top:108px}
+}
 </style>
 </head>
 <body>
-<div class="amb"><div class="a1"></div><div class="a2"></div></div>
-<div class="wrap">
-<nav class="nav"><div class="logo">Purtier<span>.</span> Wellness</div><div class="tag">Szkolenie online</div></nav>
 
-<section class="hero">
-<span class="kicker">Bezpłatne · online · kilka miejsc w turze</span>
-<h1>Zadbaj o <span>formę i energię</span> — świadomie, nie na ślepo</h1>
-<p class="sub">Bezpłatne szkolenie online o zdrowym stylu życia i długowieczności: jak budować codzienne nawyki regeneracji, snu i odżywiania, które realnie wpływają na samopoczucie po 40-tce. Konkrety zamiast mitów.</p>
-<div class="pts">
-<div class="pt"><span class="chk">&#10003;</span><b>Nauka, nie marketing</b> — co mówią badania o regeneracji i długowieczności, prostym językiem.</div>
-<div class="pt"><span class="chk">&#10003;</span><b>Codzienne nawyki</b> — sen, ruch, odżywianie, suplementacja jako element stylu życia.</div>
-<div class="pt"><span class="chk">&#10003;</span><b>Q&amp;A na żywo</b> — zadajesz pytania, dostajesz materiały po szkoleniu.</div>
-</div>
+<nav class="nav"><div class="wrap">
+  <div class="brand">Purtier<b>.</b></div>
+  <div class="pill">Szkolenie online · bezpłatne</div>
+</div></nav>
+
+<header class="hero">
+  <div class="hero-img"></div>
+  <div class="wrap">
+    <span class="kicker">Długowieczność &amp; zdrowy styl życia</span>
+    <h1>Zadbaj o energię i formę — <em>świadomie</em>, nie na ślepo</h1>
+    <p class="lead">Bezpłatne szkolenie online o codziennych nawykach regeneracji, snu i odżywiania, które realnie wpływają na samopoczucie po 40-tce. Wiedza zamiast mitów — i przestrzeń na Twoje pytania.</p>
+    <div class="cta-row">
+      <a href="#zapis" class="btn btn-gold">Zapisz się na szkolenie →</a>
+      <a href="#program" class="btn btn-ghost">Zobacz program</a>
+    </div>
+    <div class="meta">
+      <span><i class="dot"></i> 100% online</span>
+      <span><i class="dot"></i> Kilka miejsc w turze</span>
+      <span><i class="dot"></i> Q&amp;A na żywo</span>
+    </div>
+  </div>
+</header>
+
+<section class="section" id="program">
+  <div class="wrap">
+    <div class="eyebrow">Czego się dowiesz</div>
+    <h2>Trzy filary, które realnie zmieniają samopoczucie</h2>
+    <p class="intro">Bez cudownych obietnic. Pokazujemy, co mówią badania o regeneracji i długowieczności — i jak przełożyć to na proste, codzienne decyzje.</p>
+    <div class="cards">
+      <div class="card">
+        <div class="ic">◐</div>
+        <h3>Regeneracja i sen</h3>
+        <p>Dlaczego jakość snu jest fundamentem energii — i jak budować wieczorną rutynę, która działa.</p>
+      </div>
+      <div class="card">
+        <div class="ic">❡</div>
+        <h3>Odżywianie i suplementacja</h3>
+        <p>Jak wspierać organizm składnikami odżywczymi jako element zdrowego stylu życia, a nie zamiast niego.</p>
+      </div>
+      <div class="card">
+        <div class="ic">↗</div>
+        <h3>Nawyki na lata</h3>
+        <p>Małe, powtarzalne kroki — ruch, regeneracja, profilaktyka — które składają się na długowieczność.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section class="card" id="formCard">
-<h2>Zapisz się na szkolenie</h2>
-<p class="lead">Zostaw kontakt — odeślemy link do najbliższej tury i materiały wprowadzające.</p>
-<form class="f" method="POST" action="https://n8n.kgregenevia.pro/webhook/purtier-lead" autocomplete="on">
-<div><label for="name">Imię</label><input id="name" name="name" required placeholder="Twoje imię"></div>
-<div><label for="email">E-mail</label><input id="email" name="email" type="email" required placeholder="ty@email.pl"></div>
-<div><label for="phone">Telefon (opcjonalnie)</label><input id="phone" name="phone" inputmode="tel" placeholder="+48 ..."></div>
-<div><label for="msg">Co Cię najbardziej interesuje? (opcjonalnie)</label><textarea id="msg" name="msg" rows="2" placeholder="np. regeneracja, energia, sen"></textarea></div>
-<input class="hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-<button class="btn" type="submit">Zapisz mnie na bezpłatne szkolenie &rarr;</button>
-<p class="fine">Zapisując się wyrażasz zgodę na kontakt w sprawie szkolenia. Możesz zrezygnować w każdej chwili.</p>
-</form>
+<section class="split">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow" style="color:var(--gold)">Dla kogo</div>
+      <h2>Dla tych, którzy chcą czuć się dobrze — dłużej</h2>
+      <ul>
+        <li><span class="chk">✓</span> Masz 35+ i zależy Ci na energii oraz dobrej formie na co dzień.</li>
+        <li><span class="chk">✓</span> Wolisz konkretną wiedzę od marketingowych haseł.</li>
+        <li><span class="chk">✓</span> Chcesz zbudować nawyki, które utrzymasz, a nie kolejną dietę-cud.</li>
+        <li><span class="chk">✓</span> Lubisz móc zadać pytanie i dostać materiały po spotkaniu.</li>
+      </ul>
+    </div>
+    <div class="imgcol"></div>
+  </div>
 </section>
 
-<section class="ok" id="okBox">
-<h2>Dziękujemy! &#127881;</h2>
-<p>Twój zapis przyjęty. Link do szkolenia i materiały wyślemy na podany e-mail. Sprawdź też folder „Oferty/Spam".</p>
+<section class="form-sec" id="zapis">
+  <div class="wrap">
+    <div class="form-card" id="formCard">
+      <div class="eyebrow">Rejestracja</div>
+      <h2>Zapisz się na bezpłatne szkolenie</h2>
+      <p class="sub">Zostaw kontakt — odeślemy link do najbliższej tury i materiały wprowadzające.</p>
+      <form class="f" method="POST" action="https://n8n.kgregenevia.pro/webhook/purtier-lead" autocomplete="on">
+        <div><label for="name">Imię</label><input id="name" name="name" required placeholder="Twoje imię"></div>
+        <div><label for="email">E-mail</label><input id="email" name="email" type="email" required placeholder="ty@email.pl"></div>
+        <div><label for="phone">Telefon (opcjonalnie)</label><input id="phone" name="phone" inputmode="tel" placeholder="+48 ..."></div>
+        <div><label for="msg">Co Cię najbardziej interesuje? (opcjonalnie)</label><textarea id="msg" name="msg" rows="2" placeholder="np. regeneracja, energia, sen"></textarea></div>
+        <input class="hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn btn-gold" type="submit">Zapisz mnie na szkolenie →</button>
+        <p class="fine">Zapisując się wyrażasz zgodę na kontakt w sprawie szkolenia. Możesz zrezygnować w każdej chwili.</p>
+      </form>
+    </div>
+
+    <div class="ok" id="okBox">
+      <div class="tick">✓</div>
+      <h2>Dziękujemy!</h2>
+      <p>Zapis przyjęty. Link do szkolenia i materiały wyślemy na podany e-mail — sprawdź też folder „Oferty/Spam".</p>
+    </div>
+  </div>
 </section>
 
 <footer class="foot">
-<b>Suplement diety. Nie zastępuje zróżnicowanej diety i zdrowego trybu życia.</b><br>
-Materiał ma charakter edukacyjny i nie stanowi porady medycznej. W sprawach zdrowotnych skonsultuj się z lekarzem.<br><br>
-&copy; 2026 Purtier Wellness · kontakt: kg.regenevia@gmail.com
+  <div class="wrap">
+    <div class="brand serif">Purtier<b style="color:var(--gold)">.</b> <span style="font-size:13px;color:#8c948a;font-family:Inter">Wellness</span></div>
+    <div class="disc">
+      <b>Suplement diety. Nie zastępuje zróżnicowanej diety i zdrowego trybu życia.</b><br>
+      Materiał ma charakter edukacyjny i nie stanowi porady medycznej. W sprawach zdrowotnych skonsultuj się z lekarzem.
+    </div>
+    <div class="row">
+      <span>© 2026 Purtier Wellness</span>
+      <span>kontakt: kg.regenevia@gmail.com</span>
+    </div>
+  </div>
 </footer>
-</div>
+
 <script>
 if (new URLSearchParams(location.search).get('ok') === '1') {
   var fc = document.getElementById('formCard'); if (fc) fc.style.display = 'none';
   var ok = document.getElementById('okBox'); if (ok) ok.classList.add('show');
-  window.scrollTo(0, 0);
+  document.getElementById('zapis').scrollIntoView();
 }
 </script>
 </body>
