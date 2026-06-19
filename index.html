@@ -84,9 +84,11 @@ h1{font-family:'Space Grotesk',sans-serif;font-weight:900;font-size:clamp(36px,7
 .phone{font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:900;letter-spacing:2px;background:linear-gradient(135deg,var(--gold),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 .footer{border-top:1px solid var(--border);padding:20px;text-align:center;color:var(--muted);font-size:11px;}
 @media(max-width:640px){.steps{grid-template-columns:1fr;}.stats{flex-wrap:wrap;}.st{min-width:50%;border-bottom:1px solid var(--border);}.pain{grid-template-columns:1fr;}}
+#space{position:fixed;inset:0;z-index:0;pointer-events:none}
 </style>
 </head>
 <body>
+<canvas id="space"></canvas>
 <div class="amb"><div class="a1"></div><div class="a2"></div><div class="a3"></div></div>
 <div class="top-bar"><div class="dot"></div>&#9889; Pilota&#380; 30 dni za darmo &#8212; bez umowy, bez zobowi&#261;za&#324;</div>
 <div class="spots-bar">Czerwiec 2026 &#8212; miejsca pilota&#380;owe: <div class="sdots"><div class="sd t"></div><div class="sd t"></div><div class="sd t"></div><div class="sd t"></div><div class="sd f"></div><div class="sd f"></div><div class="sd f"></div></div>4 zaj&#281;te &#8212; <strong style="color:#ef4444;">3 wolne</strong></div>
@@ -164,6 +166,33 @@ h1{font-family:'Space Grotesk',sans-serif;font-weight:900;font-size:clamp(36px,7
       });
     }
   }catch(e){}
+})();
+</script>
+<script>
+(function(){
+  const c=document.getElementById('space'),x=c.getContext('2d');let W,H,DPR;
+  function size(){DPR=Math.min(devicePixelRatio||1,2);W=c.width=innerWidth*DPR;H=c.height=innerHeight*DPR;c.style.width=innerWidth+'px';c.style.height=innerHeight+'px';}
+  size();addEventListener('resize',size);
+  const N=Math.min(150,Math.floor(innerWidth*innerHeight/12000));
+  const P=[];for(let i=0;i<N;i++)P.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.18*DPR,vy:(Math.random()-.5)*.18*DPR,r:(Math.random()*1.6+.5)*DPR,a:Math.random()*.5+.3});
+  const S=[];
+  function spark(px,py){for(let i=0;i<18;i++){const ang=Math.random()*6.283,sp=(Math.random()*3+1)*DPR;S.push({x:px*DPR,y:py*DPR,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp,life:1,r:(Math.random()*2+1)*DPR});}}
+  addEventListener('click',e=>spark(e.clientX,e.clientY));
+  addEventListener('touchstart',e=>{if(e.touches[0])spark(e.touches[0].clientX,e.touches[0].clientY)},{passive:true});
+  function loop(){
+    x.clearRect(0,0,W,H);
+    for(let i=0;i<P.length;i++){const a=P[i];
+      for(let j=i+1;j<P.length;j++){const b=P[j],dx=a.x-b.x,dy=a.y-b.y,d=dx*dx+dy*dy,max=(130*DPR)*(130*DPR);
+        if(d<max){const al=(1-d/max)*.22;x.strokeStyle='rgba(90,160,255,'+al+')';x.lineWidth=DPR*.6;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke();}}
+    }
+    for(const p of P){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      x.beginPath();x.arc(p.x,p.y,p.r,0,6.283);x.fillStyle='rgba(150,195,255,'+p.a+')';x.fill();}
+    for(let i=S.length-1;i>=0;i--){const s=S[i];s.x+=s.vx;s.y+=s.vy;s.vx*=.95;s.vy*=.95;s.life-=.022;
+      if(s.life<=0){S.splice(i,1);continue;}
+      x.beginPath();x.arc(s.x,s.y,s.r*s.life,0,6.283);x.fillStyle='rgba(120,200,255,'+s.life+')';x.shadowBlur=12*DPR;x.shadowColor='rgba(80,170,255,'+s.life+')';x.fill();x.shadowBlur=0;}
+    requestAnimationFrame(loop);
+  }
+  loop();
 })();
 </script>
 </body>
