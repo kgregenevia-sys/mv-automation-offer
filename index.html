@@ -8,11 +8,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Space+Grotesk:wght@700;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
 :root{--p:#6d28d9;--p2:#8b5cf6;--p3:#a78bfa;--gold:#f59e0b;--g2:#fbbf24;--green:#10b981;--bg:#030309;--card:rgba(255,255,255,.04);--border:rgba(139,92,246,.15);--text:#f1f0ff;--muted:#7070a0;}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden;line-height:1.6;}
-.amb{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
-.a1{position:absolute;top:-30%;left:50%;transform:translateX(-50%);width:1000px;height:1000px;background:radial-gradient(ellipse,rgba(109,40,217,.15) 0%,transparent 65%);}
-.a2{position:absolute;bottom:-20%;right:-20%;width:700px;height:700px;background:radial-gradient(ellipse,rgba(245,158,11,.06) 0%,transparent 65%);}
-body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(139,92,246,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;}
+body{background:radial-gradient(900px 620px at 15% -5%,rgba(124,58,237,.24),transparent 60%),radial-gradient(820px 600px at 96% 6%,rgba(56,189,248,.11),transparent 56%),radial-gradient(1000px 820px at 50% 122%,rgba(245,158,11,.08),transparent 55%),linear-gradient(180deg,#080614,#050309 55%,#080515);background-attachment:fixed;color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden;line-height:1.6;}
+.amb{position:fixed;inset:0;overflow:hidden;z-index:0;pointer-events:none}
+.a1{position:absolute;top:-26%;left:50%;width:1150px;height:1150px;filter:blur(36px);background:radial-gradient(ellipse,rgba(124,58,237,.32) 0%,transparent 62%);animation:fl1 17s ease-in-out infinite;}
+.a2{position:absolute;bottom:-18%;right:-16%;width:820px;height:820px;filter:blur(38px);background:radial-gradient(ellipse,rgba(56,189,248,.17) 0%,transparent 62%);animation:fl2 21s ease-in-out infinite;}.a3{position:absolute;top:34%;left:-16%;width:720px;height:720px;filter:blur(48px);background:radial-gradient(ellipse,rgba(167,139,250,.16) 0%,transparent 62%);animation:fl2 25s ease-in-out infinite reverse;}@keyframes fl1{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(46px)}}@keyframes fl2{0%,100%{transform:translateY(0)}50%{transform:translateY(-42px)}}
+body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(139,92,246,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;}body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");}
 .wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 20px;}
 .top-bar{background:linear-gradient(90deg,#064e3b,#065f46,#064e3b);background-size:200%;animation:bar 4s linear infinite;padding:10px 20px;text-align:center;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:10px;}
 @keyframes bar{0%{background-position:0%}100%{background-position:200%}}
@@ -87,7 +87,7 @@ h1{font-family:'Space Grotesk',sans-serif;font-weight:900;font-size:clamp(36px,7
 </style>
 </head>
 <body>
-<div class="amb"><div class="a1"></div><div class="a2"></div></div>
+<div class="amb"><div class="a1"></div><div class="a2"></div><div class="a3"></div></div>
 <div class="top-bar"><div class="dot"></div>&#9889; Pilota&#380; 30 dni za darmo &#8212; bez umowy, bez zobowi&#261;za&#324;</div>
 <div class="spots-bar">Czerwiec 2026 &#8212; miejsca pilota&#380;owe: <div class="sdots"><div class="sd t"></div><div class="sd t"></div><div class="sd t"></div><div class="sd t"></div><div class="sd f"></div><div class="sd f"></div><div class="sd f"></div></div>4 zaj&#281;te &#8212; <strong style="color:#ef4444;">3 wolne</strong></div>
 <div class="wrap">
