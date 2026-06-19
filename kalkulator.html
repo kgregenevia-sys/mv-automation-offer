@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator utraconych pacjentów — Recepcja AI | MV Automation</title>
+<meta name="description" content="Policz, ile pacjentów i pieniędzy traci Twoja klinika przez nieodebrane telefony. Recepcja AI odbiera każdy telefon 24/7.">
+<meta property="og:title" content="Ile tracisz przez nieodebrane telefony? — Kalkulator">
+<meta property="og:description" content="Policz w 15 sekund, ile pacjentów i złotówek miesięcznie traci Twoja klinika. Recepcja AI odbiera każdy telefon 24/7.">
+<meta property="og:image" content="https://raw.githubusercontent.com/kgregenevia-sys/mv-automation-offer/main/ig/rotation-bg-1781888503.png">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#06122B; --navy2:#0a1f44; --blue:#1D63FF; --sky:#3DA5FF;
+    --white:#ffffff; --mut:#9db4d6; --card:rgba(255,255,255,.04); --line:rgba(120,170,255,.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Montserrat',system-ui,sans-serif;color:var(--white);
+    background:radial-gradient(1200px 700px at 20% -10%,rgba(29,99,255,.28),transparent 60%),
+               radial-gradient(900px 600px at 110% 110%,rgba(61,165,255,.16),transparent 55%),
+               linear-gradient(160deg,#050f24,#0a1f44 70%);
+    min-height:100vh;line-height:1.5;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:880px;margin:0 auto;padding:0 22px}
+  header{display:flex;align-items:center;gap:10px;padding:26px 0}
+  .logo{font-weight:800;letter-spacing:.5px;font-size:18px}
+  .logo span{color:var(--sky)}
+  .pill{display:inline-block;background:var(--blue);color:#fff;font-weight:700;font-size:12px;
+        letter-spacing:1.5px;padding:7px 14px;border-radius:999px;text-transform:uppercase}
+  .hero{padding:18px 0 8px}
+  h1{font-size:clamp(30px,6vw,52px);font-weight:900;line-height:1.08;letter-spacing:-.5px;margin:18px 0 14px}
+  h1 .hl{background:linear-gradient(90deg,var(--sky),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--mut);font-size:clamp(15px,2.4vw,19px);max-width:620px;font-weight:500}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:26px 24px;margin:26px 0;
+        backdrop-filter:blur(8px);box-shadow:0 24px 60px -30px rgba(0,0,0,.7)}
+  .row{margin:20px 0}
+  .row label{display:flex;justify-content:space-between;align-items:baseline;font-weight:600;font-size:15px;margin-bottom:10px}
+  .row label b{color:var(--sky);font-weight:800;font-size:18px}
+  input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:8px;
+    background:linear-gradient(90deg,var(--blue),var(--sky));outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;
+    background:#fff;border:4px solid var(--blue);cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.4)}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:4px solid var(--blue);cursor:pointer}
+  .result{text-align:center;background:linear-gradient(160deg,rgba(29,99,255,.18),rgba(61,165,255,.06));
+    border:1px solid var(--line);border-radius:20px;padding:28px 18px;margin-top:8px}
+  .result .lbl{color:var(--mut);font-weight:600;font-size:14px;text-transform:uppercase;letter-spacing:1px}
+  .big{font-size:clamp(40px,11vw,76px);font-weight:900;line-height:1;margin:8px 0;
+       background:linear-gradient(90deg,#fff,var(--sky));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .result .meta{color:var(--white);font-weight:600;font-size:15px;opacity:.9}
+  .result .meta span{color:var(--sky);font-weight:800}
+  .cta-head{font-size:clamp(20px,3.6vw,28px);font-weight:800;text-align:center;margin:30px 0 6px}
+  .cta-sub{text-align:center;color:var(--mut);font-weight:500;margin-bottom:22px}
+  .form{display:grid;gap:12px}
+  .form input[type=text],.form input[type=email],.form input[type=tel]{
+    width:100%;padding:15px 16px;border-radius:13px;border:1px solid var(--line);
+    background:rgba(255,255,255,.05);color:#fff;font-family:inherit;font-size:16px;font-weight:500}
+  .form input::placeholder{color:#7e96bd}
+  .form input:focus{outline:none;border-color:var(--sky);background:rgba(255,255,255,.08)}
+  .hp{position:absolute;left:-9999px}
+  .btn{background:linear-gradient(90deg,var(--blue),var(--sky));color:#fff;font-weight:800;font-size:17px;
+    border:none;padding:17px;border-radius:13px;cursor:pointer;letter-spacing:.3px;transition:transform .12s,box-shadow .2s;
+    box-shadow:0 12px 30px -10px rgba(29,99,255,.7)}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 18px 40px -10px rgba(29,99,255,.85)}
+  .btn:active{transform:translateY(0)}
+  .note{text-align:center;color:#7e96bd;font-size:12.5px;margin-top:12px}
+  .ok{display:none;text-align:center;padding:14px 0}
+  .ok h3{font-size:24px;font-weight:900;margin-bottom:8px}
+  .ok p{color:var(--mut);margin-bottom:18px}
+  .ok a.btn{display:inline-block;text-decoration:none;padding:15px 30px}
+  .points{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:26px 0}
+  .pt{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+  .pt b{color:var(--sky);display:block;font-size:15px;margin-bottom:4px}
+  .pt span{color:var(--mut);font-size:13.5px}
+  footer{text-align:center;color:#6a82a8;font-size:13px;padding:34px 0 40px}
+  footer b{color:#9db4d6}
+  @media(max-width:540px){.points{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">MV <span>AUTOMATION</span></div>
+  </header>
+
+  <section class="hero">
+    <span class="pill">Recepcja AI · dla klinik</span>
+    <h1>Ile pacjentów tracisz, <span class="hl">gdy recepcja nie odbiera?</span></h1>
+    <p class="sub">Każdy nieodebrany telefon to pacjent, który dzwoni do konkurencji. Policz swoją realną stratę w 15 sekund — przesuń suwaki.</p>
+  </section>
+
+  <div class="card">
+    <div class="row">
+      <label>Nieodebrane / przegapione telefony dziennie <b><span id="v1">6</span></b></label>
+      <input type="range" id="calls" min="1" max="40" value="6" oninput="calc()">
+    </div>
+    <div class="row">
+      <label>Średnia wartość pacjenta (zł) <b><span id="v2">250</span> zł</b></label>
+      <input type="range" id="value" min="50" max="2000" step="10" value="250" oninput="calc()">
+    </div>
+    <div class="row">
+      <label>Dni pracy w miesiącu <b><span id="v3">22</span></b></label>
+      <input type="range" id="days" min="10" max="30" value="22" oninput="calc()">
+    </div>
+
+    <div class="result">
+      <div class="lbl">Tracisz miesięcznie nawet</div>
+      <div class="big" id="loss">0 zł</div>
+      <div class="meta">to ok. <span id="pat">0</span> pacjentów / mies. &nbsp;·&nbsp; <span id="year">0 zł</span> rocznie</div>
+    </div>
+  </div>
+
+  <div class="points">
+    <div class="pt"><b>Odbiera 24/7</b><span>Wieczory, weekendy, gdy linia jest zajęta — żaden telefon nie przepada.</span></div>
+    <div class="pt"><b>Mówi po polsku</b><span>Zna Twój cennik i grafik, umawia wizytę w ~30 sekund.</span></div>
+    <div class="pt"><b>Bez nowego etatu</b><span>Jeden asystent AI obsługuje wszystkie połączenia naraz.</span></div>
+    <div class="pt"><b>Wdrożenie w dni</b><span>Bez zmiany Twojego systemu rejestracji.</span></div>
+  </div>
+
+  <div class="card" id="formCard">
+    <div id="formBox">
+      <div class="cta-head">Odzyskaj tych pacjentów</div>
+      <div class="cta-sub">Wyślemy Ci wycenę i pokażemy demo Recepcji AI dopasowane do Twojej kliniki.</div>
+      <div class="form">
+        <input type="text" id="klinika" placeholder="Nazwa kliniki *">
+        <input type="email" id="email" placeholder="Twój e-mail *">
+        <input type="tel" id="telefon" placeholder="Telefon (opcjonalnie)">
+        <input type="text" class="hp" id="hp" tabindex="-1" autocomplete="off" placeholder="Zostaw puste">
+        <button class="btn" id="send" onclick="submitLead()">Chcę odzyskać tych pacjentów →</button>
+      </div>
+      <div class="note">Bez zobowiązań. Odpowiadamy w ciągu jednego dnia roboczego.</div>
+    </div>
+    <div class="ok" id="okBox">
+      <h3>Dzięki! 🎉</h3>
+      <p>Odezwiemy się z wyceną i demo. Chcesz szybciej? Wybierz termin teraz:</p>
+      <a class="btn" href="https://calendly.com/kg-regenevia" target="_blank" rel="noopener">Umów demo w kalendarzu →</a>
+    </div>
+  </div>
+
+  <footer>
+    <b>MV Automation</b> · Recepcja AI dla prywatnych klinik<br>
+    oferta.mvautoai.net
+  </footer>
+</div>
+
+<script>
+  const ENDPOINT = "https://mdsvcobwuezriexyqqby.supabase.co/functions/v1/intake-submit";
+  function fmt(n){return Math.round(n).toLocaleString("pl-PL");}
+  function calc(){
+    const calls=+document.getElementById("calls").value;
+    const value=+document.getElementById("value").value;
+    const days=+document.getElementById("days").value;
+    document.getElementById("v1").textContent=calls;
+    document.getElementById("v2").textContent=fmt(value);
+    document.getElementById("v3").textContent=days;
+    const conv=0.30; // ~30% nieodebranych to potencjalny nowy pacjent
+    const patients=calls*days*conv;
+    const monthly=patients*value;
+    document.getElementById("loss").textContent=fmt(monthly)+" zł";
+    document.getElementById("pat").textContent=fmt(patients);
+    document.getElementById("year").textContent=fmt(monthly*12)+" zł";
+  }
+  async function submitLead(){
+    const klinika=document.getElementById("klinika").value.trim();
+    const email=document.getElementById("email").value.trim();
+    const telefon=document.getElementById("telefon").value.trim();
+    const hp=document.getElementById("hp").value;
+    if(!klinika){alert("Podaj nazwę kliniki.");return;}
+    if(!email){alert("Podaj e-mail, żebyśmy mogli wysłać wycenę.");return;}
+    const btn=document.getElementById("send");
+    btn.disabled=true;btn.textContent="Wysyłam...";
+    const calls=document.getElementById("calls").value;
+    const value=document.getElementById("value").value;
+    const days=document.getElementById("days").value;
+    const loss=document.getElementById("loss").textContent;
+    try{
+      const r=await fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          klinika, email, telefon, hp,
+          system_rejestracji:"kalkulator-strat",
+          faq:`Kalkulator: ${calls} nieodebranych/dzien, wartosc pacjenta ${value} zl, ${days} dni/mc -> strata ~${loss}/mc`
+        })});
+      const d=await r.json();
+      if(r.ok && d.ok){
+        document.getElementById("formBox").style.display="none";
+        document.getElementById("okBox").style.display="block";
+      }else{throw new Error(d.error||"blad");}
+    }catch(e){
+      btn.disabled=false;btn.textContent="Spróbuj jeszcze raz →";
+      alert("Coś poszło nie tak. Napisz do nas: oferta.mvautoai.net");
+    }
+  }
+  calc();
+</script>
+</body>
+</html>
