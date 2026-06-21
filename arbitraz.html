@@ -1,0 +1,63 @@
+<!doctype html><html lang="pl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MV Automation · Arbitraż</title>
+<style>
+:root{--bg:#070b18;--card:#0e1730;--line:rgba(80,140,255,.18);--ink:#dce7ff;--mut:#8aa0c8;--ok:#34d399;--warn:#fbbf24}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(1200px 600px at 70% -10%,#10204a 0,var(--bg) 60%);color:var(--ink);font-family:Arial,Helvetica,sans-serif;min-height:100vh}
+.wrap{max-width:1000px;margin:0 auto;padding:26px 18px 60px}
+.top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.brand{font-size:22px;font-weight:800;letter-spacing:.3px}.brand span{color:#5aa0ff;font-weight:600}
+.live{display:inline-flex;align-items:center;gap:7px;color:var(--ok);font-size:13px;font-weight:700}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--ok);box-shadow:0 0 10px var(--ok);animation:p 1.6s infinite}
+@keyframes p{50%{opacity:.35}}
+.rf{background:rgba(61,165,255,.14);border:1px solid var(--line);color:#cfe0ff;font-weight:700;font-size:12px;padding:8px 14px;border-radius:9px;cursor:pointer;font-family:inherit}
+.sub{color:var(--mut);font-size:13px;margin:6px 0 18px}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:12px 16px;min-width:130px}
+.stat b{display:block;font-size:24px}.stat span{color:var(--mut);font-size:12px}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:13px;overflow:hidden}
+th,td{padding:11px 12px;text-align:left;font-size:13px;border-bottom:1px solid rgba(80,140,255,.10)}
+th{color:var(--mut);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.4px}
+tr:last-child td{border-bottom:0}
+.m{font-weight:800;color:var(--ok)}.pct{color:var(--warn);font-weight:700}
+.route{color:var(--mut)}.route b{color:var(--ink)}
+a{color:#5aa0ff;text-decoration:none}
+.foot{color:var(--mut);font-size:12px;margin-top:14px}
+</style></head><body><div class="wrap">
+<div class="top">
+ <div class="brand">MV Automation <span>· Arbitraż</span></div>
+ <div style="display:flex;align-items:center;gap:14px"><span class="live"><span class="dot"></span>na żywo</span><button class="rf" onclick="load()">Odśwież</button></div>
+</div>
+<div class="sub">Tani towar (Temu/Shopee/Allegro) → odsprzedaż (OLX/Gumtree/Allegro) · marża liczona automatycznie · zasila Cowork + webhook</div>
+<div class="stats" id="stats"></div>
+<table><thead><tr><th>Produkt</th><th>Kategoria</th><th>Trasa</th><th>Kup</th><th>Sprzedaj</th><th>Marża</th><th>%</th><th>Status</th></tr></thead><tbody id="rows"><tr><td colspan="8" style="color:#8aa0c8">Ładowanie…</td></tr></tbody></table>
+<div class="foot" id="foot"></div>
+</div><script>
+const SB="https://mdsvcobwuezriexyqqby.supabase.co/rest/v1/arb_opportunities";
+const ANON="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1kc3Zjb2J3dWV6cmlleHlxcWJ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwNjMxMjMsImV4cCI6MjA5MzYzOTEyM30.o4CVcSf9drtDxlpVv11T_E3N4dd-BSTrQPRCZXfpusg";
+function esc(s){return (s==null?"":String(s)).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]))}
+function zl(v){return (Number(v)||0).toFixed(2)+" zł"}
+async function load(){
+ try{
+  const r=await fetch(SB+"?select=*&order=margin_pln.desc&limit=200",{headers:{apikey:ANON,Authorization:"Bearer "+ANON}});
+  const d=await r.json();
+  if(!Array.isArray(d)){document.getElementById("rows").innerHTML='<tr><td colspan=8 style="color:#fbbf24">REST chwilowo niedostępny — odświeży się sam</td></tr>';return;}
+  const open=d.filter(x=>x.status==="new"||x.status==="listed");
+  const sum=open.reduce((a,x)=>a+(Number(x.margin_pln)||0),0);
+  document.getElementById("stats").innerHTML=
+   '<div class="stat"><b>'+d.length+'</b><span>okazji łącznie</span></div>'+
+   '<div class="stat"><b>'+open.length+'</b><span>aktywne (new/listed)</span></div>'+
+   '<div class="stat"><b>'+sum.toFixed(0)+' zł</b><span>suma marży aktywnych</span></div>';
+  document.getElementById("rows").innerHTML = d.length? d.map(x=>(
+   '<tr><td>'+(x.source_url?'<a href="'+esc(x.source_url)+'" target="_blank">'+esc(x.product)+'</a>':esc(x.product))+'</td>'+
+   '<td class="route">'+esc(x.category||"—")+'</td>'+
+   '<td class="route"><b>'+esc(x.source_platform)+'</b> → <b>'+esc(x.target_platform)+'</b></td>'+
+   '<td>'+zl(x.source_price)+'</td><td>'+zl(x.target_price)+'</td>'+
+   '<td class="m">+'+zl(x.margin_pln)+'</td><td class="pct">'+(x.margin_pct!=null?x.margin_pct+"%":"—")+'</td>'+
+   '<td class="route">'+esc(x.status)+'</td></tr>'
+  )).join(""):'<tr><td colspan=8 style="color:#8aa0c8">Brak okazji — czekamy na Cowork</td></tr>';
+  document.getElementById("foot").textContent="Aktualizacja: "+new Date().toLocaleString("pl-PL");
+ }catch(e){document.getElementById("rows").innerHTML='<tr><td colspan=8 style="color:#fbbf24">Błąd: '+esc(e.message)+'</td></tr>';}
+}
+load();setInterval(load,30000);
+</script></body></html>
