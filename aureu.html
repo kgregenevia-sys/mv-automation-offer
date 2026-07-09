@@ -1,0 +1,512 @@
+<!DOCTYPE html><html lang="pl"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Aureu — Klub Licytacji</title>
+<meta name="theme-color" content="#0A0E14"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Aureu">
+<link rel="manifest" href="https://mdsvcobwuezriexyqqby.supabase.co/functions/v1/manifest">
+<link rel="apple-touch-icon" href="https://mdsvcobwuezriexyqqby.supabase.co/functions/v1/icon">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--void:#0A0E14;--void2:#0D121A;--panel:#131A24;--panel2:#18212E;--line:rgba(255,255,255,.08);--gold:#C9A24B;--gold-hi:#EBD79A;--gold-deep:#8C6D2E;--ice:#57E0C4;--text:#EAEFF6;--muted:#8593A4;--muted2:#5A6675;--felt:#12503C;--felt2:#0B2C21}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--void);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+h1,h2,h3,.disp{font-family:'Space Grotesk',sans-serif;letter-spacing:-.01em}
+.mono{font-family:'IBM Plex Mono',monospace}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(130% 90% at 50% -20%,rgba(201,162,75,.09),transparent 55%);pointer-events:none;z-index:0}
+header,section,.wrap{position:relative;z-index:1}
+header{position:sticky;top:0;z-index:40;backdrop-filter:blur(18px);background:rgba(10,14,20,.82);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;height:70px}
+.brand{display:flex;align-items:center;gap:14px}
+.brand .word{font-family:'Space Grotesk';font-weight:600;font-size:22px;letter-spacing:.14em}
+.brand .word b{color:var(--gold);font-weight:600}
+.mark{width:40px;height:40px;flex-shrink:0;filter:drop-shadow(0 0 12px rgba(201,162,75,.35))}
+.bar-r{display:flex;align-items:center;gap:16px}
+.livepill{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ice)}
+.livepill .d{width:7px;height:7px;border-radius:50%;background:var(--ice);box-shadow:0 0 0 0 rgba(87,224,196,.6);animation:pulse 2.2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(87,224,196,0)}100%{box-shadow:0 0 0 0 rgba(87,224,196,0)}}
+.btn{font-family:'Space Grotesk';font-weight:600;font-size:14px;padding:11px 20px;border-radius:12px;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:.18s;white-space:nowrap}
+.btn-gold{background:linear-gradient(135deg,var(--gold-hi),var(--gold));color:#2a2008;box-shadow:0 6px 22px -8px rgba(201,162,75,.6)}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:0 8px 30px -6px rgba(201,162,75,.75)}
+.btn-ghost{background:rgba(255,255,255,.05);color:var(--text);border:1px solid var(--line)}
+.btn-ghost:hover{background:rgba(255,255,255,.1)}
+/* hero */
+.hero{padding:88px 0 46px;text-align:center}
+.biglogo{width:128px;height:128px;margin:0 auto 34px;filter:drop-shadow(0 0 40px rgba(201,162,75,.34))}
+.eyebrow{font-family:'IBM Plex Mono';font-size:12px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.hero h1{font-size:clamp(38px,6.2vw,68px);font-weight:600;line-height:1.0;letter-spacing:-.025em}
+.hero h1 .g{color:var(--gold)}
+.hero p{color:var(--muted);font-size:clamp(15px,2vw,18px);max-width:52ch;margin:22px auto 0}
+.rules{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+.rule{display:inline-flex;align-items:center;gap:9px;background:var(--panel);border:1px solid var(--line);border-radius:100px;padding:11px 20px;font-size:13.5px}
+.rule b{color:var(--gold);font-weight:600}.rule .i{color:var(--gold)}
+/* rooms */
+.sec{padding:48px 0}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:26px}
+.sec-h h2{font-size:clamp(24px,3vw,32px);font-weight:600}
+.sec-h .hint{font-family:'IBM Plex Mono';font-size:12.5px;color:var(--muted)}
+.rooms{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px}
+.door{position:relative;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:20px;overflow:hidden;cursor:pointer;transition:.24s}
+.door:hover{transform:translateY(-4px);border-color:rgba(201,162,75,.45);box-shadow:0 30px 60px -26px #000}
+.door.soon{opacity:.4;pointer-events:none}
+/* mini table preview */
+.door .prev{height:120px;position:relative;background:radial-gradient(120% 140% at 50% 0%,#182230,#0e141c);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.door .prev .ov{width:200px;height:74px;border-radius:50%;background:radial-gradient(ellipse at 50% 38%,var(--felt),var(--felt2));box-shadow:inset 0 0 0 2px rgba(201,162,75,.4),inset 0 8px 24px rgba(0,0,0,.5),0 14px 30px -10px #000;position:relative}
+.door .prev .ov::after{content:'';position:absolute;inset:8px;border-radius:50%;border:1px solid rgba(201,162,75,.14)}
+.door .prev .chip{position:absolute;width:15px;height:15px;border-radius:50%;border:2px dashed rgba(235,215,154,.6)}
+.door .prev .em{position:absolute;font-size:26px;filter:drop-shadow(0 2px 6px #000)}
+.door .prev .disc{position:absolute;top:12px;right:12px;font-family:'IBM Plex Mono';font-size:12px;font-weight:600;color:#2a2008;background:var(--gold);padding:3px 9px;border-radius:7px}
+.door .body{padding:18px 20px 20px}
+.door h3{font-family:'Space Grotesk';font-size:20px;font-weight:600}
+.door .live{display:flex;gap:20px;margin-top:12px;font-family:'IBM Plex Mono';font-size:13px}
+.door .live .n{color:var(--gold-hi);font-weight:600}
+.door .live .lbl{color:var(--muted2);font-size:10.5px;display:block;letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+.door .live .dot{color:var(--ice)}
+.door .foot{display:flex;align-items:center;justify-content:space-between;margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.door .price{font-size:12.5px;color:var(--muted)}.door .price b{font-family:'IBM Plex Mono';color:var(--text);font-size:15px}
+.door .enter{font-family:'Space Grotesk';font-weight:600;font-size:13.5px;color:var(--gold)}
+/* terms */
+.terms{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:26px}
+.terms .t h4{font-family:'Space Grotesk';font-size:16px;font-weight:600;display:flex;gap:9px;align-items:center}
+.terms .t h4 .n{color:var(--gold);font-family:'IBM Plex Mono'}
+.terms .t p{color:var(--muted);font-size:14px;margin-top:8px}
+footer{border-top:1px solid var(--line);padding:36px 0;margin-top:34px;text-align:center;color:var(--muted);font-size:13px}
+/* overlays */
+.overlay{position:fixed;inset:0;z-index:100;display:none}
+.overlay.show{display:block}
+#gate{background:rgba(6,9,14,.9);backdrop-filter:blur(8px)}
+#gate .box{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(460px,92vw);background:linear-gradient(180deg,var(--panel2),var(--void2));border:1px solid rgba(201,162,75,.3);border-radius:24px;padding:36px;box-shadow:0 40px 90px -30px #000}
+#gate .close{position:absolute;top:14px;right:18px;background:none;border:none;color:var(--muted);font-size:26px;cursor:pointer}
+#gate .tag{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+#gate h3{font-family:'Space Grotesk';font-size:27px;font-weight:600;margin-top:8px}
+#gate .pricebox{display:flex;align-items:baseline;gap:8px;margin:18px 0;padding:16px 18px;background:rgba(201,162,75,.08);border:1px solid rgba(201,162,75,.25);border-radius:14px}
+#gate .pricebox .amt{font-family:'IBM Plex Mono';font-size:38px;font-weight:600;color:var(--gold-hi)}
+#gate .pricebox .per{color:var(--muted);font-size:14px}
+#gate .rl{display:flex;gap:9px;font-size:13.5px;margin-top:10px;align-items:flex-start}
+#gate .rl::before{content:'✦';color:var(--gold);flex-shrink:0}
+#gate input{width:100%;margin-top:18px;padding:14px 16px;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.3);color:var(--text);font-size:15px}
+#gate input:focus{outline:none;border-color:var(--gold)}
+#gate .btn-gold{width:100%;justify-content:center;margin-top:12px;padding:15px}
+#gate .msg{font-size:13px;margin-top:10px;min-height:16px}#gate .msg.ok{color:var(--ice)}#gate .msg.err{color:#EC6046}
+/* ROOM (stół) */
+#room{background:radial-gradient(120% 90% at 50% 0%,#141d1a,#080b10 60%)}
+.room-top{position:absolute;top:0;left:0;right:0;z-index:5;display:flex;align-items:center;justify-content:space-between;padding:16px 22px}
+.room-top .rt{font-family:'Space Grotesk';font-weight:600;font-size:18px;display:flex;align-items:center;gap:10px}
+.room-back{background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--text);font-family:'Space Grotesk';font-weight:600;font-size:14px;padding:9px 16px;border-radius:11px;cursor:pointer}
+.nav{display:flex;align-items:center;gap:12px;font-family:'IBM Plex Mono';font-size:13px;color:var(--muted)}
+.nav button{background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--text);width:34px;height:34px;border-radius:10px;cursor:pointer;font-size:15px}
+.nav button:hover{border-color:var(--gold)}
+/* table */
+.tablewrap{position:absolute;top:64px;bottom:120px;left:0;right:0;display:flex;align-items:center;justify-content:center}
+.felt{position:relative;width:min(760px,92vw);aspect-ratio:16/9}
+.oval{position:absolute;inset:0;border-radius:50%;background:radial-gradient(ellipse at 50% 34%,var(--felt) 0%,var(--felt2) 68%,#071f16 100%);box-shadow:inset 0 0 0 3px rgba(201,162,75,.5),inset 0 14px 50px rgba(0,0,0,.55),0 40px 90px -30px #000,0 0 0 14px #14100a,0 0 0 15px rgba(201,162,75,.25)}
+.oval::after{content:'';position:absolute;inset:22px;border-radius:50%;border:1px solid rgba(201,162,75,.16)}
+/* center lot */
+.center{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);text-align:center;width:74%;z-index:2}
+.center .medallion{width:60px;height:60px;margin:0 auto 8px;border-radius:16px;background:radial-gradient(120% 120% at 30% 20%,rgba(235,215,154,.28),rgba(201,162,75,.06));border:1px solid rgba(201,162,75,.5);display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 8px 24px -8px #000}
+.center .ttl{font-family:'Space Grotesk';font-weight:600;font-size:clamp(17px,2.4vw,23px);color:#fff}
+.center .addr{font-size:12px;color:#bfeeda;margin-top:2px;opacity:.85}
+.center .pot{margin-top:10px;font-family:'IBM Plex Mono';font-weight:700;font-size:clamp(22px,3.4vw,34px);color:var(--gold-hi);text-shadow:0 2px 12px rgba(201,162,75,.4)}
+.center .potlbl{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#8fd8bf}
+.center .est{font-size:12px;color:#a9c4bb;text-decoration:line-through;margin-top:3px}
+.center .disc{display:inline-block;margin-top:8px;font-family:'IBM Plex Mono';font-size:13px;font-weight:700;color:#2a2008;background:var(--gold);padding:3px 12px;border-radius:8px}
+/* leader ribbon */
+.leader{position:absolute;left:50%;top:76%;transform:translate(-50%,-50%);z-index:3;font-family:'Space Grotesk';font-weight:600;font-size:13px;color:#2a2008;background:linear-gradient(135deg,var(--gold-hi),var(--gold));padding:6px 20px;border-radius:100px;box-shadow:0 8px 20px -6px rgba(201,162,75,.6);white-space:nowrap;display:none}
+.leader.show{display:block}
+/* seats */
+.seat{position:absolute;transform:translate(-50%,-50%);text-align:center;width:96px;z-index:4}
+.seat .av{width:56px;height:56px;border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-weight:700;font-size:17px;color:#fff;border:2px solid rgba(201,162,75,.55);box-shadow:0 8px 20px -8px #000}
+.seat.empty .av{background:rgba(255,255,255,.03);border:2px dashed rgba(255,255,255,.18);color:var(--muted2);font-size:22px;cursor:pointer}
+.seat.empty .av:hover{border-color:var(--gold);color:var(--gold)}
+.seat .nm{font-size:11px;color:var(--text);margin-top:6px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.seat .stk{font-family:'IBM Plex Mono';font-size:11px;color:var(--gold-hi);margin-top:1px}
+.seat.lead .av{border-color:var(--gold-hi);box-shadow:0 0 0 3px rgba(235,215,154,.35),0 8px 20px -6px #000}
+.seat.you .av{border-color:var(--ice)}
+.seat.bidding .stk{color:var(--ice)}
+#room{--felt:#12503C;--felt2:#0B2C21;--accent:#C9A24B}
+.felt{isolation:isolate}
+.felt .aura{position:absolute;inset:-16% -6%;border-radius:50%;z-index:0;pointer-events:none;background:radial-gradient(closest-side,color-mix(in srgb,var(--accent) 60%,transparent),transparent 72%);filter:blur(34px);opacity:.5;animation:auraP 6s ease-in-out infinite}
+@keyframes auraP{0%,100%{transform:scale(1);opacity:.4}50%{transform:scale(1.09);opacity:.66}}
+.felt .magic{position:absolute;inset:-8%;border-radius:50%;z-index:0;pointer-events:none;background:conic-gradient(from 0deg,transparent 0deg,color-mix(in srgb,var(--accent) 55%,transparent) 60deg,transparent 140deg,transparent 220deg,color-mix(in srgb,var(--accent) 42%,transparent) 285deg,transparent 350deg);filter:blur(18px);opacity:.42;animation:magicSpin 16s linear infinite}
+@keyframes magicSpin{to{transform:rotate(360deg)}}
+.felt .oval{z-index:1}.center{z-index:2}.leader{z-index:3}#seats{z-index:4}.atimer{z-index:4}#sparks{position:absolute;inset:0;z-index:3;pointer-events:none}
+#room .oval{box-shadow:inset 0 0 0 3px color-mix(in srgb,var(--accent) 75%,#C9A24B),inset 0 14px 50px rgba(0,0,0,.55),0 40px 90px -30px #000,0 0 70px -4px color-mix(in srgb,var(--accent) 68%,transparent),0 0 0 14px #14100a,0 0 0 15px color-mix(in srgb,var(--accent) 38%,transparent)}
+#room .medallion{border-color:color-mix(in srgb,var(--accent) 70%,#C9A24B);box-shadow:0 0 26px -4px var(--accent),0 8px 24px -8px #000}
+.spark{position:absolute;width:4px;height:4px;border-radius:50%;background:#fff;box-shadow:0 0 7px 2px color-mix(in srgb,var(--accent) 80%,#fff);animation:tw 3.4s ease-in-out infinite}
+@keyframes tw{0%,100%{opacity:0;transform:scale(.3)}50%{opacity:.95;transform:scale(1)}}
+/* actions */
+.actions{position:absolute;bottom:0;left:0;right:0;z-index:5;display:flex;align-items:center;justify-content:center;gap:14px;padding:20px 22px 26px;background:linear-gradient(0deg,rgba(8,11,16,.9),transparent)}
+.act{font-family:'Space Grotesk';font-weight:600;border:none;cursor:pointer;border-radius:14px;padding:15px 22px;font-size:15px;transition:.16s;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:112px}
+.act small{font-family:'IBM Plex Mono';font-weight:500;font-size:10.5px;opacity:.7}
+.act.pass{background:rgba(255,255,255,.06);color:var(--text);border:1px solid var(--line)}
+.act.pass:hover{background:rgba(255,255,255,.11)}
+.act.raise{background:linear-gradient(135deg,var(--gold-hi),var(--gold));color:#2a2008;box-shadow:0 10px 28px -8px rgba(201,162,75,.6)}
+.act.raise:hover{transform:translateY(-2px)}
+.act.watch{background:rgba(87,224,196,.12);color:var(--ice);border:1px solid rgba(87,224,196,.4)}
+.act.watch.done{opacity:.6}
+.hall-hint{position:absolute;bottom:96px;left:50%;transform:translateX(-50%);z-index:5;color:var(--muted);font-size:12px;letter-spacing:.05em;background:rgba(10,14,20,.6);padding:7px 15px;border-radius:100px;border:1px solid var(--line)}
+.center .adate{font-family:'IBM Plex Mono';font-size:11px;color:#9fd8c4;margin-top:7px;opacity:.9}
+.atimer{position:absolute;left:50%;top:-4px;transform:translate(-50%,-50%);z-index:6;background:rgba(8,20,16,.9);border:1px solid rgba(201,162,75,.45);border-radius:100px;padding:7px 18px 9px;text-align:center;min-width:126px;box-shadow:0 10px 24px -8px #000;transition:.2s}
+.atimer .tlbl{font-family:'IBM Plex Mono';font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.atimer .tsec{font-family:'IBM Plex Mono';font-weight:700;font-size:19px;color:var(--gold-hi);line-height:1.15}
+.atimer .tbar{height:3px;background:rgba(255,255,255,.1);border-radius:3px;margin-top:5px;overflow:hidden}
+.atimer .tbar i{display:block;height:100%;background:var(--gold);width:100%;transition:width 1s linear}
+.atimer.low{border-color:rgba(236,96,70,.7);animation:tblink 1s ease-in-out infinite}
+.atimer.low .tsec{color:#ff8a6f}.atimer.low .tbar i{background:#EC6046}
+.atimer.ended{border-color:rgba(87,224,196,.5)}.atimer.ended .tsec{color:var(--ice);font-size:12px}
+@keyframes tblink{50%{box-shadow:0 0 22px -4px rgba(236,96,70,.6)}}
+.toast{position:fixed;bottom:120px;left:50%;transform:translateX(-50%) translateY(90px);background:var(--panel2);border:1px solid rgba(87,224,196,.4);color:var(--ice);padding:13px 22px;border-radius:12px;font-weight:600;font-size:14px;z-index:200;transition:.35s;box-shadow:0 14px 40px -12px #000}
+.toast.show{transform:translateX(-50%) translateY(0)}
+@media(max-width:640px){.hero{padding:54px 0 30px}.seat{width:74px}.seat .av{width:44px;height:44px;font-size:14px}.act{min-width:96px;padding:13px 14px;font-size:13.5px}}
+
+/* spinning crown logo */
+.markspin{display:inline-block;perspective:700px}
+.markspin svg{animation:spy 7s linear infinite;transform-style:preserve-3d;display:block}
+@keyframes spy{from{transform:rotateY(0)}to{transform:rotateY(360deg)}}
+/* viz */
+#viz{background:rgba(5,8,12,.94);backdrop-filter:blur(10px)}
+.vizbox{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(920px,94vw);display:grid;grid-template-columns:1.5fr 1fr;gap:20px;align-items:stretch}
+.vizstage{position:relative;border-radius:22px;overflow:hidden;border:1px solid rgba(201,162,75,.4);box-shadow:0 40px 90px -30px #000;perspective:1000px;background:#0a0e14;min-height:340px}
+.vizstage .sc{position:absolute;inset:-6%;animation:vrot 11s ease-in-out infinite alternate;transform-style:preserve-3d}
+.vizstage .sc svg{width:100%;height:100%}
+.vizstage .sc{animation:vrot 11s ease-in-out infinite alternate,vglow 6s ease-in-out infinite}
+@keyframes vglow{0%,100%{filter:saturate(1) brightness(1)}50%{filter:saturate(1.18) brightness(1.09)}}
+.vizstage{--accent:#C9A24B}
+.vmagic{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden}
+.vmagic .lsweep{position:absolute;top:-20%;left:-45%;width:32%;height:140%;transform:skewX(-16deg);background:linear-gradient(100deg,transparent,color-mix(in srgb,var(--accent) 50%,#fff),transparent);opacity:.22;animation:vsweep 5s ease-in-out infinite}
+@keyframes vsweep{0%{left:-45%}60%{left:132%}100%{left:132%}}
+.vmagic .vspk{position:absolute;width:4px;height:4px;border-radius:50%;background:#fff;box-shadow:0 0 8px 2px color-mix(in srgb,var(--accent) 80%,#fff);animation:vtw 3s ease-in-out infinite}
+@keyframes vtw{0%,100%{opacity:0;transform:scale(.3)}50%{opacity:.95;transform:scale(1)}}.vizstage svg .glow{animation:vgl 2.6s ease-in-out infinite}@keyframes vgl{0%,100%{opacity:.75;filter:brightness(1)}50%{opacity:1;filter:brightness(1.4)}}.vizstage svg .wave{animation:vwave 4.5s ease-in-out infinite}@keyframes vwave{0%,100%{transform:translateX(0)}50%{transform:translateX(-12px)}}.vizstage svg .bob{transform-box:fill-box;transform-origin:center;animation:vbob 3.6s ease-in-out infinite}@keyframes vbob{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-5px) rotate(.6deg)}}
+@keyframes vrot{from{transform:rotateY(-13deg) scale(1.06)}to{transform:rotateY(13deg) scale(1.06)}}
+.vizstage .badge360{position:absolute;top:14px;left:14px;font-family:'IBM Plex Mono';font-size:11px;font-weight:700;letter-spacing:.14em;color:#2a2008;background:var(--gold);padding:5px 11px;border-radius:8px;z-index:2}
+.vizpanel{background:linear-gradient(180deg,var(--panel2),var(--void2));border:1px solid rgba(201,162,75,.3);border-radius:22px;padding:26px;display:flex;flex-direction:column}
+.vizpanel .tag{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.vizpanel h4{font-family:'Space Grotesk';font-size:22px;font-weight:600;margin-top:6px}
+.vizpanel .adr{color:var(--muted);font-size:13px;margin-top:3px}
+.vizpanel .pot{font-family:'IBM Plex Mono';font-weight:700;font-size:30px;color:var(--gold-hi);margin-top:18px}
+.vizpanel .plbl{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.vizpanel .est{font-size:12.5px;color:var(--muted);text-decoration:line-through;margin-top:4px}
+.vizpanel .spacer{flex:1}
+.vizpanel .btn-gold{justify-content:center;padding:14px;margin-top:14px}
+.vizclose{position:absolute;top:-46px;right:0;background:rgba(255,255,255,.08);border:1px solid var(--line);color:var(--text);width:38px;height:38px;border-radius:11px;font-size:19px;cursor:pointer}
+.vizbtn{position:absolute;top:64px;right:22px;z-index:6;font-family:'Space Grotesk';font-weight:600;font-size:13px;color:#2a2008;background:linear-gradient(135deg,var(--gold-hi),var(--gold));border:none;border-radius:11px;padding:10px 16px;cursor:pointer;box-shadow:0 8px 22px -8px rgba(201,162,75,.7)}
+@media(max-width:760px){.vizbox{grid-template-columns:1fr}.vizstage{min-height:230px}}
+
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001s!important}}
+
+/* === AUREU v2 — głębia i wyrafinowanie === */
+/* A) STÓŁ: tekstura sukna + vignette + głębia */
+.oval::after{content:'';position:absolute;inset:0;border-radius:50%;pointer-events:none;
+  background:
+    radial-gradient(ellipse at 50% 30%, transparent 40%, rgba(0,0,0,.35) 100%),
+    repeating-conic-gradient(from 0deg at 50% 50%, rgba(255,255,255,.012) 0deg 6deg, transparent 6deg 12deg);
+  mix-blend-mode:overlay;opacity:.7;z-index:2}
+.oval::before{content:'';position:absolute;inset:6px;border-radius:50%;pointer-events:none;
+  box-shadow:inset 0 0 60px rgba(0,0,0,.45), inset 0 4px 18px rgba(255,255,255,.04);z-index:2}
+.felt .rail{position:absolute;inset:-2px;border-radius:50%;z-index:3;pointer-events:none;
+  background:conic-gradient(from 210deg,rgba(235,215,154,.0),rgba(235,215,154,.35) 90deg,rgba(140,109,46,.1) 200deg,rgba(235,215,154,.28) 320deg,rgba(235,215,154,.0));
+  -webkit-mask:radial-gradient(closest-side,transparent 96%,#000 97%);mask:radial-gradient(closest-side,transparent 96%,#000 97%);opacity:.55}
+
+/* B) LOT: zdjęcie nieruchomości w centrum */
+.lotphoto{width:min(210px,42%);aspect-ratio:16/10;margin:0 auto 10px;border-radius:14px;overflow:hidden;
+  border:1px solid rgba(201,162,75,.5);box-shadow:0 14px 34px -12px #000, 0 0 0 4px rgba(10,14,20,.6);position:relative;background:#0b1219}
+.lotphoto img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.05) contrast(1.03)}
+.lotphoto .ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:34px;
+  background:radial-gradient(120% 120% at 30% 15%,rgba(235,215,154,.18),rgba(11,18,25,.9))}
+.lotphoto .shine{position:absolute;inset:0;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.14) 50%,transparent 60%);
+  transform:translateX(-120%);animation:lotShine 5.5s ease-in-out infinite}
+@keyframes lotShine{0%,72%{transform:translateX(-120%)}86%,100%{transform:translateX(120%)}}
+.lotmeta{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:8px 0 2px}
+.lotmeta span{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.05em;color:#bfeeda;
+  border:1px solid rgba(201,162,75,.25);border-radius:6px;padding:2px 8px;background:rgba(10,14,20,.4)}
+
+/* C) AWATARY: gradient + głębia zamiast gołych kółek */
+.seat .av{background:linear-gradient(150deg,var(--panel2),var(--void2))!important;position:relative;overflow:hidden}
+.seat .av::after{content:'';position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(120% 120% at 32% 22%,rgba(255,255,255,.12),transparent 60%)}
+.seat.lead .av{animation:leadPulse 2.2s ease-in-out infinite}
+@keyframes leadPulse{0%,100%{box-shadow:0 0 0 3px rgba(235,215,154,.35),0 8px 20px -6px #000}
+  50%{box-shadow:0 0 0 5px rgba(235,215,154,.5),0 0 22px rgba(235,215,154,.4),0 8px 20px -6px #000}}
+.seat .bidfx{position:absolute;left:50%;top:-6px;transform:translateX(-50%);font-family:'IBM Plex Mono';
+  font-size:12px;font-weight:700;color:var(--gold-hi);opacity:0;pointer-events:none;white-space:nowrap}
+.seat .bidfx.go{animation:bidUp 1.1s ease-out}
+@keyframes bidUp{0%{opacity:0;transform:translate(-50%,4px)}20%{opacity:1}100%{opacity:0;transform:translate(-50%,-26px)}}
+
+/* przebicie na stole — puls sukna */
+.felt.bumped .oval{animation:feltBump .5s ease-out}
+@keyframes feltBump{0%{box-shadow:inset 0 0 0 3px rgba(201,162,75,.5),inset 0 14px 50px rgba(0,0,0,.55),0 40px 90px -30px #000,0 0 0 14px #14100a,0 0 0 15px rgba(201,162,75,.25)}
+  40%{box-shadow:inset 0 0 0 3px rgba(235,215,154,.9),inset 0 14px 50px rgba(0,0,0,.4),0 40px 90px -30px #000,0 0 0 14px #14100a,0 0 0 16px rgba(235,215,154,.6)}
+  100%{box-shadow:inset 0 0 0 3px rgba(201,162,75,.5),inset 0 14px 50px rgba(0,0,0,.55),0 40px 90px -30px #000,0 0 0 14px #14100a,0 0 0 15px rgba(201,162,75,.25)}}
+
+
+/* C) LOBBY: miniatura zdjęcia w karcie sali */
+.door .prev .thumb{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.42;filter:saturate(.9) contrast(1.05)}
+.door .prev::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,20,28,.35),rgba(14,20,28,.82));z-index:1}
+.door .prev .ov,.door .prev .em,.door .prev .chip{z-index:2}
+.door .prev .ov{box-shadow:inset 0 0 0 2px rgba(201,162,75,.55),inset 0 8px 24px rgba(0,0,0,.6),0 14px 30px -10px #000, 0 0 30px -6px rgba(201,162,75,.3)}
+.door:hover .prev .thumb{opacity:.55;transform:scale(1.05);transition:.4s}
+.door .prev{transition:.4s}
+.door .live .dot{color:var(--ice);animation:livePulse 1.6s ease-in-out infinite}
+@keyframes livePulse{0%,100%{opacity:.5}50%{opacity:1}}
+</style></head>
+<body>
+<header><div class="wrap bar">
+  <div class="brand"><span id="markTop"></span><span class="word">AUR<b>EU</b></span></div>
+  <div class="bar-r"><span class="livepill"><span class="d"></span> Rynek otwarty</span>
+    <button class="btn btn-ghost" id="mineBtn" style="display:none" onclick="showMine()">Twoje wejścia</button></div>
+</div></header>
+
+<div class="hero"><div class="wrap">
+  <div class="biglogo" id="markHero"></div>
+  <div class="eyebrow">Prywatny klub licytacji · Polska → Europa</div>
+  <h1>Zajmij miejsce przy stole.<br><span class="g">Reszta należy do Ciebie.</span></h1>
+  <p>Nieruchomości, auta, jachty, surowce — z licytacji, poniżej wyceny. Płacisz za wejście do sali, siadasz przy stole i przebijasz. Wynik należy do Ciebie.</p>
+  <div class="rules">
+    <span class="rule"><span class="i">◆</span> Wejście <b>99 zł/mc</b></span>
+    <span class="rule"><span class="i">◆</span> <b>Kupione = kupione</b> — płatność od razu</span>
+    <span class="rule"><span class="i">◆</span> Rozliczamy wejście, nie wynik</span>
+  </div>
+</div></div>
+
+<section class="sec"><div class="wrap">
+  <div class="sec-h"><h2>Wybierz salę</h2><span class="hint" id="lobbyHint">Ładowanie…</span></div>
+  <div class="rooms" id="rooms"></div>
+</div></section>
+
+<section class="sec" style="padding-top:0"><div class="wrap">
+  <div class="sec-h"><h2>Zasady klubu</h2></div>
+  <div class="terms">
+    <div class="t"><h4><span class="n">01</span> Płacisz za wejście</h4><p>Miesięczny bilet do sali — 99 zł. Otwiera wszystkie stoły w środku. Rozliczasz się raz, z góry.</p></div>
+    <div class="t"><h4><span class="n">02</span> Kupione = kupione</h4><p>Płatność natychmiast, bez „zapłacę później". Wejście jest ostateczne — dostęp masz od sekundy zaksięgowania.</p></div>
+    <div class="t"><h4><span class="n">03</span> Wynik to Twoja sprawa</h4><p>Przy stole przebijasz sam. Wygrasz lot czy odpuścisz — nie bierzemy prowizji od wyniku. Bilet to bilet.</p></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">Aureu · Prywatny klub licytacji · aureu.eu · Albestia Kozakowski · +48 453 108 326</div></footer>
+
+<div class="overlay" id="gate"><div class="box">
+  <button class="close" onclick="closeGate()">×</button>
+  <div class="tag" id="gateTag">SALA</div>
+  <h3 id="gateTitle">Wejście do sali</h3>
+  <div class="pricebox"><span class="amt">99</span><span class="per">zł / miesiąc · wszystkie sale</span></div>
+  <div class="rl">Kupione = kupione. Płatność od razu, dostęp natychmiast.</div>
+  <div class="rl">Przy stole przebijasz sam — wynik należy do Ciebie.</div>
+  <input type="email" id="gateEmail" placeholder="twoj@email.pl" autocomplete="email">
+  <button class="btn btn-gold" id="gateBtn" onclick="buyEntry()">Wykup wejście — 99 zł/mc</button>
+  <div class="msg" id="gateMsg"></div>
+</div></div>
+
+<div class="overlay" id="room">
+  <div class="room-top">
+    <div class="rt"><span id="roomEm">🏠</span><span id="roomName">Sala</span></div>
+    <div class="nav"><button onclick="navLot(-1)">‹</button><span id="lotNav">1 / 1</span><button onclick="navLot(1)">›</button></div>
+    <button class="room-back" onclick="leaveRoom()">← Lobby</button>
+  </div>
+  <button class="vizbtn" onclick="openViz()">◆ Wizualizacja 360°</button>
+  <div class="tablewrap"><div class="felt">
+    <div class="aura"></div><div class="magic"></div>
+    <div class="oval"></div><div class="rail"></div>
+    <div class="atimer" id="atimer"><div class="tlbl">Do zamknięcia</div><div class="tsec">30s</div><div class="tbar"><i></i></div></div>
+    <div class="center" id="center"></div>
+    <div class="leader" id="leader"></div>
+    <div id="seats"></div>
+    <div id="sparks"></div>
+  </div></div>
+  <div class="hall-hint" id="roomHint">Zajmij wolne miejsce, aby usiąść przy stole</div>
+  <div class="actions">
+    <button class="act pass" onclick="navLot(1)">Pasuj<small>następny lot</small></button>
+    <button class="act raise" id="raiseBtn" onclick="raise()">Przebij<small id="raiseAmt">+0 zł</small></button>
+    <button class="act watch" id="watchBtn" onclick="watch()">Usiądź<small>dołącz do stołu</small></button>
+  </div>
+</div>
+<div class="overlay" id="viz"><div class="vizbox">
+  <button class="vizclose" onclick="closeViz()">×</button>
+  <div class="vizstage"><span class="badge360">360° PODGLĄD</span><div class="sc" id="vizsc"></div><div class="vmagic" id="vmagic"></div></div>
+  <div class="vizpanel">
+    <div class="tag" id="vzTag">LOT</div><h4 id="vzTitle"></h4><div class="adr" id="vzAdr"></div>
+    <div class="plbl" id="vzPlbl">Pula</div><div class="pot" id="vzPot"></div><div class="est" id="vzEst"></div>
+    <div class="spacer"></div>
+    <button class="btn btn-gold" id="vzRaise" onclick="raise();syncViz()">Przebij</button>
+  </div>
+</div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+function bidFx(amt){
+  var f=document.querySelector('.felt'); if(f){f.classList.remove('bumped');void f.offsetWidth;f.classList.add('bumped');}
+  var seat=document.querySelector('.seat.you')||document.querySelector('.seat.lead');
+  if(seat){var e=seat.querySelector('.bidfx');if(!e){e=document.createElement('div');e.className='bidfx';seat.appendChild(e);}
+    e.textContent='+'+fmt(amt)+' zł';e.classList.remove('go');void e.offsetWidth;e.classList.add('go');}
+  try{if(typeof spark==='function')spark();}catch(_){}
+}
+
+const SB='https://mdsvcobwuezriexyqqby.supabase.co';
+const ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1kc3Zjb2J3dWV6cmlleHlxcWJ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwNjMxMjMsImV4cCI6MjA5MzYzOTEyM30.o4CVcSf9drtDxlpVv11T_E3N4dd-BSTrQPRCZXfpusg';
+const H={'apikey':ANON,'Authorization':'Bearer '+ANON,'Content-Type':'application/json'};
+const STRIPE_MONTHLY='https://buy.stripe.com/7sYbIT9wUbBb3ETgkPdQQ00';
+const NI={nieruchomosci:'🏠',auta:'🚗',maszyny:'⚙️',elektronika:'💻',rolne:'🌾',jachty:'⛵',spozywcze:'🌽',mineraly:'💎',wegiel:'🪨'};
+const TH={nieruchomosci:{a:'#2a1a4a',b:'#120a24',ac:'#b98cff'},auta:{a:'#3a1220',b:'#170710',ac:'#ff6b6b'},maszyny:{a:'#153038',b:'#0a1a1f',ac:'#ffb347'},elektronika:{a:'#122a5a',b:'#070f24',ac:'#4fd6ff'},rolne:{a:'#1c3a1e',b:'#0c1c0e',ac:'#8fe04a'},jachty:{a:'#0d3a4a',b:'#061f2a',ac:'#46c8ff'},spozywcze:{a:'#3a2a10',b:'#1a1206',ac:'#f2c14e'},mineraly:{a:'#0d3a34',b:'#05201c',ac:'#57e0c4'},wegiel:{a:'#2a2130',b:'#0a0810',ac:'#ff8a3d'},_def:{a:'#12503C',b:'#0B2C21',ac:'#C9A24B'}};
+function applyTheme(){const th=TH[curNiche]||TH._def;const rm=$('room');rm.style.setProperty('--felt',th.a);rm.style.setProperty('--felt2',th.b);rm.style.setProperty('--accent',th.ac);const sp=$('sparks');if(sp){let h='';for(let i=0;i<14;i++){h+='<span class="spark" style="left:'+(8+Math.random()*84).toFixed(1)+'%;top:'+(10+Math.random()*80).toFixed(1)+'%;animation-delay:'+(Math.random()*3).toFixed(2)+'s"></span>';}sp.innerHTML=h;}}
+const MEM={};const store={get:k=>{try{return localStorage.getItem(k)}catch(e){return MEM[k]||null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}MEM[k]=v},del:k=>{try{localStorage.removeItem(k)}catch(e){}delete MEM[k]}};
+let TOKEN=store.get('vb_token')||'',MYJOINS=new Set();
+const _vip=new URLSearchParams(location.search).get('vip');
+if(_vip){TOKEN=_vip;store.set('vb_token',_vip);store.set('vb_prem','1');}
+let curLots=[],curIdx=0,curNiche='',curName='',curIcon='';
+let timerId=null,tleft=0,ended=false;const TDUR=30;
+const $=id=>document.getElementById(id);
+const fmt=n=>Math.round(Number(n)).toLocaleString('pl-PL');
+async function rest(p){const r=await fetch(SB+'/rest/v1/'+p,{headers:H});return r.json();}
+async function rpc(fn,b){const r=await fetch(SB+'/rest/v1/rpc/'+fn,{method:'POST',headers:H,body:JSON.stringify(b)});return r.json();}
+function notify(e,d){fetch(SB+'/functions/v1/tg-notify',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({event:e,detail:d})}).catch(()=>{});}
+function track(f,s,v){try{fetch(SB+'/rest/v1/rpc/track',{method:'POST',headers:H,body:JSON.stringify({p_funnel:f,p_stage:s,p_value:v||0})});}catch(e){}}
+let tT;function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),2600);}
+function avColor(s){let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))%360;return`linear-gradient(135deg,hsl(${h} 45% 42%),hsl(${(h+40)%360} 40% 26%))`;}
+
+function buildMark(el,size){
+  el.className=(el.className||'')+' markspin';
+  el.innerHTML='<svg viewBox="0 0 120 120" style="width:'+size+';height:'+size+'" xmlns="http://www.w3.org/2000/svg">'
+  +'<defs><linearGradient id="gA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6E6B4"/><stop offset=".55" stop-color="#D9B45E"/><stop offset="1" stop-color="#9A7526"/></linearGradient>'
+  +'<linearGradient id="gB" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1b2431"/><stop offset="1" stop-color="#0d1219"/></linearGradient>'
+  +'<filter id="gF" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3.5"/></filter></defs>'
+  +'<circle cx="60" cy="60" r="52" fill="none" stroke="#C9A24B" stroke-opacity=".35" stroke-width="1" stroke-dasharray="2 7"><animateTransform attributeName="transform" type="rotate" from="0 60 60" to="360 60 60" dur="26s" repeatCount="indefinite"/></circle>'
+  +'<circle cx="60" cy="63" r="40" fill="url(#gB)" stroke="url(#gA)" stroke-width="2"/>'
+  +'<circle cx="60" cy="63" r="40" fill="none" stroke="#F6E6B4" stroke-opacity=".25" stroke-width="6" filter="url(#gF)"><animate attributeName="stroke-opacity" values=".15;.4;.15" dur="3.2s" repeatCount="indefinite"/></circle>'
+  +'<path d="M38 34 L44 22 L52 31 L60 18 L68 31 L76 22 L82 34 L78 40 L42 40 Z" fill="url(#gA)" stroke="#8C6D2E" stroke-width="1"/>'
+  +'<circle cx="44" cy="22" r="2.6" fill="#F6E6B4"/><circle cx="60" cy="18" r="3" fill="#F6E6B4"><animate attributeName="r" values="2.6;3.6;2.6" dur="2.4s" repeatCount="indefinite"/></circle><circle cx="76" cy="22" r="2.6" fill="#F6E6B4"/>'
+  +'<text x="60" y="76" text-anchor="middle" font-family="Space Grotesk,Arial" font-weight="700" font-size="30" fill="url(#gA)">MV</text>'
+  +'<text x="60" y="92" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600" font-size="9" letter-spacing="3" fill="#8593A4">AUREU</text></svg>';
+}
+buildMark($('markTop'),'40px');buildMark($('markHero'),'128px');
+
+async function loadLobby(){
+  let R=[];
+  for(let a=0;a<3;a++){const r=await rpc('room_stats',{});R=Array.isArray(r)?r:[];if(R.length)break;await new Promise(s=>setTimeout(s,600));}
+  if(!R.length){$('rooms').innerHTML='<div style="grid-column:1/-1;text-align:center;padding:44px 20px;color:var(--muted);font-family:\'IBM Plex Mono\',monospace;font-size:13px">Ładowanie sal… <span onclick="loadLobby()" style="color:var(--gold);cursor:pointer;text-decoration:underline">odśwież</span></div>';setTimeout(loadLobby,3000);return;}
+  if(TOKEN){const m=await rpc('sub_my_joins',{p_token:TOKEN});if(m&&m.ok){MYJOINS=new Set(m.joins.map(j=>j.listing_id));$('mineBtn').style.display='';}}
+  const active=R.filter(x=>x.auctions>0),soon=R.filter(x=>x.auctions===0);
+  $('lobbyHint').textContent=active.length+' sal otwartych · wejście 99 zł/mc';
+  $('rooms').innerHTML=active.map(x=>door(x,false)).join('')+soon.map(x=>door(x,true)).join('');
+  track('aureu_sub','impression');
+}
+function door(x,soon){const disc=x.top_discount?('−'+Math.round(x.top_discount)+'%'):'';
+  const chips=[[24,30],[50,20],[76,30],[38,58],[62,58]].map(([l,t])=>'<span class="chip" style="left:'+l+'%;top:'+t+'%"></span>').join('');
+  return '<div class="door '+(soon?'soon':'')+'" '+(soon?'':'onclick="enterRoom(\''+x.code+'\',\''+x.name.replace(/'/g,'')+'\',\''+x.icon+'\')"')+'>'
+    +'<div class="prev">'+(x.top_image?'<div class="thumb" style="background-image:url(\''+x.top_image+'\')"></div>':'')+'<div class="ov">'+chips+'<span class="em">'+x.icon+'</span></div>'+(disc&&!soon?'<span class="disc">'+disc+'</span>':'')+'</div>'
+    +'<div class="body"><h3>'+x.name+'</h3>'
+    +'<div class="live"><div><span class="n">'+x.auctions+'</span><span class="lbl">stołów</span></div>'
+    +'<div><span class="dot">●</span> <span class="n">'+x.participants+'</span><span class="lbl">graczy przy stołach</span></div></div>'
+    +'<div class="foot"><span class="price">Wejście <b>99 zł</b>/mc</span><span class="enter">'+(soon?'Wkrótce':'Wejdź →')+'</span></div></div></div>';
+}
+
+function enterRoom(code,name,icon){curNiche=code;curName=name;curIcon=icon;track('aureu_sub','click',0);
+  if(TOKEN){openRoom();return;}
+  $('gateTag').textContent='SALA · '+name.toUpperCase();$('gateTitle').textContent='Wejście: '+name;$('gate').classList.add('show');$('gateEmail').focus();}
+function closeGate(){$('gate').classList.remove('show');$('gateMsg').textContent='';}
+async function buyEntry(){const email=$('gateEmail').value.trim(),msg=$('gateMsg');
+  if(!email){msg.className='msg err';msg.textContent='Podaj email.';return;}
+  if(STRIPE_MONTHLY){location.href=STRIPE_MONTHLY;return;}
+  $('gateBtn').textContent='Przetwarzanie…';const r=await rpc('sub_subscribe',{p_email:email});
+  if(r&&r.ok){TOKEN=r.token;store.set('vb_token',TOKEN);track('aureu_sub','lead',0);$('mineBtn').style.display='';notify('Nowe wejście do klubu',email+' · '+curName);msg.className='msg ok';msg.textContent='Wejście aktywne. Otwieram salę…';setTimeout(()=>{closeGate();openRoom();},800);}
+  else{msg.className='msg err';msg.textContent=r&&r.error==='invalid_email'?'Nieprawidłowy email.':'Spróbuj ponownie.';}
+  $('gateBtn').textContent='Wykup wejście — 99 zł/mc';}
+async function showMine(){if(!TOKEN)return;const m=await rpc('sub_my_joins',{p_token:TOKEN});toast(m&&m.ok&&m.joins.length?('Grasz przy '+m.joins.length+' stołach'):'Nie usiadłeś jeszcze przy żadnym stole');}
+
+async function openRoom(){$('roomEm').textContent=curIcon;$('roomName').textContent=curName;document.body.style.overflow='hidden';$('room').classList.add('show');applyTheme();
+  curLots=await rest('auction_listings?status=eq.active&niche_code=eq.'+curNiche+'&select=*&order=discount_pct.desc.nullslast');curIdx=0;renderTable();}
+function leaveRoom(){$('room').classList.remove('show');document.body.style.overflow='';loadLobby();}
+function navLot(d){if(!curLots.length)return;curIdx=(curIdx+d+curLots.length)%curLots.length;renderTable();}
+
+function startTimer(){clearInterval(timerId);tleft=TDUR;ended=false;updTimer();timerId=setInterval(()=>{tleft--;updTimer();if(tleft<=0){clearInterval(timerId);endAuction();}},1000);}
+function updTimer(){const el=$('atimer');if(!el)return;const pct=Math.max(0,tleft/TDUR*100);el.className='atimer'+(tleft<=10&&!ended?' low':'')+(ended?' ended':'');el.querySelector('.tsec').textContent=ended?'ZAMKNIĘTE':tleft+'s';el.querySelector('.tbar i').style.width=pct+'%';}
+function endAuction(){ended=true;updTimer();const l=curLots[curIdx];$('raiseBtn').disabled=true;$('raiseBtn').style.opacity=.4;
+  const lead=$('leader');if(l&&l.leader_label){lead.textContent='🏆 Wygrywa: '+l.leader_label+' — '+fmt(l.current_bid||l.opening_price)+' zł';lead.classList.add('show');}
+  const wb=$('watchBtn');wb.firstChild.textContent='Następny stół';wb.querySelector('small').textContent='kolejny lot';wb.onclick=()=>navLot(1);
+  toast('Aukcja zamknięta'+(l&&l.leader_label?(' — wygrywa '+l.leader_label):' — brak przebić'));}
+
+async function renderTable(){
+  const l=curLots[curIdx];if(!l)return;
+  $('lotNav').textContent=(curIdx+1)+' / '+curLots.length;
+  const disc=l.discount_pct?Math.round(l.discount_pct):Math.round((1-l.opening_price/l.estimate)*100);
+  const pot=Number(l.current_bid||l.opening_price);
+  $('center').innerHTML=(l.image_url
+      ? '<div class="lotphoto"><img src="'+l.image_url+'" alt="" onerror="this.parentNode.innerHTML=&quot;<div class=\\&quot;ph\\&quot;>&quot;+(NI[curNiche]||&quot;🏛️&quot;)+&quot;</div>&quot;"><div class="shine"></div></div>'
+      : '<div class="lotphoto"><div class="ph">'+(NI[curNiche]||'🏛️')+'</div><div class="shine"></div></div>')
+    +'<div class="ttl">'+(l.title||'Lot')+'</div><div class="addr">'+(l.address||'')+'</div>'
+    +((l.area_m2||l.rooms)?'<div class="lotmeta">'+(l.area_m2?'<span>'+l.area_m2+' m²</span>':'')+(l.rooms?'<span>'+l.rooms+' pok.</span>':'')+'</div>':'')
+    +'<div class="potlbl">'+(l.current_bid?'Aktualne przebicie':'Cena wywołania')+'</div>'
+    +'<div class="pot">'+fmt(pot)+' zł</div>'
+    +'<div class="est">wycena '+fmt(l.estimate)+' zł</div>'
+    +'<div class="disc">−'+disc+'% poniżej wyceny</div>'
+    +'<div class="adate">e-licytacja: '+(l.auction_date?new Date(l.auction_date).toLocaleDateString('pl-PL'):'—')+'</div>';
+  const lead=$('leader');if(l.leader_label){lead.textContent='♦ Prowadzi: '+l.leader_label+' — '+fmt(pot)+' zł';lead.classList.add('show');}else lead.classList.remove('show');
+  const step=Math.max(Math.round(pot*0.03),1000);$('raiseAmt').textContent='+'+fmt(step)+' zł';
+  const joined=MYJOINS.has(l.id);const wb=$('watchBtn');wb.classList.toggle('done',joined);wb.querySelector('small').textContent=joined?'siedzisz':'dołącz do stołu';wb.firstChild.textContent=joined?'✓ Przy stole':'Usiądź';
+  // seats
+  const s=await rpc('lot_seats',{p_listing:l.id});const seats=(s&&s.seats)||[];
+  const total=6,angles=[90,150,210,270,330,30];
+  let html='';for(let i=0;i<total;i++){
+    const a=angles[i]*Math.PI/180,rx=48,ry=40,cx=50+rx*Math.cos(a),cy=48+ry*Math.sin(a);
+    const p=seats[i];
+    if(p){const you=false;const cls='seat '+(p.status==='bidding'?'bidding ':'')+(l.leader_label&&p.label===l.leader_label?'lead ':'');
+      html+='<div class="'+cls+'" style="left:'+cx+'%;top:'+cy+'%"><div class="av" style="background:'+avColor(p.label)+'">'+p.label.slice(-2)+'</div><div class="nm">'+p.label+'</div><div class="stk">'+(p.status==='bidding'?'przebija':'obserwuje')+'</div></div>';}
+    else{html+='<div class="seat empty" style="left:'+cx+'%;top:'+cy+'%"><div class="av" onclick="watch()">+</div><div class="nm" style="color:var(--muted2)">Wolne</div></div>';}
+  }
+  $('seats').innerHTML=html;
+  $('raiseBtn').disabled=false;$('raiseBtn').style.opacity=1;$('watchBtn').onclick=watch;startTimer();
+}
+async function raise(){const l=curLots[curIdx];if(!l)return;if(!TOKEN){enterRoom(curNiche,curName,curIcon);return;}
+  const b=$('raiseBtn');b.style.opacity=.5;const r=await rpc('place_bid',{p_token:TOKEN,p_listing:l.id});b.style.opacity=1;
+  if(r&&r.ok){l.current_bid=r.current_bid;l.leader_label=r.leader;MYJOINS.add(l.id);renderTable();bidFx(r.current_bid);toast('Przebito! Prowadzisz — '+fmt(r.current_bid)+' zł');notify('Przebicie',(l.title||'')+' → '+fmt(r.current_bid)+' zł');}
+  else if(r&&r.error==='not_subscribed'){store.del('vb_token');TOKEN='';enterRoom(curNiche,curName,curIcon);}
+  else toast('Nie udało się — spróbuj ponownie');}
+async function watch(){const l=curLots[curIdx];if(!l)return;if(!TOKEN){enterRoom(curNiche,curName,curIcon);return;}
+  if(MYJOINS.has(l.id)){toast('Już siedzisz przy tym stole');return;}
+  const r=await rpc('sub_join',{p_token:TOKEN,p_listing:l.id});
+  if(r&&r.ok){MYJOINS.add(l.id);renderTable();toast('Usiadłeś przy stole ✓');notify('Nowy gracz przy stole',(l.title||'')+' · '+(l.address||''));}
+  else if(r&&r.error==='not_subscribed'){store.del('vb_token');TOKEN='';enterRoom(curNiche,curName,curIcon);}
+  else toast('Nie udało się');}
+$('gateEmail').addEventListener('keydown',e=>{if(e.key==='Enter')buyEntry();});
+
+/* ---- sceny wizualizacji (per nisza/typ) ---- */
+function vscene(l){const n=curNiche,t=(l.title||'').toLowerCase();
+ if(n==='auta')return vsCar();if(n==='jachty')return vsYacht();if(n==='spozywcze')return vsGrain();if(n==='mineraly')return vsMineral();if(n==='wegiel')return vsCoal();
+ if(n==='maszyny')return vsMachine();if(n==='elektronika')return vsTech();if(n==='rolne')return vsField();
+ if(t.includes('mieszkani')||t.includes('lokal'))return vsCity();if(t.includes('działk')||t.includes('grunt'))return vsField();return vsLake();}
+function vsLake(){return '<svg viewBox="0 0 400 372" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="vk1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b2a33"/><stop offset=".55" stop-color="#1d4a48"/><stop offset=".78" stop-color="#e8b04b"/></linearGradient><linearGradient id="vk2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#155852"/><stop offset="1" stop-color="#07211f"/></linearGradient></defs><rect width="400" height="236" fill="url(#vk1)"/><circle class="glow" cx="300" cy="150" r="26" fill="#ffe9b8"/><path class="wave" d="M0,206 Q110,172 210,192 T400,188 V236 H0Z" fill="#0e3630"/><polygon points="52,152 96,120 140,152" fill="#08201c"/><rect x="62" y="150" width="68" height="56" fill="#0a2320"/><rect x="80" y="168" width="17" height="24" fill="#e8b04b"/><polygon points="152,207 164,160 176,207" fill="#08211c"/><rect y="230" width="400" height="142" fill="url(#vk2)"/><rect x="62" y="230" width="68" height="42" fill="#0a2320" opacity=".3"/></svg>';}
+function vsCity(){let w='';[[8,180,64],[78,138,86],[170,205,66],[240,120,120]].forEach(([x,y,ww],k)=>{w+='<rect x="'+x+'" y="'+y+'" width="'+ww+'" height="'+(372-y)+'" fill="#0a1a24"/>';for(let r=0;r<Math.floor((372-y)/26);r++)for(let c=0;c<Math.floor(ww/22);c++){const lit=(x+r*3+c*7+k)%4===0;w+='<rect x="'+(x+9+c*22)+'" y="'+(y+12+r*26)+'" width="9" height="12" fill="'+(lit?'#e8b04b':'#12303a')+'"/>';}});return '<svg viewBox="0 0 400 372" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="vc1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a1430"/><stop offset="1" stop-color="#243a52"/></linearGradient></defs><rect width="400" height="372" fill="url(#vc1)"/><circle class="glow" cx="322" cy="66" r="18" fill="#ffe9b8"/>'+w+'</svg>';}
+function vsField(){return '<svg viewBox="0 0 400 372" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="vf1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#173a44"/><stop offset=".6" stop-color="#d68f3a"/><stop offset=".75" stop-color="#f0c46a"/></linearGradient><linearGradient id="vf2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c4a2e"/><stop offset="1" stop-color="#0a2417"/></linearGradient></defs><rect width="400" height="222" fill="url(#vf1)"/><circle class="glow" cx="208" cy="184" r="26" fill="#fff0cf"/><rect y="214" width="400" height="158" fill="url(#vf2)"/><polygon points="286,214 311,190 336,214" fill="#0a2417"/><rect x="292" y="214" width="38" height="26" fill="#0c2a1c"/><polygon points="70,216 84,168 98,216" fill="#0a2417"/></svg>';}
+function vsCar(){return '<svg viewBox="0 0 400 372" preserveAspectRatio="xMidYMid slice"><defs><radialGradient id="va1" cx="50%" cy="30%" r="75%"><stop offset="0" stop-color="#1c3a36"/><stop offset="1" stop-color="#05130f"/></radialGradient></defs><rect width="400" height="372" fill="url(#va1)"/><ellipse cx="200" cy="80" rx="160" ry="60" fill="#e8b04b" opacity=".12"/><path class="bob" d="M62,252 Q86,214 140,206 L182,198 Q222,194 262,204 Q306,210 338,252 Z" fill="#0a1f1c"/><path d="M150,206 Q172,184 210,187 Q238,189 252,206 Z" fill="#16302b"/><circle cx="122" cy="254" r="23" fill="#04100d"/><circle cx="122" cy="254" r="11" fill="#13322c"/><circle cx="292" cy="254" r="23" fill="#04100d"/><circle cx="292" cy="254" r="11" fill="#13322c"/><rect class="glow" x="326" y="228" width="15" height="9" rx="2" fill="#f6d488"/><path d="M70,262 Q200,252 332,262 L320,280 Q200,272 82,280 Z" fill="#e8b04b" opacity=".08"/></svg>';}
+function vsYacht(){return '<svg viewBox="0 0 400 372" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="vy1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#123a44"/><stop offset=".6" stop-color="#d68f3a"/></linearGradient><linearGradient id="vy2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b6a76"/><stop offset="1" stop-color="#082a2e"/></linearGradient></defs><rect width="400" height="220" fill="url(#vy1)"/><circle class="glow" cx="304" cy="168" r="26" fill="#fff0cf"/><rect y="214" width="400" height="158" fill="url(#vy2)"/><rect x="196" y="150" width="3" height="66" fill="#0a2320"/><path d="M200,152 L200,212 L248,212 Z" fill="#fff"/><path d="M195,154 L195,212 L156,212 Z" fill="#e8e4d8"/><path class="bob" d="M120,214 L282,214 L262,240 L140,240 Z" fill="#f2efe6"/></svg>';}
+function vsGrain(){return '<svg viewBox="0 0 400 372" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="vg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a3a44"/><stop offset=".65" stop-color="#e0a344"/></linearGradient><linearGradient id="vg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#caa02f"/><stop offset="1" stop-color="#7a5c1c"/></linearGradient></defs><rect width="400" height="220" fill="url(#vg1)"/><circle class="glow" cx="312" cy="158" r="22" fill="#fffbe8"/><rect x="61" y="118" width="36" height="104" fill="#2a3a3a"/><ellipse cx="79" cy="118" rx="18" ry="6" fill="#3a4a4a"/><rect x="102" y="134" width="34" height="88" fill="#243434"/><rect y="216" width="400" height="156" fill="url(#vg2)"/></svg>';}
+function vsMineral(){return '<svg viewBox="0 0 400 372" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="vm1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a1e28"/><stop offset="1" stop-color="#123640"/></linearGradient><linearGradient id="vm2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fe0c8"/><stop offset="1" stop-color="#2b8f78"/></linearGradient></defs><rect width="400" height="372" fill="url(#vm1)"/><polygon points="0,230 90,130 170,210 250,110 340,215 400,170 400,372 0,372" fill="#0c2a2e"/><polygon points="150,320 172,262 196,320 174,344" fill="url(#vm2)"/><polygon points="196,320 214,278 236,320 216,340" fill="#e8b04b"/></svg>';}
+function vsCoal(){return '<svg viewBox="0 0 400 372" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="vw1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#241f26"/><stop offset=".6" stop-color="#5a3f2e"/><stop offset=".82" stop-color="#a06a38"/></linearGradient></defs><rect width="400" height="372" fill="url(#vw1)"/><circle class="glow" cx="308" cy="150" r="22" fill="#e0a15a" opacity=".7"/><g stroke="#0c0a0e" stroke-width="4" fill="none"><path d="M96,250 L118,150 L150,150 L172,250"/><line x1="106" y1="210" x2="162" y2="210"/></g><circle cx="134" cy="132" r="17" fill="none" stroke="#0c0a0e" stroke-width="4"/><path class="wave" d="M0,255 Q80,230 160,250 T320,245 T400,255 V372 H0Z" fill="#0a0810"/><polygon points="230,300 290,255 350,300" fill="#2a2430"/></svg>';}
+/* ---- viz flow ---- */
+const STRIPE_VIZ='https://buy.stripe.com/cNi8wH8sQ7kV0sH6KfdQQ01';let PREM=store.get('vb_prem')==='1';
+function vsMachine(){function gear(cx,cy,r,f){let t='';for(let i=0;i<10;i++){t+='<rect x="'+(cx-4)+'" y="'+(cy-r-9)+'" width="8" height="13" fill="'+f+'" transform="rotate('+(i*36)+' '+cx+' '+cy+')"/>';}return t+'<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="'+f+'"/><circle cx="'+cx+'" cy="'+cy+'" r="'+(r*0.42).toFixed(0)+'" fill="#0a1a1f"/>';}
+return '<svg viewBox="0 0 400 372" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="vmc1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0c2830"/><stop offset="1" stop-color="#0a1a1f"/></linearGradient></defs><rect width="400" height="372" fill="url(#vmc1)"/><circle class="glow" cx="304" cy="88" r="30" fill="#ffb347" opacity=".2"/>'+gear(140,150,54,'#1c4048')+gear(236,214,40,'#16323a')+gear(94,246,30,'#1c4048')+'<rect y="304" width="400" height="68" fill="#08161a"/></svg>';}
+function vsTech(){let dots='';for(let i=0;i<24;i++){const x=(20+Math.random()*360)|0,y=(20+Math.random()*300)|0;dots+='<circle cx="'+x+'" cy="'+y+'" r="2.4" fill="#4fd6ff" opacity="'+(0.3+Math.random()*0.6).toFixed(2)+'"/>';}
+let lines='';for(let i=0;i<6;i++){const y=54+i*48;lines+='<path d="M0,'+y+' H'+(120+i*28)+' V'+(y+28)+' H400" stroke="#1f4a6a" stroke-width="2" fill="none"/>';}
+let leds='';for(let r=0;r<5;r++){leds+='<rect x="162" y="'+(164+r*22)+'" width="76" height="12" rx="2" fill="#0a1526"/><circle cx="228" cy="'+(170+r*22)+'" r="3" fill="#57ffd0"/>';}
+return '<svg viewBox="0 0 400 372" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="vt1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#071026"/><stop offset="1" stop-color="#0d2246"/></linearGradient></defs><rect width="400" height="372" fill="url(#vt1)"/>'+lines+dots+'<rect x="150" y="150" width="100" height="120" rx="6" fill="#0c1b30" stroke="#2b5a86"/>'+leds+'</svg>';}
+async function openViz(){const l=curLots[curIdx];if(!l)return;
+  if(!TOKEN){enterRoom(curNiche,curName,curIcon);return;}
+  if(!PREM){if(!confirm('Wizualizacje 360° to pakiet dodatkowy — +49 zł/mc. Aktywować?'))return;
+    if(STRIPE_VIZ){location.href=STRIPE_VIZ;return;}
+    const r=await rpc('sub_upgrade',{p_token:TOKEN});
+    if(!(r&&r.ok)){toast('Nie udało się aktywować');return;}
+    PREM=true;store.set('vb_prem','1');track('aureu_viz','lead',0);notify('Pakiet Wizualizacje 360°','+49 zł/mc aktywowany');toast('Pakiet 360° aktywny ✦');}
+  syncViz();$('viz').classList.add('show');}
+function syncViz(){const l=curLots[curIdx];if(!l)return;
+  $('vizsc').innerHTML=vscene(l);
+  {const th=(TH[curNiche]||TH._def);const vs=document.querySelector('.vizstage');if(vs)vs.style.setProperty('--accent',th.ac);
+   const vm=$('vmagic');if(vm){let s='<div class="lsweep"></div>';for(let i=0;i<10;i++){s+='<span class="vspk" style="left:'+(6+Math.random()*88).toFixed(1)+'%;top:'+(8+Math.random()*84).toFixed(1)+'%;animation-delay:'+(Math.random()*3).toFixed(2)+'s"></span>';}vm.innerHTML=s;}}
+  $('vzTag').textContent='LOT · '+curName.toUpperCase();
+  $('vzTitle').textContent=l.title||'Lot';$('vzAdr').textContent=l.address||'';
+  const pot=Number(l.current_bid||l.opening_price);
+  $('vzPlbl').textContent=l.current_bid?'Aktualne przebicie':'Cena wywołania';
+  $('vzPot').textContent=fmt(pot)+' zł';$('vzEst').textContent='wycena '+fmt(l.estimate)+' zł';
+  const step=Math.max(Math.round(pot*0.03),1000);$('vzRaise').textContent='Przebij +'+fmt(step)+' zł';}
+function closeViz(){$('viz').classList.remove('show');}
+loadLobby();
+</script>
+</body></html>
