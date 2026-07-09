@@ -2,7 +2,13 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Aureu — Klub Licytacji</title>
 <meta name="theme-color" content="#0A0E14"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Aureu">
-<link rel="manifest" href="https://mdsvcobwuezriexyqqby.supabase.co/functions/v1/manifest">
+<link rel="manifest" href="https://mdsvcobwuezriexyqqby.supabfunction goAuction(){const l=curLots[curIdx];if(!l)return;
+  if(!TOKEN){enterRoom(curNiche,curName,curIcon);return;}
+  if(!l.link){toast('Brak linku do obwieszczenia');return;}
+  window.open(l.link,'_blank','noopener');
+  notify('E-licytacja',(l.title||'')+' — otwarto obwieszczenie');
+}
+e.co/functions/v1/manifest">
 <link rel="apple-touch-icon" href="https://mdsvcobwuezriexyqqby.supabase.co/functions/v1/icon">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
@@ -249,6 +255,16 @@ footer{border-top:1px solid var(--line);padding:36px 0;margin-top:34px;text-alig
 .door .prev{transition:.4s}
 .door .live .dot{color:var(--ice);animation:livePulse 1.6s ease-in-out infinite}
 @keyframes livePulse{0%,100%{opacity:.5}50%{opacity:1}}
+
+.rek{margin-top:9px;font-family:'IBM Plex Mono';font-size:11px;color:#dfe8ff;background:rgba(10,14,20,.5);
+  border:1px solid rgba(201,162,75,.28);border-radius:8px;padding:6px 10px;display:inline-block}
+.rek b{color:var(--gold-hi)}
+.rek span{display:block;color:#8fa0b5;font-size:9.5px;letter-spacing:.04em;margin-top:2px}
+.src{margin-top:8px;font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.06em;color:#86efac;opacity:.85}
+a.act{text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center}
+a.act[aria-disabled="true"]{pointer-events:none}
+.legal{max-width:820px;margin:0 auto;padding:26px 20px 0;color:#7c8797;font-size:12px;line-height:1.7;text-align:center}
+.legal b{color:#a9b4c4}
 </style></head>
 <body>
 <header><div class="wrap bar">
@@ -260,12 +276,12 @@ footer{border-top:1px solid var(--line);padding:36px 0;margin-top:34px;text-alig
 <div class="hero"><div class="wrap">
   <div class="biglogo" id="markHero"></div>
   <div class="eyebrow">Prywatny klub licytacji · Polska → Europa</div>
-  <h1>Zajmij miejsce przy stole.<br><span class="g">Reszta należy do Ciebie.</span></h1>
-  <p>Nieruchomości, auta, jachty, surowce — z licytacji, poniżej wyceny. Płacisz za wejście do sali, siadasz przy stole i przebijasz. Wynik należy do Ciebie.</p>
+  <h1>Znajdź okazję. Wejdź przygotowany.<br><span class="g">Licytuj u komornika.</span></h1>
+  <p>Obwieszczenia komornicze z całej Polski — filtrowane, wycenione, z policzoną rękojmią i pilnowanym terminem. Licytację prowadzi komornik na oficjalnym portalu KRK. My dajemy Ci przewagę, zanim tam wejdziesz.</p>
   <div class="rules">
     <span class="rule"><span class="i">◆</span> Wejście <b>99 zł/mc</b></span>
     <span class="rule"><span class="i">◆</span> <b>Kupione = kupione</b> — płatność od razu</span>
-    <span class="rule"><span class="i">◆</span> Rozliczamy wejście, nie wynik</span>
+    <span class="rule"><span class="i">◆</span> Rękojmia i termin policzone za Ciebie</span>
   </div>
 </div></div>
 
@@ -275,23 +291,35 @@ footer{border-top:1px solid var(--line);padding:36px 0;margin-top:34px;text-alig
 </div></section>
 
 <section class="sec" style="padding-top:0"><div class="wrap">
-  <div class="sec-h"><h2>Zasady klubu</h2></div>
+  <div class="sec-h"><h2>Jak to działa</h2></div>
   <div class="terms">
-    <div class="t"><h4><span class="n">01</span> Płacisz za wejście</h4><p>Miesięczny bilet do sali — 99 zł. Otwiera wszystkie stoły w środku. Rozliczasz się raz, z góry.</p></div>
-    <div class="t"><h4><span class="n">02</span> Kupione = kupione</h4><p>Płatność natychmiast, bez „zapłacę później". Wejście jest ostateczne — dostęp masz od sekundy zaksięgowania.</p></div>
-    <div class="t"><h4><span class="n">03</span> Wynik to Twoja sprawa</h4><p>Przy stole przebijasz sam. Wygrasz lot czy odpuścisz — nie bierzemy prowizji od wyniku. Bilet to bilet.</p></div>
+    <div class="t"><h4><span class="n">01</span> Płacisz za wejście</h4><p>Zbieramy obwieszczenia z licytacje.komornik.pl, liczymy dyskont wobec wyceny biegłego i pokazujemy tylko to, co realnie tanie.</p></div>
+    <div class="t"><h4><span class="n">02</span> Kupione = kupione</h4><p>Rękojmia policzona, termin przypomniany na 3 dni przed. Wiesz ile wpłacić, dokąd i do kiedy — zanim będzie za późno.</p></div>
+    <div class="t"><h4><span class="n">03</span> Wynik to Twoja sprawa</h4><p>Przetarg prowadzi komornik na oficjalnym portalu KRK. Zakładasz tam konto, wpłacasz rękojmię, licytujesz. Nie bierzemy prowizji od wyniku.</p></div>
   </div>
 </div></section>
 
-<footer><div class="wrap">Aureu · Prywatny klub licytacji · aureu.eu · Albestia Kozakowski · +48 453 108 326</div></footer>
+<div class="legal">
+<b>Aureu nie prowadzi licytacji i nie pośredniczy w sprzedaży.</b><br>
+Jesteśmy narzędziem informacyjnym: agregujemy publiczne obwieszczenia z portalu Krajowej Rady Komorniczej,
+liczymy dyskont i rękojmię, przypominamy o terminach. Abonament pokrywa dostęp do tych danych i alertów.<br><br>
+Licytacje prowadzą wyłącznie komornicy sądowi w systemie teleinformatycznym KRK pod adresem
+<b>licytacje.komornik.pl</b>. Aby wziąć udział, musisz osobiście założyć tam konto (weryfikacja PESEL),
+wpłacić rękojmię przelewem na rachunek komornika najpóźniej 2 dni robocze przed przetargiem
+i zostać dopuszczonym przez komornika. Płatność kartą nie jest możliwa.<br><br>
+Po wygranej licytacji własność przechodzi dopiero po prawomocnym postanowieniu sądu o przybiciu
+i zapłacie pełnej ceny nabycia. Dane prezentujemy w dobrej wierze — wiążąca jest wyłącznie
+treść obwieszczenia u komornika. Zawsze weryfikuj ofertę u źródła.
+</div>
+<footer><div class="wrap">Aureu · Wyszukiwarka licytacji komorniczych · aureu.eu · Albestia Kozakowski · +48 453 108 326</div></footer>
 
 <div class="overlay" id="gate"><div class="box">
   <button class="close" onclick="closeGate()">×</button>
   <div class="tag" id="gateTag">SALA</div>
   <h3 id="gateTitle">Wejście do sali</h3>
   <div class="pricebox"><span class="amt">99</span><span class="per">zł / miesiąc · wszystkie sale</span></div>
-  <div class="rl">Kupione = kupione. Płatność od razu, dostęp natychmiast.</div>
-  <div class="rl">Przy stole przebijasz sam — wynik należy do Ciebie.</div>
+  <div class="rl">Dostęp natychmiast po opłaceniu. Rezygnujesz kiedy chcesz.</div>
+  <div class="rl">Licytację prowadzi komornik — my dajemy dane, alerty i wyliczenia.</div>
   <input type="email" id="gateEmail" placeholder="twoj@email.pl" autocomplete="email">
   <button class="btn btn-gold" id="gateBtn" onclick="buyEntry()">Wykup wejście — 99 zł/mc</button>
   <div class="msg" id="gateMsg"></div>
@@ -313,11 +341,11 @@ footer{border-top:1px solid var(--line);padding:36px 0;margin-top:34px;text-alig
     <div id="seats"></div>
     <div id="sparks"></div>
   </div></div>
-  <div class="hall-hint" id="roomHint">Zajmij wolne miejsce, aby usiąść przy stole</div>
+  <div class="hall-hint" id="roomHint">Obserwuj lot — przypomnimy o rękojmi i starcie przetargu</div>
   <div class="actions">
-    <button class="act pass" onclick="navLot(1)">Pasuj<small>następny lot</small></button>
-    <button class="act raise" id="raiseBtn" onclick="raise()">Przebij<small id="raiseAmt">+0 zł</small></button>
-    <button class="act watch" id="watchBtn" onclick="watch()">Usiądź<small>dołącz do stołu</small></button>
+    <button class="act pass" onclick="navLot(1)">Następny<small>kolejny lot</small></button>
+    <a class="act raise" id="raiseBtn" href="#" target="_blank" rel="noopener">Przejdź do e-licytacji<small id="raiseAmt">licytacje.komornik.pl</small></a>
+    <button class="act watch" id="watchBtn" onclick="watch()">Obserwuj<small>alert o terminie</small></button>
   </div>
 </div>
 <div class="overlay" id="viz"><div class="vizbox">
@@ -327,19 +355,12 @@ footer{border-top:1px solid var(--line);padding:36px 0;margin-top:34px;text-alig
     <div class="tag" id="vzTag">LOT</div><h4 id="vzTitle"></h4><div class="adr" id="vzAdr"></div>
     <div class="plbl" id="vzPlbl">Pula</div><div class="pot" id="vzPot"></div><div class="est" id="vzEst"></div>
     <div class="spacer"></div>
-    <button class="btn btn-gold" id="vzRaise" onclick="raise();syncViz()">Przebij</button>
+    <a class="btn btn-gold" id="vzRaise" href="#" target="_blank" rel="noopener">Przejdź do e-licytacji →</a>
   </div>
 </div></div>
 <div class="toast" id="toast"></div>
 
 <script>
-function bidFx(amt){
-  var f=document.querySelector('.felt'); if(f){f.classList.remove('bumped');void f.offsetWidth;f.classList.add('bumped');}
-  var seat=document.querySelector('.seat.you')||document.querySelector('.seat.lead');
-  if(seat){var e=seat.querySelector('.bidfx');if(!e){e=document.createElement('div');e.className='bidfx';seat.appendChild(e);}
-    e.textContent='+'+fmt(amt)+' zł';e.classList.remove('go');void e.offsetWidth;e.classList.add('go');}
-  try{if(typeof spark==='function')spark();}catch(_){}
-}
 
 const SB='https://mdsvcobwuezriexyqqby.supabase.co';
 const ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1kc3Zjb2J3dWV6cmlleHlxcWJ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwNjMxMjMsImV4cCI6MjA5MzYzOTEyM30.o4CVcSf9drtDxlpVv11T_E3N4dd-BSTrQPRCZXfpusg';
@@ -427,6 +448,7 @@ function endAuction(){ended=true;updTimer();const l=curLots[curIdx];$('raiseBtn'
 async function renderTable(){
   const l=curLots[curIdx];if(!l)return;
   $('lotNav').textContent=(curIdx+1)+' / '+curLots.length;
+  const rb=$('raiseBtn'); if(rb){ if(l.link){rb.href=l.link;rb.style.opacity=1;rb.removeAttribute('aria-disabled');} else {rb.href='#';rb.style.opacity=.45;rb.setAttribute('aria-disabled','true');} }
   const disc=l.discount_pct?Math.round(l.discount_pct):Math.round((1-l.opening_price/l.estimate)*100);
   const pot=Number(l.current_bid||l.opening_price);
   $('center').innerHTML=(l.image_url
@@ -434,11 +456,11 @@ async function renderTable(){
       : '<div class="lotphoto"><div class="ph">'+(NI[curNiche]||'🏛️')+'</div><div class="shine"></div></div>')
     +'<div class="ttl">'+(l.title||'Lot')+'</div><div class="addr">'+(l.address||'')+'</div>'
     +((l.area_m2||l.rooms)?'<div class="lotmeta">'+(l.area_m2?'<span>'+l.area_m2+' m²</span>':'')+(l.rooms?'<span>'+l.rooms+' pok.</span>':'')+'</div>':'')
-    +'<div class="potlbl">'+(l.current_bid?'Aktualne przebicie':'Cena wywołania')+'</div>'
+    +'<div class="potlbl">Cena wywołania</div>'
     +'<div class="pot">'+fmt(pot)+' zł</div>'
     +'<div class="est">wycena '+fmt(l.estimate)+' zł</div>'
     +'<div class="disc">−'+disc+'% poniżej wyceny</div>'
-    +'<div class="adate">e-licytacja: '+(l.auction_date?new Date(l.auction_date).toLocaleDateString('pl-PL'):'—')+'</div>';
+    +'<div class="adate">'+(l.auction_date?('Przetarg: '+new Date(l.auction_date).toLocaleDateString('pl-PL')):'Termin: patrz obwieszczenie')+'</div>'+(l.rekojmia?'<div class="rek">Rękojmia: <b>'+fmt(l.rekojmia)+' zł</b> <span>wpłata min. 2 dni robocze przed</span></div>':'')+(l.verified?'<div class="src">✓ Źródło: licytacje.komornik.pl</div>':'');
   const lead=$('leader');if(l.leader_label){lead.textContent='♦ Prowadzi: '+l.leader_label+' — '+fmt(pot)+' zł';lead.classList.add('show');}else lead.classList.remove('show');
   const step=Math.max(Math.round(pot*0.03),1000);$('raiseAmt').textContent='+'+fmt(step)+' zł';
   const joined=MYJOINS.has(l.id);const wb=$('watchBtn');wb.classList.toggle('done',joined);wb.querySelector('small').textContent=joined?'siedzisz':'dołącz do stołu';wb.firstChild.textContent=joined?'✓ Przy stole':'Usiądź';
@@ -455,11 +477,7 @@ async function renderTable(){
   $('seats').innerHTML=html;
   $('raiseBtn').disabled=false;$('raiseBtn').style.opacity=1;$('watchBtn').onclick=watch;startTimer();
 }
-async function raise(){const l=curLots[curIdx];if(!l)return;if(!TOKEN){enterRoom(curNiche,curName,curIcon);return;}
-  const b=$('raiseBtn');b.style.opacity=.5;const r=await rpc('place_bid',{p_token:TOKEN,p_listing:l.id});b.style.opacity=1;
-  if(r&&r.ok){l.current_bid=r.current_bid;l.leader_label=r.leader;MYJOINS.add(l.id);renderTable();bidFx(r.current_bid);toast('Przebito! Prowadzisz — '+fmt(r.current_bid)+' zł');notify('Przebicie',(l.title||'')+' → '+fmt(r.current_bid)+' zł');}
-  else if(r&&r.error==='not_subscribed'){store.del('vb_token');TOKEN='';enterRoom(curNiche,curName,curIcon);}
-  else toast('Nie udało się — spróbuj ponownie');}
+
 async function watch(){const l=curLots[curIdx];if(!l)return;if(!TOKEN){enterRoom(curNiche,curName,curIcon);return;}
   if(MYJOINS.has(l.id)){toast('Już siedzisz przy tym stole');return;}
   const r=await rpc('sub_join',{p_token:TOKEN,p_listing:l.id});
@@ -504,9 +522,9 @@ function syncViz(){const l=curLots[curIdx];if(!l)return;
   $('vzTag').textContent='LOT · '+curName.toUpperCase();
   $('vzTitle').textContent=l.title||'Lot';$('vzAdr').textContent=l.address||'';
   const pot=Number(l.current_bid||l.opening_price);
-  $('vzPlbl').textContent=l.current_bid?'Aktualne przebicie':'Cena wywołania';
+  $('vzPlbl').textContent='Cena wywołania';
   $('vzPot').textContent=fmt(pot)+' zł';$('vzEst').textContent='wycena '+fmt(l.estimate)+' zł';
-  const step=Math.max(Math.round(pot*0.03),1000);$('vzRaise').textContent='Przebij +'+fmt(step)+' zł';}
+  if(l&&l.link)$('vzRaise').href=l.link;}
 function closeViz(){$('viz').classList.remove('show');}
 loadLobby();
 </script>
