@@ -196,16 +196,17 @@ footer{border-top:1px solid var(--line);padding:36px 0;margin-top:34px;text-alig
 
 /* === AUREU v2 — głębia i wyrafinowanie === */
 /* A) STÓŁ: tekstura sukna + vignette + głębia */
-.oval::after{content:'';position:absolute;inset:0;border-radius:50%;pointer-events:none;
+.oval::after{content:'';position:absolute;inset:0;border-radius:50%;pointer-events:none;z-index:2;
   background:
-    radial-gradient(ellipse at 50% 30%, transparent 40%, rgba(0,0,0,.35) 100%),
-    repeating-conic-gradient(from 0deg at 50% 50%, rgba(255,255,255,.012) 0deg 6deg, transparent 6deg 12deg);
-  mix-blend-mode:overlay;opacity:.7;z-index:2}
+    radial-gradient(ellipse at 50% 32%, transparent 46%, rgba(0,0,0,.30) 100%),
+    repeating-linear-gradient(45deg, rgba(255,255,255,.014) 0 2px, transparent 2px 4px),
+    repeating-linear-gradient(-45deg, rgba(0,0,0,.02) 0 2px, transparent 2px 4px);
+  opacity:.9}
 .oval::before{content:'';position:absolute;inset:6px;border-radius:50%;pointer-events:none;
   box-shadow:inset 0 0 60px rgba(0,0,0,.45), inset 0 4px 18px rgba(255,255,255,.04);z-index:2}
 .felt .rail{position:absolute;inset:-2px;border-radius:50%;z-index:3;pointer-events:none;
   background:conic-gradient(from 210deg,rgba(235,215,154,.0),rgba(235,215,154,.35) 90deg,rgba(140,109,46,.1) 200deg,rgba(235,215,154,.28) 320deg,rgba(235,215,154,.0));
-  -webkit-mask:radial-gradient(closest-side,transparent 96%,#000 97%);mask:radial-gradient(closest-side,transparent 96%,#000 97%);opacity:.55}
+  -webkit-mask:radial-gradient(closest-side,transparent 96%,#000 97%);mask:radial-gradient(closest-side,transparent 96%,#000 97%);opacity:.4}
 
 /* B) LOT: zdjęcie nieruchomości w centrum */
 .lotphoto{width:min(210px,42%);aspect-ratio:16/10;margin:0 auto 10px;border-radius:14px;overflow:hidden;
