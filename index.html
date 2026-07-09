@@ -1,199 +1,1075 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MV Automation - AI Recepcjonistka dla kliniki</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Space+Grotesk:wght@700;900&display=swap');
-*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
-:root{--p:#6d28d9;--p2:#8b5cf6;--p3:#a78bfa;--gold:#f59e0b;--g2:#fbbf24;--green:#10b981;--bg:#030309;--card:rgba(255,255,255,.04);--border:rgba(139,92,246,.15);--text:#f1f0ff;--muted:#7070a0;}
-body{background:radial-gradient(1000px 680px at 16% -8%,rgba(29,99,255,.32),transparent 60%),radial-gradient(880px 620px at 100% 6%,rgba(61,165,255,.17),transparent 55%),radial-gradient(1000px 820px at 50% 122%,rgba(29,99,255,.11),transparent 55%),linear-gradient(165deg,#050f24,#081a3a 60%,#06122b);background-attachment:fixed;color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden;line-height:1.6;}
-.amb{position:fixed;inset:0;overflow:hidden;z-index:0;pointer-events:none}
-.a1{position:absolute;top:-26%;left:50%;width:1150px;height:1150px;filter:blur(36px);background:radial-gradient(ellipse,rgba(29,99,255,.34) 0%,transparent 62%);animation:fl1 17s ease-in-out infinite;}
-.a2{position:absolute;bottom:-18%;right:-16%;width:820px;height:820px;filter:blur(38px);background:radial-gradient(ellipse,rgba(61,165,255,.20) 0%,transparent 62%);animation:fl2 21s ease-in-out infinite;}.a3{position:absolute;top:34%;left:-16%;width:720px;height:720px;filter:blur(48px);background:radial-gradient(ellipse,rgba(61,165,255,.14) 0%,transparent 62%);animation:fl2 25s ease-in-out infinite reverse;}@keyframes fl1{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(46px)}}@keyframes fl2{0%,100%{transform:translateY(0)}50%{transform:translateY(-42px)}}
-body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(139,92,246,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;}body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");}
-.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 20px;}
-.top-bar{background:linear-gradient(90deg,#064e3b,#065f46,#064e3b);background-size:200%;animation:bar 4s linear infinite;padding:10px 20px;text-align:center;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:10px;}
-@keyframes bar{0%{background-position:0%}100%{background-position:200%}}
-.dot{width:7px;height:7px;background:#6ee7b7;border-radius:50%;animation:bl 1.2s infinite;}
-@keyframes bl{0%,100%{opacity:1;}50%{opacity:.2;}}
-.spots-bar{background:rgba(245,158,11,.08);border-bottom:1px solid rgba(245,158,11,.2);padding:7px 20px;text-align:center;font-size:11px;font-weight:600;color:#fbbf24;display:flex;align-items:center;justify-content:center;gap:8px;}
-.sdots{display:flex;gap:4px;}
-.sd{width:10px;height:10px;border-radius:50%;}
-.sd.t{background:#ef4444;animation:pulse 1.5s infinite;}
-.sd.f{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.4);}50%{box-shadow:0 0 0 6px rgba(239,68,68,0);}}
-.nav{padding:16px 0;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
-.logo{font-family:'Space Grotesk',sans-serif;font-weight:900;font-size:20px;text-decoration:none;color:#fff;}
-.logo span{color:var(--p3);}
-.nlive{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--green);background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);border-radius:20px;padding:4px 12px;display:flex;align-items:center;gap:5px;}
-.nd{width:5px;height:5px;background:var(--green);border-radius:50%;animation:bl 1.5s infinite;}
-.nbtn{background:linear-gradient(135deg,var(--p),var(--p2));border:none;border-radius:8px;padding:10px 18px;color:#fff;font-weight:700;font-size:13px;text-decoration:none;}
-.pb{background:linear-gradient(135deg,rgba(16,185,129,.1),rgba(109,40,217,.1));border:2px solid rgba(16,185,129,.4);border-radius:14px;padding:14px 20px;margin:20px 0 0;text-align:center;display:none;}
-.pb.show{display:block;}
-.pb-tag{font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:5px;}
-.pb-text{font-size:16px;font-weight:700;}
-.pb-name{color:var(--g2);}
-.hero{padding:48px 0 24px;text-align:center;}
-.htag{display:inline-flex;align-items:center;gap:8px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);border-radius:30px;padding:7px 18px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:20px;}
-h1{font-family:'Space Grotesk',sans-serif;font-weight:900;font-size:clamp(36px,7vw,72px);line-height:.95;letter-spacing:-3px;margin-bottom:18px;}
-.l1{display:block;color:#fff;}.l2{display:block;background:linear-gradient(135deg,var(--green),#6ee7b7,#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.hsub{font-size:17px;color:#8080b0;max-width:540px;margin:0 auto 28px;}
-.pilot-hero{background:linear-gradient(135deg,rgba(16,185,129,.1),rgba(109,40,217,.15));border:2px solid rgba(16,185,129,.5);border-radius:24px;padding:40px;margin:32px 0;text-align:center;}
-.ph-tag{font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:12px;}
-.ph-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,4vw,42px);font-weight:900;letter-spacing:-1px;margin-bottom:10px;}
-.ph-title em{font-style:normal;color:var(--green);}
-.ph-sub{color:#8080b0;font-size:15px;margin-bottom:24px;max-width:500px;margin-left:auto;margin-right:auto;}
-.checks{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:28px;}
-.ck{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#d4fae8;}
-.cki{width:20px;height:20px;background:rgba(16,185,129,.2);border:1px solid rgba(16,185,129,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--green);}
-.cta-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--green),#059669);border:none;border-radius:14px;padding:18px 40px;font-size:16px;font-weight:700;color:#fff;text-decoration:none;box-shadow:0 8px 40px rgba(16,185,129,.35);transition:transform .2s;}
-.cta-btn:hover{transform:translateY(-2px);}
-.no-risk{margin-top:14px;font-size:12px;color:var(--muted);}
-.stats{display:flex;border:1px solid var(--border);border-radius:14px;overflow:hidden;margin:32px 0;}
-.st{flex:1;text-align:center;padding:16px 8px;border-right:1px solid var(--border);}
-.st:last-child{border-right:none;}
-.sn{font-family:'Space Grotesk',sans-serif;font-size:clamp(16px,3vw,28px);font-weight:900;background:linear-gradient(135deg,var(--gold),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.sl{font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:3px;}
-.how{margin:40px 0;}
-.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(20px,3vw,32px);font-weight:900;letter-spacing:-1px;text-align:center;margin-bottom:28px;}
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
-.step{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;}
-.step-num{width:40px;height:40px;background:linear-gradient(135deg,var(--green),#059669);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;margin:0 auto 12px;}
-.step-t{font-weight:700;font-size:14px;margin-bottom:6px;}
-.step-d{font-size:12px;color:var(--muted);}
-.pain{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:40px 0;}
-.pc{border-radius:14px;padding:20px;}
-.pb2{background:rgba(239,68,68,.04);border:1px solid rgba(239,68,68,.12);}
-.pg{background:rgba(16,185,129,.04);border:1px solid rgba(16,185,129,.12);}
-.ptl{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
-.pb2 .ptl{color:#f87171;}.pg .ptl{color:var(--green);}
-.pi{display:flex;gap:7px;font-size:12px;color:#c0c0d8;margin-bottom:7px;}
-.price-block{background:linear-gradient(135deg,rgba(245,158,11,.06),rgba(109,40,217,.1));border:1px solid rgba(245,158,11,.2);border-radius:18px;padding:30px;margin:40px 0;text-align:center;}
-.pr-tag{font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--g2);margin-bottom:10px;}
-.pr-pilot{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,5vw,52px);font-weight:900;color:var(--green);letter-spacing:-1px;margin-bottom:8px;}
-.pr-after{font-size:14px;color:var(--muted);margin-bottom:16px;}
-.pr-after strong{color:var(--text);}
-.pr-save{display:inline-block;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);border-radius:20px;padding:4px 14px;font-size:12px;font-weight:700;color:var(--green);margin-bottom:10px;}
-.pr-alert{display:inline-flex;align-items:center;gap:5px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;color:#fca5a5;}
-.div{height:1px;background:linear-gradient(90deg,transparent,rgba(139,92,246,.4),transparent);margin:40px 0;}
-.cta{text-align:center;padding:60px 0;}
-.cta-t{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,4vw,42px);font-weight:900;letter-spacing:-2px;margin-bottom:12px;}
-.cta-sub{color:var(--muted);font-size:14px;margin-bottom:28px;}
-.phone{font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:900;letter-spacing:2px;background:linear-gradient(135deg,var(--gold),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.footer{border-top:1px solid var(--border);padding:20px;text-align:center;color:var(--muted);font-size:11px;}
-@media(max-width:640px){.steps{grid-template-columns:1fr;}.stats{flex-wrap:wrap;}.st{min-width:50%;border-bottom:1px solid var(--border);}.pain{grid-template-columns:1fr;}}
-#space{position:fixed;inset:0;z-index:0;pointer-events:none}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MV Automation - AI Solutions dla Biznesu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1425 100%);
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 80px;
+            animation: fadeIn 0.8s ease-in;
+        }
+        
+        .logo {
+            font-size: 36px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #d4a574 0%, #f4e4c1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 56px;
+            margin-bottom: 15px;
+            color: #f4e4c1;
+            text-shadow: 0 0 30px rgba(212, 165, 116, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 22px;
+            color: #a0a0a0;
+            margin-bottom: 10px;
+        }
+        
+        .tagline {
+            font-size: 18px;
+            color: #d4a574;
+            font-weight: 500;
+        }
+        
+        .hero-divider {
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #d4a574 0%, transparent 100%);
+            margin: 30px auto;
+        }
+        
+        .hero-text {
+            max-width: 900px;
+            margin: 40px auto;
+            font-size: 16px;
+            color: #b0b0b0;
+            line-height: 1.8;
+        }
+        
+        /* QUIZ SECTION */
+        .quiz-section {
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.15) 0%, rgba(244, 228, 193, 0.05) 100%);
+            border: 2px solid rgba(212, 165, 116, 0.3);
+            border-radius: 16px;
+            padding: 50px 40px;
+            margin: 60px 0;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+        
+        .quiz-title {
+            font-size: 32px;
+            color: #f4e4c1;
+            margin-bottom: 15px;
+        }
+        
+        .quiz-desc {
+            font-size: 14px;
+            color: #a0a0a0;
+            margin-bottom: 40px;
+        }
+        
+        .quiz-questions {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        
+        .quiz-question {
+            margin-bottom: 35px;
+        }
+        
+        .quiz-q-text {
+            color: #f4e4c1;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+        
+        .quiz-options {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .quiz-option {
+            background: rgba(20, 20, 35, 0.8);
+            border: 1px solid rgba(212, 165, 116, 0.2);
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #a0a0a0;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .quiz-option input[type="radio"] {
+            cursor: pointer;
+            accent-color: #d4a574;
+        }
+        
+        .quiz-option:hover {
+            border-color: rgba(212, 165, 116, 0.6);
+            background: rgba(212, 165, 116, 0.05);
+        }
+        
+        .quiz-button {
+            background: linear-gradient(135deg, #d4a574 0%, #f4e4c1 100%);
+            color: #0a0e27;
+            padding: 14px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(212, 165, 116, 0.4);
+        }
+        
+        .quiz-result {
+            margin-top: 40px;
+            background: rgba(30, 30, 50, 0.9);
+            border: 2px solid rgba(212, 165, 116, 0.4);
+            padding: 30px;
+            border-radius: 12px;
+            display: none;
+        }
+        
+        .quiz-result.show {
+            display: block;
+            animation: slideDown 0.5s ease;
+        }
+        
+        .result-package {
+            font-size: 24px;
+            color: #f4e4c1;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .result-desc {
+            color: #a0a0a0;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        
+        /* CASE STUDIES */
+        .case-studies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+        
+        .case-study {
+            background: rgba(30, 30, 50, 0.8);
+            border: 1px solid rgba(212, 165, 116, 0.2);
+            border-radius: 12px;
+            padding: 32px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .case-study:hover {
+            border-color: rgba(212, 165, 116, 0.6);
+            box-shadow: 0 10px 40px rgba(212, 165, 116, 0.2);
+            transform: translateY(-5px);
+        }
+        
+        .case-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+        
+        .case-title {
+            font-size: 20px;
+            color: #f4e4c1;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .case-category {
+            font-size: 11px;
+            color: #d4a574;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+        
+        .case-problem {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 3px solid rgba(239, 68, 68, 0.5);
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .case-problem-label {
+            font-size: 11px;
+            color: #fca5a5;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        
+        .case-problem-text {
+            color: #a0a0a0;
+            font-size: 13px;
+        }
+        
+        .case-solution {
+            margin-bottom: 20px;
+        }
+        
+        .case-solution-label {
+            font-size: 11px;
+            color: #d4a574;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+        
+        .case-solution-text {
+            color: #a0a0a0;
+            font-size: 13px;
+        }
+        
+        .case-results {
+            background: rgba(34, 197, 94, 0.1);
+            border-left: 3px solid rgba(34, 197, 94, 0.5);
+            padding: 12px 15px;
+            border-radius: 4px;
+        }
+        
+        .case-result-item {
+            margin-bottom: 12px;
+            color: #a0a0a0;
+            font-size: 13px;
+        }
+        
+        .case-result-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .case-metric {
+            color: #86efac;
+            font-weight: 600;
+        }
+        
+        .case-roi {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(212, 165, 116, 0.2);
+            text-align: center;
+        }
+        
+        .case-roi-label {
+            font-size: 11px;
+            color: #a0a0a0;
+            text-transform: uppercase;
+        }
+        
+        .case-roi-value {
+            font-size: 24px;
+            color: #86efac;
+            font-weight: bold;
+        }
+        
+        /* PRODUCTS GRID */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 30px;
+            margin: 80px 0;
+        }
+        
+        .product-card {
+            background: rgba(30, 30, 50, 0.8);
+            border: 1px solid rgba(212, 165, 116, 0.2);
+            border-radius: 12px;
+            padding: 32px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-card:hover {
+            border-color: rgba(212, 165, 116, 0.6);
+            box-shadow: 0 10px 40px rgba(212, 165, 116, 0.2);
+            transform: translateY(-5px);
+        }
+        
+        .product-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+        
+        .product-title {
+            font-size: 22px;
+            color: #f4e4c1;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .product-category {
+            font-size: 11px;
+            color: #d4a574;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+        
+        .product-desc {
+            color: #a0a0a0;
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .product-value {
+            background: rgba(212, 165, 116, 0.1);
+            border-left: 3px solid rgba(212, 165, 116, 0.5);
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #d4a574;
+        }
+        
+        .product-features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+        
+        .product-features li {
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+            color: #8a8a8a;
+            font-size: 13px;
+        }
+        
+        .product-features li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #d4a574;
+            font-weight: bold;
+        }
+        
+        .product-price {
+            border-top: 1px solid rgba(212, 165, 116, 0.2);
+            padding-top: 15px;
+            margin-top: 20px;
+        }
+        
+        .price-label {
+            font-size: 11px;
+            color: #a0a0a0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        
+        .price-main {
+            font-size: 28px;
+            color: #f4e4c1;
+            font-weight: bold;
+        }
+        
+        .price-sub {
+            font-size: 12px;
+            color: #7a7a7a;
+            margin-top: 5px;
+        }
+        
+        .badge-premium {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(212, 165, 116, 0.3);
+            color: #f4e4c1;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            border: 1px solid rgba(212, 165, 116, 0.5);
+        }
+        
+        .section-title {
+            font-size: 36px;
+            color: #f4e4c1;
+            margin: 80px 0 50px 0;
+            text-align: center;
+            position: relative;
+            padding-bottom: 20px;
+        }
+        
+        .section-title:after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #d4a574, transparent);
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: #a0a0a0;
+            font-size: 16px;
+            margin-bottom: 50px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .contact-section {
+            margin: 100px 0 60px 0;
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.15) 0%, rgba(244, 228, 193, 0.05) 100%);
+            border: 2px solid rgba(212, 165, 116, 0.3);
+            border-radius: 16px;
+            padding: 60px 40px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .contact-title {
+            font-size: 32px;
+            color: #f4e4c1;
+            margin-bottom: 20px;
+        }
+        
+        .contact-desc {
+            font-size: 16px;
+            color: #a0a0a0;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .contact-item {
+            background: rgba(20, 20, 35, 0.9);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid rgba(212, 165, 116, 0.2);
+        }
+        
+        .contact-label {
+            color: #d4a574;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        
+        .contact-name {
+            font-size: 20px;
+            color: #f4e4c1;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        .contact-value {
+            font-size: 16px;
+            color: #d4a574;
+            font-weight: 600;
+        }
+        
+        .contact-value a {
+            color: #d4a574;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .contact-value a:hover {
+            color: #f4e4c1;
+        }
+        
+        .cta-primary {
+            background: linear-gradient(135deg, #d4a574 0%, #f4e4c1 100%);
+            color: #0a0e27;
+            padding: 18px 50px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            text-decoration: none;
+        }
+        
+        .cta-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(212, 165, 116, 0.4);
+        }
+        
+        .social-proof {
+            margin: 100px 0;
+            text-align: center;
+        }
+        
+        .proof-title {
+            font-size: 28px;
+            color: #f4e4c1;
+            margin-bottom: 40px;
+        }
+        
+        .proof-badges {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .proof-badge {
+            background: rgba(30, 30, 50, 0.9);
+            border: 1px solid rgba(212, 165, 116, 0.2);
+            padding: 25px;
+            border-radius: 8px;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .badge-text {
+            color: #a0a0a0;
+            font-size: 13px;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+            
+            .section-title {
+                font-size: 28px;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .case-studies-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 <body>
-<canvas id="space"></canvas>
-<div class="amb"><div class="a1"></div><div class="a2"></div><div class="a3"></div></div>
-<div class="top-bar"><div class="dot"></div>&#9889; Pilota&#380; 30 dni za darmo &#8212; bez umowy, bez zobowi&#261;za&#324;</div>
-<div class="spots-bar">Czerwiec 2026 &#8212; miejsca pilota&#380;owe: <div class="sdots"><div class="sd t"></div><div class="sd t"></div><div class="sd t"></div><div class="sd t"></div><div class="sd f"></div><div class="sd f"></div><div class="sd f"></div></div>4 zaj&#281;te &#8212; <strong style="color:#ef4444;">3 wolne</strong></div>
-<div class="wrap">
-<div class="pb" id="pb"><div class="pb-tag">&#128197; Oferta przygotowana specjalnie dla</div><div class="pb-text">Witamy, <span class="pb-name" id="cname"></span> &#128075;</div></div>
-<nav class="nav"><a href="#" class="logo">MV<span>.</span>Automation</a><div style="display:flex;align-items:center;gap:10px;"><span class="nlive"><span class="nd"></span>LIVE</span><a href="tel:+48453108326" class="nbtn">&#128222; Zadzwo&#324;</a></div></nav>
-<div class="hero">
-<div class="htag"><span class="nd"></span>AI Voice Receptionist &#8226; Kliniki prywatne &#8226; Polska</div>
-<h1><span class="l1">AI odbiera telefony</span><span class="l2">za Ciebie 24/7</span></h1>
-<p class="hsub">Twoja klinika nigdy nie traci pacjenta przez nieodebrany telefon. Testuj 30 dni za darmo &#8212; p&#322;acisz tylko je&#347;li chcesz kontynuowa&#263;.</p>
-</div>
-<div class="pilot-hero">
-<div class="ph-tag">&#9889; Oferta bez ryzyka &#8212; czerwiec 2026</div>
-<div class="ph-title">30 dni <em>za darmo</em><br>bez &#380;adnych zobowi&#261;za&#324;</div>
-<div class="ph-sub">Wdra&#380;amy AI Recepcjonistk&#281; w Twojej klinice. Przez 30 dni pracuje. P&#322;atno&#347;&#263; tylko je&#347;li zdecydujesz si&#281; pozosta&#263;.</div>
-<div class="checks">
-<div class="ck"><div class="cki">&#10003;</div>Wdro&#380;enie 5&#8211;7 dni</div>
-<div class="ck"><div class="cki">&#10003;</div>AI odbiera 100% po&#322;&#261;cze&#324; 24/7</div>
-<div class="ck"><div class="cki">&#10003;</div>Pe&#322;ny raport po 30 dniach</div>
-<div class="ck"><div class="cki">&#10003;</div>Zero umowy na start</div>
-</div>
-<a href="mailto:michal@send.kgregenevia.pro?subject=Tak, chce pilotaz" class="cta-btn" id="cta-main">&#9993; Odpisz TAK &#8212; umawiam pilota&#380;</a>
-<div class="no-risk">&#128274; Brak karty kredytowej. Brak d&#322;ugiej umowy. Rezygnacja jednym mailem.</div>
-</div>
-<div class="stats">
-<div class="st"><div class="sn">28 711</div><div class="sl">Lead&#243;w w bazie</div></div>
-<div class="st"><div class="sn">5 800+</div><div class="sl">Email&#243;w</div></div>
-<div class="st"><div class="sn">&lt;7 dni</div><div class="sl">Wdro&#380;enie</div></div>
-<div class="st"><div class="sn">24/7</div><div class="sl">Uptime AI</div></div>
-</div>
-<div class="how">
-<div class="section-title">Jak dzia&#322;a pilota&#380;?</div>
-<div class="steps">
-<div class="step"><div class="step-num">1</div><div class="step-t">Odpisujesz TAK</div><div class="step-d">Jeden email i umawiamy si&#281; na kr&#243;tk&#261; rozmow&#281; online &#8212; 20 minut</div></div>
-<div class="step"><div class="step-num">2</div><div class="step-t">Wdra&#380;amy w 5&#8211;7 dni</div><div class="step-d">Konfigurujemy AI pod Twoj&#261; klinik&#281; &#8212; procedury, specjalizacje, godziny przyj&#281;&#263;</div></div>
-<div class="step"><div class="step-num">3</div><div class="step-t">AI pracuje 30 dni</div><div class="step-d">Odbiera telefony, umawia wizyty, raportuje statystyki. Ty decydujesz czy zostaje</div></div>
-</div>
-</div>
-<div class="pain">
-<div class="pc pb2"><div class="ptl">&#10060; Bez AI recepcji</div><div class="pi">&#128383; Nieodebrane telefony = utraceni pacjenci</div><div class="pi">&#128184; Etat recepcji: 4 500&#8211;8 000 PLN/mies.</div><div class="pi">&#128308; Pacjenci dzwoni&#261; po godzinach &#8212; nikt nie odbiera</div></div>
-<div class="pc pg"><div class="ptl">&#10003; Z MV Automation</div><div class="pi">&#9989; AI odbiera 100% po&#322;&#261;cze&#324; 24/7</div><div class="pi">&#9989; 2 500 PLN/mies. zamiast etatu</div><div class="pi">&#9989; Live dashboard &#8212; pe&#322;na analityka</div></div>
-</div>
-<div class="price-block">
-<div class="pr-tag">&#10024; Model cenowy &#8212; po pilota&#380;u</div>
-<div class="pr-pilot">0 PLN przez 30 dni</div>
-<div class="pr-after">Nast&#281;pnie: <strong>9 000 PLN setup + 2 500 PLN/mies.</strong> &#8212; bez d&#322;ugiej umowy</div>
-<div class="pr-save">Oszcz&#281;dzasz vs etat recepcji: 24 000&#8211;72 000 PLN/rok</div><br>
-<div class="pr-alert">&#9888;&#65039; Zosta&#322;y 3 miejsca pilota&#380;owe w czerwcu</div>
-</div>
-<div class="div"></div>
-<div class="cta">
-<div class="cta-t">Jeden email<br>&#8212; uruchamiasz pilota&#380;</div>
-<div class="cta-sub">Bez ryzyka. Bez umowy. Wdro&#380;enie w tygodniu.</div>
-<a href="mailto:michal@send.kgregenevia.pro?subject=Tak, chce pilotaz" class="cta-btn" id="cta-bottom" style="margin-bottom:20px;display:inline-flex;">&#9993; Odpisz TAK &#8212; umawiam pilota&#380;</a><br><br>
-<a href="tel:+48453108326" style="text-decoration:none;"><div class="phone">+48 453 108 326</div></a>
-<div style="margin-top:8px;"><a href="mailto:michal@send.kgregenevia.pro" style="color:var(--p3);font-size:13px;text-decoration:none;">michal@send.kgregenevia.pro</a></div>
-</div>
-</div>
-<div class="footer">&copy; 2026 MV Automation &#183; Micha&#322; &#183; EU Data &#183; GDPR/RODO</div>
-<script>
-(async()=>{
-  const k=new URLSearchParams(location.search).get('k');
-  if(!k)return;
-  try{
-    const r=await fetch('https://mdsvcobwuezriexyqqby.supabase.co/functions/v1/personalize-page?k='+encodeURIComponent(k));
-    const d=await r.json();
-    if(d&&d.company){
-      const name=d.short_name||d.company;
-      document.getElementById('cname').textContent=name;
-      document.getElementById('pb').classList.add('show');
-      const subj='Tak, chce pilotaz - '+name;
-      ['cta-main','cta-bottom'].forEach(id=>{
-        const a=document.getElementById(id);
-        if(a)a.href='mailto:michal@send.kgregenevia.pro?subject='+encodeURIComponent(subj);
-      });
-    }
-  }catch(e){}
-})();
-</script>
-<script>
-(function(){
-  const c=document.getElementById('space'),x=c.getContext('2d');let W,H,DPR;
-  function size(){DPR=Math.min(devicePixelRatio||1,2);W=c.width=innerWidth*DPR;H=c.height=innerHeight*DPR;c.style.width=innerWidth+'px';c.style.height=innerHeight+'px';}
-  size();addEventListener('resize',size);
-  const N=Math.min(150,Math.floor(innerWidth*innerHeight/12000));
-  const P=[];for(let i=0;i<N;i++)P.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.18*DPR,vy:(Math.random()-.5)*.18*DPR,r:(Math.random()*1.6+.5)*DPR,a:Math.random()*.5+.3});
-  const S=[];
-  function spark(px,py){for(let i=0;i<18;i++){const ang=Math.random()*6.283,sp=(Math.random()*3+1)*DPR;S.push({x:px*DPR,y:py*DPR,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp,life:1,r:(Math.random()*2+1)*DPR});}}
-  addEventListener('click',e=>spark(e.clientX,e.clientY));
-  addEventListener('touchstart',e=>{if(e.touches[0])spark(e.touches[0].clientX,e.touches[0].clientY)},{passive:true});
-  function loop(){
-    x.clearRect(0,0,W,H);
-    for(let i=0;i<P.length;i++){const a=P[i];
-      for(let j=i+1;j<P.length;j++){const b=P[j],dx=a.x-b.x,dy=a.y-b.y,d=dx*dx+dy*dy,max=(130*DPR)*(130*DPR);
-        if(d<max){const al=(1-d/max)*.22;x.strokeStyle='rgba(90,160,255,'+al+')';x.lineWidth=DPR*.6;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke();}}
-    }
-    for(const p of P){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
-      x.beginPath();x.arc(p.x,p.y,p.r,0,6.283);x.fillStyle='rgba(150,195,255,'+p.a+')';x.fill();}
-    for(let i=S.length-1;i>=0;i--){const s=S[i];s.x+=s.vx;s.y+=s.vy;s.vx*=.95;s.vy*=.95;s.life-=.022;
-      if(s.life<=0){S.splice(i,1);continue;}
-      x.beginPath();x.arc(s.x,s.y,s.r*s.life,0,6.283);x.fillStyle='rgba(120,200,255,'+s.life+')';x.shadowBlur=12*DPR;x.shadowColor='rgba(80,170,255,'+s.life+')';x.fill();x.shadowBlur=0;}
-    requestAnimationFrame(loop);
-  }
-  loop();
-})();
-</script>
+    <div class="container">
+        <!-- HEADER -->
+        <header>
+            <div class="logo">🚀 MV AUTOMATION</div>
+            <h1>AI Solutions dla Twojego Biznesu</h1>
+            <p class="subtitle">Automatyzacja, inteligencja, skalowanie</p>
+            <p class="tagline">Automatyzacja procesów — realne cięcie kosztów operacyjnych</p>
+            <div class="hero-divider"></div>
+            <div class="hero-text">
+                MV Automation buduje automatyzacje AI dla firm — kliniki, agencje, e-commerce, usługi. Przejmujemy powtarzalne procesy: obsługę telefonu, kampanie e-mail, treści, integracje. Startujemy w 2026 roku, dlatego pierwsze trzy firmy wdrażam za połowę stawki.
+            </div>
+        </header>
+        
+        <!-- QUIZ SECTION -->
+        <div class="quiz-section">
+            <div class="quiz-title">🎯 Jaki pakiet dla mnie?</div>
+            <div class="quiz-desc">Odpowiedz na 3 pytania a pokażemy dokładnie co Ci się przydaje</div>
+            
+            <form id="quizForm" class="quiz-questions">
+                <div class="quiz-question">
+                    <div class="quiz-q-text">1. Co robisz?</div>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="industry" value="clinic">
+                            <span>Prowadzę klinikę medyczną</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="industry" value="agency">
+                            <span>Pracuję w agencji / b2b</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="industry" value="ecommerce">
+                            <span>Sprzedaję online / sklep</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="industry" value="startup">
+                            <span>Mam startup / swagg</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <div class="quiz-q-text">2. Gdzie tracisz teraz czas?</div>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="problem" value="phones">
+                            <span>Odbieranie połączeń, rezerwacje</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="problem" value="leads">
+                            <span>Poszukiwanie nowych klientów</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="problem" value="content">
+                            <span>Tworzenie treści, media społecznościowe</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="problem" value="systems">
+                            <span>Łączenie systemów, integracje</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <div class="quiz-q-text">3. Jaki masz budżet?</div>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="budget" value="small">
+                            <span>Chcę zacząć małe (do 8k/msc)</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="budget" value="medium">
+                            <span>Stać mnie na solidne (8-15k/msc)</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="budget" value="large">
+                            <span>ROI jest ważny, budżet nie (15k+/msc)</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <button type="button" class="quiz-button" onclick="runQuiz()">Pokaż mi ofertę →</button>
+            </form>
+            
+            <div id="quizResult" class="quiz-result">
+                <div class="result-package" id="resultPackage"></div>
+                <div class="result-desc" id="resultDesc"></div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px;">
+                    <a href="https://calendly.com/kg-regenevia/30min?utm_source=oferta&utm_medium=web&utm_content=quiz_result" target="_blank" class="cta-primary" style="text-align: center;">Zarezerwuj 30min</a>
+                    <a href="https://wa.me/48453108326?text=Hej!%20Chciałbym%20wiedzieć%20więcej%20o%20pakiecie" target="_blank" class="cta-primary" style="text-align: center; background: linear-gradient(135deg, #25d366 0%, #34a853 100%);">Napisz na WhatsApp</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- FOUNDER PRICING -->
+        <div class="section-title">Startujemy — i to jest Twoja przewaga</div>
+        <div class="section-subtitle">MV Automation rusza w 2026 roku. Zamiast udawać, że mamy setki wdrożeń, dajemy coś konkretniejszego.</div>
+
+        <div class="quiz-section" style="margin: 40px 0 80px 0;">
+            <div style="max-width: 800px; margin: 0 auto; text-align: left;">
+                <div style="font-size: 26px; color: #f4e4c1; margin-bottom: 24px; text-align: center;">Oferta dla pierwszych trzech firm</div>
+
+                <div style="background: rgba(34,197,94,0.12); border-left: 4px solid #22c55e; padding: 20px 24px; border-radius: 8px; margin-bottom: 18px;">
+                    <div style="color:#86efac; font-size:12px; text-transform:uppercase; letter-spacing:2px; margin-bottom:8px;">Co dostajesz</div>
+                    <div style="color:#c0c0c0; font-size:15px; line-height:1.9;">
+                        &bull; <strong style="color:#f4e4c1;">50% zniżki</strong> na wdrożenie i pierwsze 3 miesiące<br>
+                        &bull; Bezpośredni numer do mnie — nie do supportu<br>
+                        &bull; Wpływ na kierunek produktu: budujemy pod Twój proces<br>
+                        &bull; Wdrożenie w 48h od akceptacji zakresu
+                    </div>
+                </div>
+
+                <div style="background: rgba(212,165,116,0.12); border-left: 4px solid #d4a574; padding: 20px 24px; border-radius: 8px; margin-bottom: 18px;">
+                    <div style="color:#d4a574; font-size:12px; text-transform:uppercase; letter-spacing:2px; margin-bottom:8px;">Czego oczekuję w zamian</div>
+                    <div style="color:#c0c0c0; font-size:15px; line-height:1.9;">
+                        Referencji — ale tylko jeśli rozwiązanie faktycznie zadziała. Jeśli nie zadziała, nie zapłacisz za kolejny miesiąc.
+                    </div>
+                </div>
+
+                <div style="background: rgba(30,30,50,0.9); border:1px solid rgba(212,165,116,0.25); padding: 20px 24px; border-radius: 8px;">
+                    <div style="color:#a0a0a0; font-size:12px; text-transform:uppercase; letter-spacing:2px; margin-bottom:8px;">Uczciwie</div>
+                    <div style="color:#9a9a9a; font-size:14px; line-height:1.8;">
+                        Nie mamy jeszcze publicznych case studies — bo dopiero startujemy. Mamy działającą infrastrukturę, gotowy produkt i chęć udowodnienia tego na Twoim procesie. Umów 30 minut, pokażę demo na żywo.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CO MAMY REALNIE -->
+        <div class="section-title">Co mamy realnie</div>
+        <div class="section-subtitle">Infrastruktura, nie obietnice</div>
+        <div class="products-grid" style="margin-bottom: 40px;">
+            <div class="product-card">
+                <div class="product-icon">🎙️</div>
+                <div class="product-title">Działający asystent głosowy</div>
+                <div class="product-desc">Odbiera telefon, prowadzi rozmowę po polsku, umawia termin. Zadzwonisz i posłuchasz — na spotkaniu puszczam demo na żywo.</div>
+            </div>
+            <div class="product-card">
+                <div class="product-icon">⚙️</div>
+                <div class="product-title">Własna infrastruktura</div>
+                <div class="product-desc">n8n na dedykowanym serwerze, Supabase, kolejkowanie, monitoring 24/7 z automatycznymi alertami. Nie odsprzedajemy cudzego SaaS.</div>
+            </div>
+            <div class="product-card">
+                <div class="product-icon">📊</div>
+                <div class="product-title">Bazy B2B i wysyłka</div>
+                <div class="product-desc">Zweryfikowane bazy firm, sześć domen wysyłkowych z pełnym uwierzytelnieniem SPF/DKIM/DMARC, bramka MX i ochrona przed odbiciami.</div>
+            </div>
+        </div>
+
+        <!-- CORE PRODUCTS -->
+        <div class="section-title">Top 6 Produktów</div>
+        <div class="section-subtitle">Najpopularniejsze rozwiązania, które wdrażamy</div>
+        
+        <div class="products-grid">
+            <!-- VOICE RECEPTIONIST -->
+            <div class="product-card">
+                <div class="badge-premium">bestseller</div>
+                <div class="product-icon">🎙️</div>
+                <div class="product-category">Telekomunkacja AI</div>
+                <div class="product-title">AI Voice Receptionist</div>
+                <div class="product-desc">
+                    Obsługa 100% połączeń 24/7. System automatycznie odbiera, rezerwuje wizyty, przekierowuje do lekarza, wysyła SMS potwierdzenia.
+                </div>
+                <div class="product-value">
+                    💰 Przejmuje połączenia poza godzinami i gdy recepcja zajęta
+                </div>
+                <ul class="product-features">
+                    <li>Inteligentna rezerwacja bez człowieka</li>
+                    <li>Głos w Twoim stylu (trening)</li>
+                    <li>Integracja z ERP/CRM</li>
+                    <li>Analytics i reporting 24/7</li>
+                    <li>Fallback do operatora jeśli trzeba</li>
+                </ul>
+                <div class="product-price">
+                    <div class="price-label">Setup (jednorazowo)</div>
+                    <div class="price-main">9 000 PLN</div>
+                    <div class="price-sub">+ 2 500 PLN/msc następne</div>
+                </div>
+            </div>
+            
+            <!-- COLD EMAIL ENGINE -->
+            <div class="product-card">
+                <div class="badge-premium">proven</div>
+                <div class="product-icon">📧</div>
+                <div class="product-category">Lead Generation</div>
+                <div class="product-title">Cold Email Engine</div>
+                <div class="product-desc">
+                    900+ emaili dziennie do weryfikowanych baz (kliniki, agencje, nieruchomości). Personalizacja, IP warmup, tracking replies.
+                </div>
+                <div class="product-value">
+                    💰 Wysyłka z uwierzytelnionych domen, bramka MX, ochrona przed odbiciami
+                </div>
+                <ul class="product-features">
+                    <li>28k+ verified leads w bazie</li>
+                    <li>5 domains z IP warmup</li>
+                    <li>Personalizacja per lead</li>
+                    <li>Click & reply tracking</li>
+                    <li>Bounce guard (auto-pause)</li>
+                </ul>
+                <div class="product-price">
+                    <div class="price-label">Setup + 30 dni</div>
+                    <div class="price-main">3 500 PLN</div>
+                    <div class="price-sub">+ leads package od 500 PLN</div>
+                </div>
+            </div>
+            
+            <!-- LANDING PAGES -->
+            <div class="product-card">
+                <div class="product-icon">🌐</div>
+                <div class="product-category">Web & Conversion</div>
+                <div class="product-title">Premium Landing Pages</div>
+                <div class="product-desc">
+                    Strony sprzedażowe z dark luxury designem. Stripe buttons, countdown timers, form capture, conversion tracking.
+                </div>
+                <div class="product-value">
+                    💰 Strona sprzedażowa gotowa w 3-5 dni, z integracją płatności
+                </div>
+                <ul class="product-features">
+                    <li>Custom dark luxury design</li>
+                    <li>Stripe integration ready</li>
+                    <li>Mobile optimized</li>
+                    <li>Form to CRM integration</li>
+                    <li>Analytics dashboard</li>
+                </ul>
+                <div class="product-price">
+                    <div class="price-label">Per project</div>
+                    <div class="price-main">2 500 PLN</div>
+                    <div class="price-sub">3-5 dni realizacji</div>
+                </div>
+            </div>
+            
+            <!-- CONTENT ENGINE -->
+            <div class="product-card">
+                <div class="product-icon">📱</div>
+                <div class="product-category">Social & Content</div>
+                <div class="product-title">AI Content Engine</div>
+                <div class="product-desc">
+                    Generowanie i publikowanie 6+ postów dziennie. LinkedIn, Telegram, TikTok. Brand voice personalizacja, scheduled batches.
+                </div>
+                <div class="product-value">
+                    💰 Treści generowane i publikowane bez Twojego udziału
+                </div>
+                <ul class="product-features">
+                    <li>6 postów dziennie</li>
+                    <li>Multi-platform publish</li>
+                    <li>Brand voice training</li>
+                    <li>Analytics & engagement tracking</li>
+                    <li>Customizable prompts</li>
+                </ul>
+                <div class="product-price">
+                    <div class="price-label">Monthly</div>
+                    <div class="price-main">1 200 PLN</div>
+                    <div class="price-sub">unlimited posts</div>
+                </div>
+            </div>
+            
+            <!-- N8N WORKFLOWS -->
+            <div class="product-card">
+                <div class="product-icon">⚙️</div>
+                <div class="product-category">Automation & Workflow</div>
+                <div class="product-title">N8N Custom Workflows</div>
+                <div class="product-desc">
+                    Integracja systemów bez kodu. Supabase ↔ Slack, webhooks, scheduling, conditional logic. Dowolny use case.
+                </div>
+                <div class="product-value">
+                    💰 Powtarzalne procesy przechodzą na automat, z monitoringiem
+                </div>
+                <ul class="product-features">
+                    <li>500+ app integrations</li>
+                    <li>Custom logic & conditions</li>
+                    <li>Error handling & retries</li>
+                    <li>24/7 monitoring & alerts</li>
+                    <li>Dokumentacja & support</li>
+                </ul>
+                <div class="product-price">
+                    <div class="price-label">Per workflow</div>
+                    <div class="price-main">1 500 PLN</div>
+                    <div class="price-sub">+ 500 PLN/msc maintenance</div>
+                </div>
+            </div>
+            
+            <!-- LEAD DATABASE -->
+            <div class="product-card">
+                <div class="product-icon">📊</div>
+                <div class="product-category">Data & Intelligence</div>
+                <div class="product-title">Verified Lead Database</div>
+                <div class="product-desc">
+                    Bazy kontaktów do cold outreach. Kliniki, agencje marketing, nieruchomości. Weryfikowane, RODO-compliant, aktualne.
+                </div>
+                <div class="product-value">
+                    💰 Rekordy zweryfikowane, gotowe do importu w minutę
+                </div>
+                <ul class="product-features">
+                    <li>28k+ verified records</li>
+                    <li>ICP tier classification</li>
+                    <li>Email + telefon + website</li>
+                    <li>Miesięczne updaty</li>
+                    <li>Export CSV/API</li>
+                </ul>
+                <div class="product-price">
+                    <div class="price-label">Starter</div>
+                    <div class="price-main">500 PLN</div>
+                    <div class="price-sub">1000 leads jednorazowo</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- DLACZEGO MY -->
+        <div class="social-proof">
+            <div class="proof-title">Dlaczego warto teraz</div>
+            <div class="proof-badges">
+                <div><div class="proof-badge">50%</div><div class="badge-text">Zniżki dla pierwszych trzech firm</div></div>
+                <div><div class="proof-badge">48h</div><div class="badge-text">Od akceptacji zakresu do wdrożenia</div></div>
+                <div><div class="proof-badge">24/7</div><div class="badge-text">Monitoring z automatycznymi alertami</div></div>
+                <div><div class="proof-badge">1:1</div><div class="badge-text">Bezpośredni kontakt, bez supportu</div></div>
+                <div><div class="proof-badge">0 zł</div><div class="badge-text">Za kolejny miesiąc, jeśli nie zadziała</div></div>
+                <div><div class="proof-badge">2026</div><div class="badge-text">Rok startu — jesteś na początku</div></div>
+            </div>
+        </div>
+
+        <!-- CONTACT -->
+        <div class="contact-section" id="contact">
+            <div class="contact-title">Zacznij Teraz</div>
+            <div class="contact-desc">
+                30-minutowa konsultacja. Zdiagnozujemy Twój biznes, pokażemy które procesy skalować, ile zaoszczędzisz w PLN i jaki będzie czas wdrożenia.
+            </div>
+            
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <div class="contact-label">👤 Kierownik Zespołu</div>
+                    <div class="contact-name">Albestia Kozakowski</div>
+                    <div class="contact-value">
+                        <a href="https://calendly.com/kg-regenevia/30min?utm_source=oferta&utm_medium=web&utm_content=contact_phone" target="_blank">Zarezerwuj w Calendly</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-label">💬 WhatsApp</div>
+                    <div class="contact-name">Bezpośredni Chat</div>
+                    <div class="contact-value">
+                        <a href="https://wa.me/48453108326?text=Hej!%20Chciałbym%20się%20dowiedzieć%20więcej%20o%20MV%20Automation" target="_blank">+48 453 108 326</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-label">📧 Email</div>
+                    <div class="contact-name">Support</div>
+                    <div class="contact-value">
+                        <a href="mailto:oferta@mvautoai.net?subject=Pytanie%20o%20MV%20Automation">oferta@mvautoai.net</a>
+                    </div>
+                </div>
+            </div>
+            
+            <a href="https://calendly.com/kg-regenevia/30min?utm_source=oferta&utm_medium=web&utm_content=main_cta" target="_blank" class="cta-primary">Zarezerwuj Konsultację 30min</a>
+        </div>
+    </div>
+    
+    <script>
+        function runQuiz() {
+            const industry = document.querySelector('input[name="industry"]:checked')?.value;
+            const problem = document.querySelector('input[name="problem"]:checked')?.value;
+            const budget = document.querySelector('input[name="budget"]:checked')?.value;
+            
+            if (!industry || !problem || !budget) {
+                alert('Odpowiedz na wszystkie pytania!');
+                return;
+            }
+            
+            let package_name = '';
+            let setup_cost = 0;
+            let monthly_cost = 0;
+            let package_contents = '';
+            let package_benefits = '';
+            
+            // Logic na podstawie odpowiedzi
+            if (industry === 'clinic') {
+                package_name = '🏥 Paket Clinic Pro';
+                setup_cost = 9000;
+                monthly_cost = 2500;
+                package_contents = 'Voice Receptionist 24/7 + Email Engine + Landing Page + analytics';
+                package_benefits = '✓ Telefon odbierany także po godzinach<br>✓ Rezerwacja wizyty bez udziału recepcji<br>✓ Potwierdzenie SMS do pacjenta';
+            } else if (industry === 'agency') {
+                package_name = '📊 Paket Agency Full Stack';
+                setup_cost = 3500;
+                monthly_cost = 8500;
+                package_contents = 'Cold Email Engine (900/dzień) + Lead Database + Landing Pages (3x) + N8N Workflows (3x)';
+                package_benefits = '✓ Wysyłka z uwierzytelnionych domen<br>✓ Bramka MX i ochrona przed odbiciami<br>✓ Odpowiedzi trafiają prosto do Ciebie';
+            } else if (industry === 'ecommerce') {
+                package_name = '📦 Paket E-commerce + Arbitrage';
+                setup_cost = 2000;
+                monthly_cost = 7500;
+                package_contents = 'Email Engine + Dropshipping Arbitrage + Landing Page + Workflows';
+                package_benefits = '✓ Monitoring ofert i marż bez ręcznej pracy<br>✓ Automatyczne dopasowanie dostawców<br>✓ Zamówienia obsługiwane przez webhooki';
+            } else {
+                package_name = '🚀 Startup Builder Pack';
+                setup_cost = 2500;
+                monthly_cost = 5000;
+                package_contents = 'Landing Page + N8N Workflows (2x) + Email Engine + Content Engine (3 posty/dzień)';
+                package_benefits = '✓ Strona sprzedażowa z płatnościami<br>✓ Automatyzacja powtarzalnych procesów<br>✓ Treści publikowane bez Twojego udziału';
+            }
+            
+            // Calculate total for first month
+            let first_month_total = setup_cost + monthly_cost;
+            
+            // Adjust by budget
+            let budget_note = '';
+            if (budget === 'small') {
+                budget_note = '💡 Pierwsze trzy firmy wdrażam za 50% stawki. Możemy zacząć od jednego procesu i rozszerzać.';
+            } else if (budget === 'large') {
+                budget_note = '💡 Pierwsze trzy firmy wdrażam za 50% stawki, z bezpośrednim kontaktem do mnie.';
+            }
+            
+            // Build result HTML
+            let result_html = `
+                <div style="text-align: left;">
+                    <div style="background: rgba(212, 165, 116, 0.2); padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #d4a574;">
+                        <div style="color: #d4a574; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Zawartość pakietu</div>
+                        <div style="color: #a0a0a0; font-size: 14px; line-height: 1.6;">${package_contents}</div>
+                    </div>
+                    
+                    <div style="background: rgba(34, 197, 94, 0.15); padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #22c55e;">
+                        <div style="color: #86efac; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Korzyści</div>
+                        <div style="color: #a0a0a0; font-size: 14px; line-height: 1.8;">${package_benefits}</div>
+                    </div>
+                    
+                    <div style="background: rgba(59, 130, 246, 0.15); padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #3b82f6;">
+                        <div style="color: #93c5fd; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Koszt</div>
+                        <div style="color: #60a5fa; font-size: 18px; font-weight: bold; margin-bottom: 5px;">Setup: ${setup_cost.toLocaleString('pl-PL')} PLN</div>
+                        <div style="color: #93c5fd; font-size: 14px; margin-bottom: 15px;">Kolejne miesiące: ${monthly_cost.toLocaleString('pl-PL')} PLN/msc</div>
+                        <div style="color: #f4e4c1; font-size: 14px; border-top: 1px solid rgba(59, 130, 246, 0.3); padding-top: 12px;">
+                            <strong>Razem miesiąc 1:</strong> ${first_month_total.toLocaleString('pl-PL')} PLN
+                        </div>
+                    </div>
+                    
+                    ${budget_note ? `<div style="background: rgba(244, 228, 193, 0.1); padding: 15px; border-radius: 8px; color: #d4a574; font-size: 13px; line-height: 1.6;">${budget_note}</div>` : ''}
+                </div>
+            `;
+            
+            document.getElementById('resultPackage').innerHTML = package_name;
+            document.getElementById('resultDesc').innerHTML = result_html;
+            document.getElementById('quizResult').classList.add('show');
+            
+            setTimeout(() => {
+                document.getElementById('quizResult').scrollIntoView({ behavior: 'smooth' });
+            }, 300);
+        }
+    </script>
 </body>
 </html>
