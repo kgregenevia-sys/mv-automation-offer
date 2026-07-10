@@ -270,6 +270,14 @@ a.act[aria-disabled="true"]{pointer-events:none}
 .keybox input{width:100%;background:rgba(10,14,20,.6);border:1px solid rgba(201,162,75,.3);border-radius:9px;padding:11px 13px;color:#e8e8e8;font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none;box-sizing:border-box}
 .keybox input:focus{border-color:rgba(235,215,154,.7)}
 .kbtn{width:100%;margin-top:8px;background:rgba(201,162,75,.12);border:1px solid rgba(201,162,75,.4);border-radius:9px;padding:11px;color:#f4e4c1;font-weight:600;font-size:13px;cursor:pointer}
+
+.kalk{margin-top:12px;background:rgba(10,14,20,.5);border:1px solid rgba(201,162,75,.22);border-radius:10px;padding:12px 14px;text-align:left}
+.kalk-h{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#d4a574;margin-bottom:8px}
+.kalk-r{display:flex;justify-content:space-between;font-size:12.5px;color:#b8b8b8;padding:3px 0}
+.kalk-r b{color:#e8e8e8;font-weight:600}
+.kalk-sum{display:flex;justify-content:space-between;font-size:14px;color:#f4e4c1;border-top:1px solid rgba(201,162,75,.25);margin-top:6px;padding-top:8px}
+.kalk-sum b{color:#f4e4c1}
+.kalk-note{font-size:10px;color:#8fa0b5;line-height:1.5;margin-top:8px}
 </style></head>
 <body>
 <header><div class="wrap bar">
@@ -370,6 +378,21 @@ treść obwieszczenia u komornika. Zawsze weryfikuj ofertę u źródła.
 <div class="toast" id="toast"></div>
 
 <script>
+function kosztHtml(l){
+  var cena=Number(l.opening_price||0); if(!cena) return '';
+  var pcc=Math.round(cena*0.02);
+  var kw=200; // wpis prawa wlasnosci do KW
+  var razem=cena+pcc+kw;
+  return '<div class="kalk">'+
+    '<div class="kalk-h">Szacowany koszt nabycia</div>'+
+    '<div class="kalk-r"><span>Cena (jesli wygrasz w 1. podejsciu)</span><b>'+fmt(cena)+' zl</b></div>'+
+    '<div class="kalk-r"><span>PCC 2%</span><b>'+fmt(pcc)+' zl</b></div>'+
+    '<div class="kalk-r"><span>Wpis do ksiegi wieczystej</span><b>'+fmt(kw)+' zl</b></div>'+
+    '<div class="kalk-sum"><span>Razem orientacyjnie</span><b>'+fmt(razem)+' zl</b></div>'+
+    '<div class="kalk-note">Rekojmia '+(l.rekojmia?fmt(l.rekojmia)+' zl ':'')+'wchodzi w cene, nie doliczaj. Wartosci szacunkowe \u2014 dokladne oplaty zaleza od sadu i stanu hipotek.</div>'+
+  '</div>';
+}
+
 
 const SB='https://mdsvcobwuezriexyqqby.supabase.co';
 const ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1kc3Zjb2J3dWV6cmlleHlxcWJ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwNjMxMjMsImV4cCI6MjA5MzYzOTEyM30.o4CVcSf9drtDxlpVv11T_E3N4dd-BSTrQPRCZXfpusg';
@@ -463,6 +486,7 @@ function endAuction(){ended=true;updTimer();const l=curLots[curIdx];$('raiseBtn'
   const wb=$('watchBtn');wb.firstChild.textContent='Następny stół';wb.querySelector('small').textContent='kolejny lot';wb.onclick=()=>navLot(1);
   toast('Aukcja zamknięta'+(l&&l.leader_label?(' — wygrywa '+l.leader_label):' — brak przebić'));}
 
+async 
 async function renderTable(){
   const l=curLots[curIdx];if(!l)return;
   $('lotNav').textContent=(curIdx+1)+' / '+curLots.length;
@@ -478,7 +502,7 @@ async function renderTable(){
     +'<div class="pot">'+fmt(pot)+' zł</div>'
     +'<div class="est">wycena '+fmt(l.estimate)+' zł</div>'
     +'<div class="disc">−'+disc+'% poniżej wyceny</div>'
-    +'<div class="adate">'+(l.auction_date?('Przetarg: '+new Date(l.auction_date).toLocaleDateString('pl-PL')):'Termin: patrz obwieszczenie')+'</div>'+(l.rekojmia?'<div class="rek">Rękojmia: <b>'+fmt(l.rekojmia)+' zł</b> <span>wpłata min. 2 dni robocze przed</span></div>':'')+(l.verified?'<div class="src">✓ Źródło: licytacje.komornik.pl</div>':'');
+    +'<div class="adate">'+(l.auction_date?('Przetarg: '+new Date(l.auction_date).toLocaleDateString('pl-PL')):'Termin: patrz obwieszczenie')+'</div>'+(l.rekojmia?'<div class="rek">Rękojmia: <b>'+fmt(l.rekojmia)+' zł</b> <span>wpłata min. 2 dni robocze przed</span></div>':'')+(l.verified?'<div class="src">✓ Źródło: licytacje.komornik.pl</div>':'')+kosztHtml(l);
   const lead=$('leader');if(l.leader_label){lead.textContent='♦ Prowadzi: '+l.leader_label+' — '+fmt(pot)+' zł';lead.classList.add('show');}else lead.classList.remove('show');
   $('raiseAmt').textContent='licytacje.komornik.pl';
   const joined=MYJOINS.has(l.id);const wb=$('watchBtn');wb.classList.toggle('done',joined);wb.querySelector('small').textContent=joined?'alert włączony':'alert o terminie';wb.firstChild.textContent=joined?'✓ Obserwujesz':'Usiądź';
