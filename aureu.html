@@ -365,7 +365,7 @@ treść obwieszczenia u komornika. Zawsze weryfikuj ofertę u źródła.
 const SB='https://mdsvcobwuezriexyqqby.supabase.co';
 const ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1kc3Zjb2J3dWV6cmlleHlxcWJ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwNjMxMjMsImV4cCI6MjA5MzYzOTEyM30.o4CVcSf9drtDxlpVv11T_E3N4dd-BSTrQPRCZXfpusg';
 const H={'apikey':ANON,'Authorization':'Bearer '+ANON,'Content-Type':'application/json'};
-const STRIPE_MONTHLY='https://buy.stripe.com/7sYbIT9wUbBb3ETgkPdQQ00';
+const STRIPE_MONTHLY='https://buy.stripe.com/4gM7sD5gEax76R5b0vdQQ02';
 const NI={nieruchomosci:'🏠',auta:'🚗',maszyny:'⚙️',elektronika:'💻',rolne:'🌾',jachty:'⛵',spozywcze:'🌽',mineraly:'💎',wegiel:'🪨'};
 const TH={nieruchomosci:{a:'#2a1a4a',b:'#120a24',ac:'#b98cff'},auta:{a:'#3a1220',b:'#170710',ac:'#ff6b6b'},maszyny:{a:'#153038',b:'#0a1a1f',ac:'#ffb347'},elektronika:{a:'#122a5a',b:'#070f24',ac:'#4fd6ff'},rolne:{a:'#1c3a1e',b:'#0c1c0e',ac:'#8fe04a'},jachty:{a:'#0d3a4a',b:'#061f2a',ac:'#46c8ff'},spozywcze:{a:'#3a2a10',b:'#1a1206',ac:'#f2c14e'},mineraly:{a:'#0d3a34',b:'#05201c',ac:'#57e0c4'},wegiel:{a:'#2a2130',b:'#0a0810',ac:'#ff8a3d'},_def:{a:'#12503C',b:'#0B2C21',ac:'#C9A24B'}};
 function applyTheme(){const th=TH[curNiche]||TH._def;const rm=$('room');rm.style.setProperty('--felt',th.a);rm.style.setProperty('--felt2',th.b);rm.style.setProperty('--accent',th.ac);const sp=$('sparks');if(sp){let h='';for(let i=0;i<14;i++){h+='<span class="spark" style="left:'+(8+Math.random()*84).toFixed(1)+'%;top:'+(10+Math.random()*80).toFixed(1)+'%;animation-delay:'+(Math.random()*3).toFixed(2)+'s"></span>';}sp.innerHTML=h;}}
@@ -433,7 +433,7 @@ async function enterRoom(code,name,icon){curNiche=code;curName=name;curIcon=icon
 function closeGate(){$('gate').classList.remove('show');$('gateMsg').textContent='';}
 async function buyEntry(){const email=$('gateEmail').value.trim(),msg=$('gateMsg');
   if(!email){msg.className='msg err';msg.textContent='Podaj email.';return;}
-  if(STRIPE_MONTHLY){location.href=STRIPE_MONTHLY;return;}
+  if(STRIPE_MONTHLY){location.href=STRIPE_MONTHLY+'?prefilled_email='+encodeURIComponent(email);return;}
   $('gateBtn').textContent='Przetwarzanie…';const r=await rpc('sub_subscribe',{p_email:email});
   if(r&&r.ok){TOKEN=r.token;store.set('vb_token',TOKEN);track('aureu_sub','lead',0);$('mineBtn').style.display='';notify('Nowe wejście do klubu',email+' · '+curName);msg.className='msg ok';msg.textContent='Wejście aktywne. Otwieram salę…';setTimeout(()=>{closeGate();openRoom();},800);}
   else{msg.className='msg err';msg.textContent=r&&r.error==='invalid_email'?'Nieprawidłowy email.':'Spróbuj ponownie.';}
@@ -442,7 +442,11 @@ async function showMine(){if(!TOKEN)return;const m=await rpc('sub_my_joins',{p_t
 
 async function openRoom(){$('roomEm').textContent=curIcon;$('roomName').textContent=curName;document.body.style.overflow='hidden';$('room').classList.add('show');applyTheme();
   curLots=await rest('auction_listings?status=eq.active&niche_code=eq.'+curNiche+'&select=*&order=discount_pct.desc.nullslast');curIdx=0;renderTable();}
-function leaveRoom(){$('room').classList.remove('show');document.body.style.overflow='';loadLobby();}
+function leaveRoom(){$('room').classList.remove('show');document.body.style.overflow='';
+(function(){try{var h=location.hash||'';var m=h.match(/[#&]t=([a-f0-9]{32,})/i);
+ if(m&&m[1]){store.set('vb_token',m[1]);TOKEN=m[1];history.replaceState(null,'',location.pathname);}}catch(_e){}})();
+
+loadLobby();}
 function navLot(d){if(!curLots.length)return;curIdx=(curIdx+d+curLots.length)%curLots.length;renderTable();}
 
 function startTimer(){clearInterval(timerId);tleft=TDUR;ended=false;updTimer();timerId=setInterval(()=>{tleft--;updTimer();if(tleft<=0){clearInterval(timerId);endAuction();}},1000);}
