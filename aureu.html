@@ -486,7 +486,6 @@ function endAuction(){ended=true;updTimer();const l=curLots[curIdx];$('raiseBtn'
   const wb=$('watchBtn');wb.firstChild.textContent='Następny stół';wb.querySelector('small').textContent='kolejny lot';wb.onclick=()=>navLot(1);
   toast('Aukcja zamknięta'+(l&&l.leader_label?(' — wygrywa '+l.leader_label):' — brak przebić'));}
 
-async 
 async function renderTable(){
   const l=curLots[curIdx];if(!l)return;
   $('lotNav').textContent=(curIdx+1)+' / '+curLots.length;
