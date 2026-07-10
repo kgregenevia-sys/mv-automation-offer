@@ -279,7 +279,7 @@ a.act[aria-disabled="true"]{pointer-events:none}
   <h1>Znajdź okazję. Wejdź przygotowany.<br><span class="g">Licytuj u komornika.</span></h1>
   <p>Obwieszczenia komornicze z całej Polski — filtrowane, wycenione, z policzoną rękojmią i pilnowanym terminem. Licytację prowadzi komornik na oficjalnym portalu KRK. My dajemy Ci przewagę, zanim tam wejdziesz.</p>
   <div class="rules">
-    <span class="rule"><span class="i">◆</span> Wejście <b>99 zł/mc</b></span>
+    <span class="rule"><span class="i">◆</span> Wejście <b>99 zł/mc</b> za salę</span>
     <span class="rule"><span class="i">◆</span> <b>Kupione = kupione</b> — płatność od razu</span>
     <span class="rule"><span class="i">◆</span> Rękojmia i termin policzone za Ciebie</span>
   </div>
@@ -317,11 +317,11 @@ treść obwieszczenia u komornika. Zawsze weryfikuj ofertę u źródła.
   <button class="close" onclick="closeGate()">×</button>
   <div class="tag" id="gateTag">SALA</div>
   <h3 id="gateTitle">Wejście do sali</h3>
-  <div class="pricebox"><span class="amt">99</span><span class="per">zł / miesiąc · wszystkie sale</span></div>
-  <div class="rl">Dostęp natychmiast po opłaceniu. Rezygnujesz kiedy chcesz.</div>
+  <div class="pricebox"><span class="amt">99</span><span class="per">zł / miesiąc · <span id="gateNote">ta sala</span></span></div>
+  <div class="rl">Dostęp do tej sali natychmiast po opłaceniu. Każda sala rozliczana osobno. Rezygnujesz kiedy chcesz.</div>
   <div class="rl">Licytację prowadzi komornik — my dajemy dane, alerty i wyliczenia.</div>
   <input type="email" id="gateEmail" placeholder="twoj@email.pl" autocomplete="email">
-  <button class="btn btn-gold" id="gateBtn" onclick="buyEntry()">Wykup wejście — 99 zł/mc</button>
+  <button class="btn btn-gold" id="gateBtn" onclick="buyEntry()">Wykup wejście do sali — 99 zł/mc</button>
   <div class="msg" id="gateMsg"></div>
 </div></div>
 
@@ -406,7 +406,7 @@ async function loadLobby(){
   if(!R.length){$('rooms').innerHTML='<div style="grid-column:1/-1;text-align:center;padding:44px 20px;color:var(--muted);font-family:\'IBM Plex Mono\',monospace;font-size:13px">Ładowanie sal… <span onclick="loadLobby()" style="color:var(--gold);cursor:pointer;text-decoration:underline">odśwież</span></div>';setTimeout(loadLobby,3000);return;}
   if(TOKEN){const m=await rpc('sub_my_joins',{p_token:TOKEN});if(m&&m.ok){MYJOINS=new Set(m.joins.map(j=>j.listing_id));$('mineBtn').style.display='';}}
   const active=R.filter(x=>x.auctions>0),soon=R.filter(x=>x.auctions===0);
-  $('lobbyHint').textContent=active.length+' sal otwartych · wejście 99 zł/mc';
+  $('lobbyHint').textContent=active.length+' sal otwartych · 99 zł/mc za każdą salę';
   $('rooms').innerHTML=active.map(x=>door(x,false)).join('')+soon.map(x=>door(x,true)).join('');
   track('aureu_sub','impression');
 }
@@ -417,12 +417,19 @@ function door(x,soon){const disc=x.top_discount?('−'+Math.round(x.top_discount
     +'<div class="body"><h3>'+x.name+'</h3>'
     +'<div class="live"><div><span class="n">'+x.auctions+'</span><span class="lbl">stołów</span></div>'
     +'<div><span class="dot">●</span> <span class="n">'+x.participants+'</span><span class="lbl">graczy przy stołach</span></div></div>'
-    +'<div class="foot"><span class="price">Wejście <b>99 zł</b>/mc</span><span class="enter">'+(soon?'Wkrótce':'Wejdź →')+'</span></div></div></div>';
+    +'<div class="foot"><span class="price">Wejście <b>99 zł</b>/mc za salę</span><span class="enter">'+(soon?'Wkrótce':'Wejdź →')+'</span></div></div></div>';
 }
 
-function enterRoom(code,name,icon){curNiche=code;curName=name;curIcon=icon;track('aureu_sub','click',0);
-  if(TOKEN){openRoom();return;}
-  $('gateTag').textContent='SALA · '+name.toUpperCase();$('gateTitle').textContent='Wejście: '+name;$('gate').classList.add('show');$('gateEmail').focus();}
+async function enterRoom(code,name,icon){curNiche=code;curName=name;curIcon=icon;track('aureu_sub','click',0);
+  if(TOKEN){
+    const a=await rpc('room_access',{p_token:TOKEN,p_niche:code});
+    if(a&&a.ok){openRoom();return;}
+    if(a&&a.reason==='not_subscribed'){store.del('vb_token');TOKEN='';}
+  }
+  $('gateTag').textContent='SALA · '+name.toUpperCase();
+  $('gateTitle').textContent='Wejście: '+name;
+  $('gateNote').textContent='99 zł/mc za tę salę. Każda sala osobno.';
+  $('gate').classList.add('show');$('gateEmail').focus();}
 function closeGate(){$('gate').classList.remove('show');$('gateMsg').textContent='';}
 async function buyEntry(){const email=$('gateEmail').value.trim(),msg=$('gateMsg');
   if(!email){msg.className='msg err';msg.textContent='Podaj email.';return;}
@@ -462,7 +469,7 @@ async function renderTable(){
     +'<div class="disc">−'+disc+'% poniżej wyceny</div>'
     +'<div class="adate">'+(l.auction_date?('Przetarg: '+new Date(l.auction_date).toLocaleDateString('pl-PL')):'Termin: patrz obwieszczenie')+'</div>'+(l.rekojmia?'<div class="rek">Rękojmia: <b>'+fmt(l.rekojmia)+' zł</b> <span>wpłata min. 2 dni robocze przed</span></div>':'')+(l.verified?'<div class="src">✓ Źródło: licytacje.komornik.pl</div>':'');
   const lead=$('leader');if(l.leader_label){lead.textContent='♦ Prowadzi: '+l.leader_label+' — '+fmt(pot)+' zł';lead.classList.add('show');}else lead.classList.remove('show');
-  const step=Math.max(Math.round(pot*0.03),1000);$('raiseAmt').textContent='+'+fmt(step)+' zł';
+  $('raiseAmt').textContent='licytacje.komornik.pl';
   const joined=MYJOINS.has(l.id);const wb=$('watchBtn');wb.classList.toggle('done',joined);wb.querySelector('small').textContent=joined?'siedzisz':'dołącz do stołu';wb.firstChild.textContent=joined?'✓ Przy stole':'Usiądź';
   // seats
   const s=await rpc('lot_seats',{p_listing:l.id});const seats=(s&&s.seats)||[];
