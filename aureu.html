@@ -443,9 +443,6 @@ async function showMine(){if(!TOKEN)return;const m=await rpc('sub_my_joins',{p_t
 async function openRoom(){$('roomEm').textContent=curIcon;$('roomName').textContent=curName;document.body.style.overflow='hidden';$('room').classList.add('show');applyTheme();
   curLots=await rest('auction_listings?status=eq.active&niche_code=eq.'+curNiche+'&select=*&order=discount_pct.desc.nullslast');curIdx=0;renderTable();}
 function leaveRoom(){$('room').classList.remove('show');document.body.style.overflow='';
-(function(){try{var h=location.hash||'';var m=h.match(/[#&]t=([a-f0-9]{32,})/i);
- if(m&&m[1]){store.set('vb_token',m[1]);TOKEN=m[1];history.replaceState(null,'',location.pathname);}}catch(_e){}})();
-
 loadLobby();}
 function navLot(d){if(!curLots.length)return;curIdx=(curIdx+d+curLots.length)%curLots.length;renderTable();}
 
@@ -537,6 +534,8 @@ function syncViz(){const l=curLots[curIdx];if(!l)return;
   $('vzPot').textContent=fmt(pot)+' zł';$('vzEst').textContent='wycena '+fmt(l.estimate)+' zł';
   if(l&&l.link)$('vzRaise').href=l.link;}
 function closeViz(){$('viz').classList.remove('show');}
+(function(){try{var h=location.hash||'';var m=h.match(/[#&]t=([a-f0-9]{32,})/i);
+if(m&&m[1]){store.set('vb_token',m[1]);TOKEN=m[1];history.replaceState(null,'',location.pathname+location.search);}}catch(_e){}})();
 loadLobby();
 </script>
 </body></html>
