@@ -481,7 +481,7 @@ async function renderTable(){
     +'<div class="adate">'+(l.auction_date?('Przetarg: '+new Date(l.auction_date).toLocaleDateString('pl-PL')):'Termin: patrz obwieszczenie')+'</div>'+(l.rekojmia?'<div class="rek">Rękojmia: <b>'+fmt(l.rekojmia)+' zł</b> <span>wpłata min. 2 dni robocze przed</span></div>':'')+(l.verified?'<div class="src">✓ Źródło: licytacje.komornik.pl</div>':'');
   const lead=$('leader');if(l.leader_label){lead.textContent='♦ Prowadzi: '+l.leader_label+' — '+fmt(pot)+' zł';lead.classList.add('show');}else lead.classList.remove('show');
   $('raiseAmt').textContent='licytacje.komornik.pl';
-  const joined=MYJOINS.has(l.id);const wb=$('watchBtn');wb.classList.toggle('done',joined);wb.querySelector('small').textContent=joined?'siedzisz':'dołącz do stołu';wb.firstChild.textContent=joined?'✓ Obserwujesz':'Usiądź';
+  const joined=MYJOINS.has(l.id);const wb=$('watchBtn');wb.classList.toggle('done',joined);wb.querySelector('small').textContent=joined?'alert włączony':'alert o terminie';wb.firstChild.textContent=joined?'✓ Obserwujesz':'Usiądź';
   // seats
   const s=await rpc('lot_seats',{p_listing:l.id});const seats=(s&&s.seats)||[];
   const total=6,angles=[90,150,210,270,330,30];
