@@ -362,7 +362,7 @@ treść obwieszczenia u komornika. Zawsze weryfikuj ofertę u źródła.
   <div class="vizstage"><span class="badge360">360° PODGLĄD</span><div class="sc" id="vizsc"></div><div class="vmagic" id="vmagic"></div></div>
   <div class="vizpanel">
     <div class="tag" id="vzTag">LOT</div><h4 id="vzTitle"></h4><div class="adr" id="vzAdr"></div>
-    <div class="plbl" id="vzPlbl">Pula</div><div class="pot" id="vzPot"></div><div class="est" id="vzEst"></div>
+    <div class="plbl" id="vzPlbl">Cena wywołania</div><div class="pot" id="vzPot"></div><div class="est" id="vzEst"></div>
     <div class="spacer"></div>
     <a class="btn btn-gold" id="vzRaise" href="#" target="_blank" rel="noopener">Przejdź do e-licytacji →</a>
   </div>
@@ -415,7 +415,7 @@ async function loadLobby(){
   if(!R.length){$('rooms').innerHTML='<div style="grid-column:1/-1;text-align:center;padding:44px 20px;color:var(--muted);font-family:\'IBM Plex Mono\',monospace;font-size:13px">Ładowanie sal… <span onclick="loadLobby()" style="color:var(--gold);cursor:pointer;text-decoration:underline">odśwież</span></div>';setTimeout(loadLobby,3000);return;}
   if(TOKEN){const m=await rpc('sub_my_joins',{p_token:TOKEN});if(m&&m.ok){MYJOINS=new Set(m.joins.map(j=>j.listing_id));$('mineBtn').style.display='';}}
   const active=R.filter(x=>x.auctions>0),soon=R.filter(x=>x.auctions===0);
-  $('lobbyHint').textContent=active.length+' sal otwartych · 99 zł/mc za każdą salę';
+  var n=active.length;var slowo=(n===1?'sala otwarta':(n%10>=2&&n%10<=4&&(n%100<12||n%100>14))?'sale otwarte':'sal otwartych');$('lobbyHint').textContent=n+' '+slowo+' · 99 zł/mc za każdą salę';
   $('rooms').innerHTML=active.map(x=>door(x,false)).join('')+soon.map(x=>door(x,true)).join('');
   track('aureu_sub','impression');
 }
@@ -432,6 +432,7 @@ function door(x,soon){const disc=x.top_discount?('−'+Math.round(x.top_discount
 async function enterRoom(code,name,icon){curNiche=code;curName=name;curIcon=icon;track('aureu_sub','click',0);
   if(TOKEN){
     const a=await rpc('room_access',{p_token:TOKEN,p_niche:code});
+    if(a&&a.plan==='premium'){PREM=true;store.set('vb_prem','1');}
     if(a&&a.ok){openRoom();return;}
     if(a&&a.reason==='not_subscribed'){store.del('vb_token');TOKEN='';}
   }
@@ -480,7 +481,7 @@ async function renderTable(){
     +'<div class="adate">'+(l.auction_date?('Przetarg: '+new Date(l.auction_date).toLocaleDateString('pl-PL')):'Termin: patrz obwieszczenie')+'</div>'+(l.rekojmia?'<div class="rek">Rękojmia: <b>'+fmt(l.rekojmia)+' zł</b> <span>wpłata min. 2 dni robocze przed</span></div>':'')+(l.verified?'<div class="src">✓ Źródło: licytacje.komornik.pl</div>':'');
   const lead=$('leader');if(l.leader_label){lead.textContent='♦ Prowadzi: '+l.leader_label+' — '+fmt(pot)+' zł';lead.classList.add('show');}else lead.classList.remove('show');
   $('raiseAmt').textContent='licytacje.komornik.pl';
-  const joined=MYJOINS.has(l.id);const wb=$('watchBtn');wb.classList.toggle('done',joined);wb.querySelector('small').textContent=joined?'siedzisz':'dołącz do stołu';wb.firstChild.textContent=joined?'✓ Przy stole':'Usiądź';
+  const joined=MYJOINS.has(l.id);const wb=$('watchBtn');wb.classList.toggle('done',joined);wb.querySelector('small').textContent=joined?'siedzisz':'dołącz do stołu';wb.firstChild.textContent=joined?'✓ Obserwujesz':'Usiądź';
   // seats
   const s=await rpc('lot_seats',{p_listing:l.id});const seats=(s&&s.seats)||[];
   const total=6,angles=[90,150,210,270,330,30];
@@ -496,9 +497,9 @@ async function renderTable(){
 }
 
 async function watch(){const l=curLots[curIdx];if(!l)return;if(!TOKEN){enterRoom(curNiche,curName,curIcon);return;}
-  if(MYJOINS.has(l.id)){toast('Już siedzisz przy tym stole');return;}
+  if(MYJOINS.has(l.id)){toast('Ten lot już obserwujesz');return;}
   const r=await rpc('sub_join',{p_token:TOKEN,p_listing:l.id});
-  if(r&&r.ok){MYJOINS.add(l.id);renderTable();toast('Usiadłeś przy stole ✓');notify('Nowy gracz przy stole',(l.title||'')+' · '+(l.address||''));}
+  if(r&&r.ok){MYJOINS.add(l.id);renderTable();toast('Obserwujesz lot ✓ Przypomnimy o terminie');notify('Nowy obserwowany lot',(l.title||'')+' · '+(l.address||''));}
   else if(r&&r.error==='not_subscribed'){store.del('vb_token');TOKEN='';enterRoom(curNiche,curName,curIcon);}
   else toast('Nie udało się');}
 $('gateEmail').addEventListener('keydown',e=>{if(e.key==='Enter')buyEntry();});
@@ -548,13 +549,14 @@ if(m&&m[1]){store.set('vb_token',m[1]);TOKEN=m[1];history.replaceState(null,'',l
 
 async function useKey(){
   var k=($('keyInput').value||'').trim().replace(/[^a-f0-9]/gi,''), msg=$('gateMsg');
-  if(k.length<32){msg.className='msg err';msg.textContent='Klucz wyglada na niepelny.';return;}
+  if(k.length<32){msg.className='msg err';msg.textContent='Klucz wygląda na niepełny.';return;}
   var a=await rpc('room_access',{p_token:k,p_niche:curNiche});
+  if(a&&a.plan==='premium'){PREM=true;store.set('vb_prem','1');}
   if(a&&a.ok){store.set('vb_token',k);TOKEN=k;var mb=$('mineBtn');if(mb)mb.style.display='';
-    msg.className='msg ok';msg.textContent='Klucz przyjety. Otwieram sale...';
+    msg.className='msg ok';msg.textContent='Klucz przyjęty. Otwieram salę…';
     setTimeout(function(){closeGate();openRoom();},600);}
-  else if(a&&a.reason==='room_not_purchased'){msg.className='msg err';msg.textContent='Ten klucz nie ma dostepu do tej sali.';}
-  else{msg.className='msg err';msg.textContent='Klucz nieprawidlowy lub wygasl.';}
+  else if(a&&a.reason==='room_not_purchased'){msg.className='msg err';msg.textContent='Ten klucz nie ma dostępu do tej sali.';}
+  else{msg.className='msg err';msg.textContent='Klucz nieprawidłowy lub wygasł.';}
 }
 
 loadLobby();
