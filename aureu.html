@@ -265,6 +265,11 @@ a.act{text-decoration:none;display:flex;flex-direction:column;align-items:center
 a.act[aria-disabled="true"]{pointer-events:none}
 .legal{max-width:820px;margin:0 auto;padding:26px 20px 0;color:#7c8797;font-size:12px;line-height:1.7;text-align:center}
 .legal b{color:#a9b4c4}
+
+.keybox{margin-top:14px;padding-top:14px;border-top:1px solid rgba(201,162,75,.18)}
+.keybox input{width:100%;background:rgba(10,14,20,.6);border:1px solid rgba(201,162,75,.3);border-radius:9px;padding:11px 13px;color:#e8e8e8;font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none;box-sizing:border-box}
+.keybox input:focus{border-color:rgba(235,215,154,.7)}
+.kbtn{width:100%;margin-top:8px;background:rgba(201,162,75,.12);border:1px solid rgba(201,162,75,.4);border-radius:9px;padding:11px;color:#f4e4c1;font-weight:600;font-size:13px;cursor:pointer}
 </style></head>
 <body>
 <header><div class="wrap bar">
@@ -322,6 +327,10 @@ treść obwieszczenia u komornika. Zawsze weryfikuj ofertę u źródła.
   <div class="rl">Licytację prowadzi komornik — my dajemy dane, alerty i wyliczenia.</div>
   <input type="email" id="gateEmail" placeholder="twoj@email.pl" autocomplete="email">
   <button class="btn btn-gold" id="gateBtn" onclick="buyEntry()">Wykup wejście do sali — 99 zł/mc</button>
+<div class="keybox">
+<input id="keyInput" placeholder="…albo wklej klucz dostępu" autocomplete="off" spellcheck="false">
+<button class="kbtn" onclick="useKey()">Wejdź kluczem</button>
+</div>
   <div class="msg" id="gateMsg"></div>
 </div></div>
 
@@ -536,6 +545,18 @@ function syncViz(){const l=curLots[curIdx];if(!l)return;
 function closeViz(){$('viz').classList.remove('show');}
 (function(){try{var h=location.hash||'';var m=h.match(/[#&]t=([a-f0-9]{32,})/i);
 if(m&&m[1]){store.set('vb_token',m[1]);TOKEN=m[1];history.replaceState(null,'',location.pathname+location.search);}}catch(_e){}})();
+
+async function useKey(){
+  var k=($('keyInput').value||'').trim().replace(/[^a-f0-9]/gi,''), msg=$('gateMsg');
+  if(k.length<32){msg.className='msg err';msg.textContent='Klucz wyglada na niepelny.';return;}
+  var a=await rpc('room_access',{p_token:k,p_niche:curNiche});
+  if(a&&a.ok){store.set('vb_token',k);TOKEN=k;var mb=$('mineBtn');if(mb)mb.style.display='';
+    msg.className='msg ok';msg.textContent='Klucz przyjety. Otwieram sale...';
+    setTimeout(function(){closeGate();openRoom();},600);}
+  else if(a&&a.reason==='room_not_purchased'){msg.className='msg err';msg.textContent='Ten klucz nie ma dostepu do tej sali.';}
+  else{msg.className='msg err';msg.textContent='Klucz nieprawidlowy lub wygasl.';}
+}
+
 loadLobby();
 </script>
 </body></html>
