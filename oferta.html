@@ -189,6 +189,19 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;color:v
 
 @media(max-width:760px){.steps,.promos{grid-template-columns:1fr}.pain{grid-template-columns:1fr}.stats-row{grid-template-columns:repeat(2,1fr)}.ref{flex-direction:column;text-align:center}.grid{grid-template-columns:1fr}.footer-cta{padding:38px 24px}h1{letter-spacing:-2px}}
 @media(prefers-reduced-motion:reduce){body::before{animation:none}.topbar{animation:none}.nav-dot,.hero-tag-dot{animation:none}canvas#c{display:none}}
+
+/* ABOUT */
+.about{position:relative;background:linear-gradient(150deg,rgba(129,140,248,.09),rgba(56,224,240,.05));border:1px solid var(--border2);border-radius:28px;padding:44px 42px;overflow:hidden;box-shadow:var(--glow)}
+.about::before{content:'';position:absolute;top:0;left:0;bottom:0;width:4px;background:var(--iri)}
+.about::after{content:'';position:absolute;top:-90px;right:-70px;width:340px;height:340px;background:radial-gradient(ellipse,rgba(129,140,248,.18) 0%,transparent 66%);pointer-events:none}
+.about>*{position:relative}
+.about-eyebrow{font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;background:var(--iri);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:14px}
+.about-h{font-family:'Space Grotesk',sans-serif;font-size:clamp(24px,3.6vw,38px);font-weight:800;letter-spacing:-1.2px;line-height:1.1;color:#fff;margin-bottom:22px;max-width:760px}
+.about-p{color:#cfceec;font-size:15px;line-height:1.75;margin-bottom:16px;max-width:720px}
+.about-close{font-family:'Space Grotesk',sans-serif;font-size:clamp(17px,2.4vw,22px);font-weight:700;line-height:1.4;background:var(--iri);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;max-width:720px;margin-top:4px}
+@media(max-width:760px){.about{padding:32px 24px}}
+
+.about-wise{position:relative;font-family:'Space Grotesk',sans-serif;font-size:clamp(16px,2.1vw,19px);font-weight:500;line-height:1.55;color:#e7e6fb;border-left:2px solid rgba(160,140,255,.5);padding:2px 0 2px 20px;margin:22px 0;max-width:720px}
 </style>
 </head>
 <body>
@@ -234,6 +247,16 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;color:v
     <div class="stat"><div class="stat-n">&lt;14 dni</div><div class="stat-l" id="stat2">Wdrożenie</div></div>
     <div class="stat"><div class="stat-n">24/7</div><div class="stat-l" id="stat3">Uptime AI</div></div>
     <div class="stat"><div class="stat-n">M2M</div><div class="stat-l" id="stat4">Umowa</div></div>
+  </div>
+
+  <div class="sec-title" id="sec-about">O nas</div>
+  <div class="about">
+    <div class="about-eyebrow" id="about-eye">Kim jesteśmy</div>
+    <h2 class="about-h" id="about-h">Śledzimy sztuczną inteligencję od jej pierwszego dnia na rynku</h2>
+    <p class="about-p" id="about-p1">Ludzie, którzy stworzyli tę ofertę, obserwują rozwój i ewolucję sztucznej inteligencji oraz automatyzacji od chwili, gdy pojawiły się na rynku.</p>
+    <p class="about-p" id="about-p2">Jako firma jesteśmy na rynku od niedawna, ale nie zaczynamy od zera.</p>
+    <p class="about-wise" id="about-wise">Technologia jest tylko środkiem — celem zawsze pozostaje człowiek i jego czas.</p>
+    <p class="about-close" id="about-p3">Bo dziś największą wartością jest czas — i to właśnie czas oddajemy Ci z powrotem.</p>
   </div>
 
   <div class="sec-title" id="sec-how">Jak działa pilotaż</div>
@@ -315,6 +338,13 @@ pl:{
   noRisk:'🔒 Brak karty kredytowej. Brak długiej umowy. Rezygnacja jednym mailem.',
   stat1:'Usługi AI', stat2:'Wdrożenie', stat3:'Uptime AI', stat4:'Umowa',
   secHow:'Jak działa pilotaż',
+  secAbout:'O nas',
+  aboutEye:'Kim jesteśmy',
+  aboutH:'Śledzimy sztuczną inteligencję od jej pierwszego dnia na rynku',
+  aboutP1:'Ludzie, którzy stworzyli tę ofertę, obserwują rozwój i ewolucję sztucznej inteligencji oraz automatyzacji od chwili, gdy pojawiły się na rynku. Znamy tę drogę od podstaw — od pierwszych eksperymentów po dojrzałe systemy, które dziś realnie pracują za człowieka.',
+  aboutP2:'Jako firma jesteśmy na rynku od niedawna, ale nie zaczynamy od zera. Dokładamy wszelkich starań, aby wiedza, którą zdobywaliśmy latami, została wykorzystana w 100% — w Twoim konkretnym wdrożeniu, a nie na slajdach.',
+  aboutP3:'Chcemy, żeby wdrożenie sztucznej inteligencji było okazją do świętowania w gronie znajomych, a nie kolejnym obowiązkiem. Bo dziś największą wartością jest czas — i to właśnie czas oddajemy Ci z powrotem.',
+  aboutWise:'Technologia jest tylko środkiem — celem zawsze pozostaje człowiek i jego czas. Dlatego wdrażamy AI tam, gdzie realnie coś zmienia, a nie tam, gdzie jedynie dobrze wygląda.',
   s1t:'Odpisujesz TAK', s1d:'Jeden email i umawiamy się na krótką rozmowę online — 20 minut',
   s2t:'Wdrażamy w 5–7 dni', s2d:'Konfigurujemy AI pod Twoją klinikę — procedury, specjalizacje, godziny przyjęć',
   s3t:'AI pracuje 30 dni', s3d:'Odbiera telefony, umawia wizyty, raportuje statystyki. Ty decydujesz czy zostaje',
@@ -351,6 +381,13 @@ en:{
   noRisk:'🔒 No credit card. No long contract. Cancel with one email.',
   stat1:'AI Services', stat2:'Deployment', stat3:'AI Uptime', stat4:'Contract',
   secHow:'How the pilot works',
+  secAbout:'About us',
+  aboutEye:'Who we are',
+  aboutH:'We have followed artificial intelligence since its very first day on the market',
+  aboutP1:'The people behind this offer have watched artificial intelligence and automation grow and evolve from the moment they appeared on the market. We know this road from the ground up — from the first experiments to the mature systems that today genuinely work in place of a person.',
+  aboutP2:'As a company we are new to the market, but we are not starting from scratch. We put every effort into using the knowledge we have built over the years at 100% — in your actual deployment, not on slides.',
+  aboutP3:'We want implementing AI to be a reason to celebrate with friends, not another obligation. Because today the greatest value is time — and time is exactly what we give back to you.',
+  aboutWise:'Technology is only a means — the goal is always the person and their time. That is why we deploy AI where it truly changes something, not where it merely looks good.',
   s1t:'You reply YES', s1d:'One email and we schedule a short online call — 20 minutes',
   s2t:'Deploy in 5–7 days', s2d:'We configure AI for your clinic — procedures, specialties, opening hours',
   s3t:'AI works 30 days', s3d:'Answers calls, books appointments, reports stats. You decide if it stays.',
@@ -387,6 +424,13 @@ de:{
   noRisk:'🔒 Keine Kreditkarte. Kein langer Vertrag. Kündigung per E-Mail.',
   stat1:'KI-Dienste', stat2:'Implementierung', stat3:'KI-Uptime', stat4:'Vertrag',
   secHow:'Wie der Pilot funktioniert',
+  secAbout:'Über uns',
+  aboutEye:'Wer wir sind',
+  aboutH:'Wir verfolgen künstliche Intelligenz seit ihrem allerersten Tag am Markt',
+  aboutP1:'Die Menschen hinter diesem Angebot beobachten die Entwicklung und Evolution von künstlicher Intelligenz und Automatisierung, seit sie am Markt erschienen sind. Wir kennen diesen Weg von Grund auf — von den ersten Experimenten bis zu den ausgereiften Systemen, die heute wirklich für den Menschen arbeiten.',
+  aboutP2:'Als Unternehmen sind wir neu am Markt, aber wir fangen nicht bei null an. Wir geben alles, damit das über Jahre aufgebaute Wissen zu 100 % genutzt wird — in Ihrer konkreten Umsetzung, nicht auf Folien.',
+  aboutP3:'Wir möchten, dass die Einführung von KI ein Grund zum Feiern im Freundeskreis ist, keine weitere Pflicht. Denn heute ist der größte Wert die Zeit — und genau die geben wir Ihnen zurück.',
+  aboutWise:'Technologie ist nur ein Mittel — das Ziel bleibt immer der Mensch und seine Zeit. Deshalb setzen wir KI dort ein, wo sie wirklich etwas verändert, und nicht dort, wo sie nur gut aussieht.',
   s1t:'Sie antworten JA', s1d:'Eine E-Mail und wir vereinbaren ein kurzes Online-Gespräch — 20 Minuten',
   s2t:'Implementierung in 5–7 Tagen', s2d:'Wir konfigurieren die KI für Ihre Klinik — Verfahren, Fachgebiete, Öffnungszeiten',
   s3t:'KI arbeitet 30 Tage', s3d:'Nimmt Anrufe entgegen, vereinbart Termine, berichtet Statistiken. Sie entscheiden, ob sie bleibt.',
@@ -457,6 +501,13 @@ function setLang(l){
   document.getElementById('cta-bottom-txt').textContent=t.ctaBottom;
   var cb=document.getElementById('cta-bottom');cb.href='mailto:michal@send.kgregenevia.pro?subject='+encodeURIComponent(t.mailSubjectInquiry);
   document.getElementById('footer-txt').textContent=t.footer;
+  document.getElementById('sec-about').innerHTML=t.secAbout+'<span></span>';
+  document.getElementById('about-eye').textContent=t.aboutEye;
+  document.getElementById('about-h').textContent=t.aboutH;
+  document.getElementById('about-p1').textContent=t.aboutP1;
+  document.getElementById('about-p2').textContent=t.aboutP2;
+  document.getElementById('about-p3').textContent=t.aboutP3;
+  document.getElementById('about-wise').textContent=t.aboutWise;
   render();
 }
 </script><script>
