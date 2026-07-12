@@ -299,7 +299,7 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;color:v
     <div class="qr-box"><div id="qr"></div><div class="qr-cap" id="qr-cap">Zeskanuj telefonem</div></div>
   </div>
 
-  <div class="sec-title" id="sec-catalog">Pełny katalog — 42 usługi AI</div>
+  <div class="sec-title" id="sec-catalog">Pełny katalog — 51 usług AI</div>
   <div class="search-wrap"><input type="text" id="search" placeholder="Szukaj usługi..."></div>
   <div class="cats" id="cats">
     <div class="cat active" data-cat="all" id="cat-all">Wszystkie</div>
@@ -358,7 +358,7 @@ pl:{
   secRef:'Poleć nas — zgarnij prowizję', refH2:'Twój link polecający',
   refP:'Polecasz MV Automation dalej? Każdy, kto wejdzie z Twojego linku lub zeskanuje kod QR, jest przypisany do Ciebie.',
   copyBtn:'Kopiuj link', copiedBtn:'Skopiowano ✓', qrCap:'Zeskanuj telefonem',
-  secCatalog:'Pełny katalog — 42 usługi AI', searchPh:'Szukaj usługi...',
+  secCatalog:'Pełny katalog — 51 usług AI', searchPh:'Szukaj usługi...',
   catAll:'Wszystkie', catKlinika:'Kliniki', catSprzedaz:'Sprzedaż', catMarketing:'Marketing', catOps:'Operacje', catFinanse:'Finanse', catHr:'HR', catEcom:'E-commerce', catPakiet:'Pakiety', catWeb:'Strony i Aplikacje',
   fctaH2:'Gotowy na wdrożenie?', fctaP:'Bezpłatna konsultacja 30 min. Wycena w 24h. Wdrożenie w tydzień.', ctaBottom:'Napisz — odpiszę dziś',
   footer:'© 2026 MV Automation · Michał · EU Data · GDPR/RODO',
@@ -401,7 +401,7 @@ en:{
   secRef:'Refer us — earn commission', refH2:'Your referral link',
   refP:'Recommend MV Automation? Everyone who visits via your link or scans the QR code is attributed to you.',
   copyBtn:'Copy link', copiedBtn:'Copied ✓', qrCap:'Scan with phone',
-  secCatalog:'Full catalog — 42 AI services', searchPh:'Search service...',
+  secCatalog:'Full catalog — 51 AI services', searchPh:'Search service...',
   catAll:'All', catKlinika:'Clinics', catSprzedaz:'Sales', catMarketing:'Marketing', catOps:'Operations', catFinanse:'Finance', catHr:'HR', catEcom:'E-commerce', catPakiet:'Packages', catWeb:'Websites & Apps',
   fctaH2:'Ready to deploy?', fctaP:'Free 30 min consultation. Quote in 24h. Deployment in a week.', ctaBottom:'Write — I reply today',
   footer:'© 2026 MV Automation · Michał · EU Data · GDPR',
@@ -444,7 +444,7 @@ de:{
   secRef:'Empfehlen Sie uns — verdienen Sie Provision', refH2:'Ihr Empfehlungslink',
   refP:'Empfehlen Sie MV Automation weiter? Jeder, der über Ihren Link kommt oder den QR-Code scannt, wird Ihnen zugeordnet.',
   copyBtn:'Link kopieren', copiedBtn:'Kopiert ✓', qrCap:'Mit Telefon scannen',
-  secCatalog:'Vollständiger Katalog — 42 KI-Dienste', searchPh:'Dienst suchen...',
+  secCatalog:'Vollständiger Katalog — 51 KI-Dienste', searchPh:'Dienst suchen...',
   catAll:'Alle', catKlinika:'Kliniken', catSprzedaz:'Vertrieb', catMarketing:'Marketing', catOps:'Betrieb', catFinanse:'Finanzen', catHr:'Personal', catEcom:'E-Commerce', catPakiet:'Pakete', catWeb:'Websites & Apps',
   fctaH2:'Bereit zur Implementierung?', fctaP:'Kostenlose 30-Min-Beratung. Angebot in 24h. Implementierung in einer Woche.', ctaBottom:'Schreiben Sie — ich antworte heute',
   footer:'© 2026 MV Automation · Michał · EU-Daten · DSGVO',
@@ -571,7 +571,7 @@ function render(){
   var t=T[currentLang];
   var f=S.filter(function(s){var n=s.n[currentLang].toLowerCase(),d=s.d[currentLang].toLowerCase();return(activeCat==='all'||s.c===activeCat)&&(!query||n.indexOf(query)>-1||d.indexOf(query)>-1);});
   var bC={};f.forEach(function(s){(bC[s.c]=bC[s.c]||[]).push(s);});
-  var catOrder=['klinika','sprzedaz','marketing','ops','finanse','hr','ecom','pakiet'];
+  var catOrder=['klinika','sprzedaz','marketing','ops','finanse','hr','ecom','web','pakiet'];
   var cats=activeCat==='all'?catOrder:[activeCat];
   var h='';
   cats.forEach(function(cat){var it=bC[cat];if(!it||!it.length)return;
