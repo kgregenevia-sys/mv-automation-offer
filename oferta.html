@@ -9,170 +9,186 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --g:#00ff87;--g2:#00e676;--bg:#020408;--bg2:#040810;
-  --card:rgba(255,255,255,.028);--card2:rgba(0,255,135,.04);
-  --border:rgba(0,255,135,.1);--border2:rgba(0,255,135,.2);
-  --text:#f0fff4;--muted:rgba(255,255,255,.42);
-  --violet:#a78bfa;--gold:#f59e0b;
-  --glow:0 0 60px rgba(0,255,135,.12);
-  --glow2:0 0 120px rgba(0,255,135,.18);
+  --bg:#0a0a14;--bg2:#10101f;--ink:#06060e;
+  --ind:#818cf8;--vio:#c084fc;--cy:#22d3ee;--pink:#f472b6;--gold:#fbbf24;
+  --iri:linear-gradient(115deg,#8b8cf8 0%,#c084fc 45%,#38e0f0 100%);
+  --iri2:linear-gradient(115deg,#a78bfa,#f472b6);
+  --text:#eceafd;--muted:rgba(223,222,255,.52);
+  --card:rgba(255,255,255,.028);
+  --border:rgba(255,255,255,.08);--border2:rgba(160,140,255,.30);
+  --glow:0 30px 80px -30px rgba(129,140,248,.45);
+  --violet:#c084fc;--g:#a78bfa;
 }
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden;line-height:1.65;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden;line-height:1.65;-webkit-font-smoothing:antialiased;position:relative}
 
-/* NOISE OVERLAY */
-body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");opacity:.4;pointer-events:none;z-index:0}
+/* AURORA MESH */
+body::before{content:'';position:fixed;inset:-20%;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(38% 42% at 18% 12%,rgba(129,140,248,.28),transparent 60%),
+    radial-gradient(34% 40% at 84% 8%,rgba(192,132,252,.24),transparent 60%),
+    radial-gradient(45% 45% at 72% 88%,rgba(56,224,240,.16),transparent 62%),
+    radial-gradient(40% 40% at 8% 82%,rgba(244,114,182,.14),transparent 62%);
+  filter:blur(30px);animation:drift 24s ease-in-out infinite alternate}
+@keyframes drift{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-3%,2%,0) scale(1.08)}100%{transform:translate3d(3%,-2%,0) scale(1.04)}}
 
-/* GRID */
-body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,255,135,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,135,.025) 1px,transparent 1px);background-size:64px 64px;pointer-events:none;z-index:0}
+/* FINE NOISE */
+body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.35;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.028'/%3E%3C/svg%3E")}
 
-canvas#c{position:fixed;inset:0;z-index:0;pointer-events:none}
+canvas#c{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.7}
 
 /* LANG SWITCHER */
-.lang-bar{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;justify-content:flex-end;padding:10px 24px;gap:6px;background:rgba(2,4,8,.7);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
-.lang-btn{background:transparent;border:1px solid var(--border);border-radius:6px;padding:5px 14px;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;font-family:'Inter',sans-serif;transition:.2s;text-transform:uppercase}
-.lang-btn:hover{border-color:var(--g);color:var(--g)}
-.lang-btn.active{background:rgba(0,255,135,.12);border-color:var(--g);color:var(--g)}
+.lang-bar{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;justify-content:flex-end;padding:10px 24px;gap:6px;background:rgba(10,10,20,.55);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.lang-btn{background:transparent;border:1px solid var(--border);border-radius:9px;padding:5px 14px;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;font-family:'Inter',sans-serif;transition:.2s;text-transform:uppercase}
+.lang-btn:hover{border-color:var(--border2);color:var(--text)}
+.lang-btn.active{background:rgba(160,140,255,.14);border-color:var(--border2);color:#fff}
 
 /* TOPBAR */
-.topbar{background:linear-gradient(90deg,rgba(0,255,135,.08),rgba(167,139,250,.1),rgba(0,255,135,.08));background-size:300%;animation:bar 6s linear infinite;border-bottom:1px solid var(--border);text-align:center;padding:11px 20px;font-size:11px;font-weight:700;color:var(--g);letter-spacing:1.5px;margin-top:42px;position:relative;z-index:100}
-@keyframes bar{0%{background-position:0}100%{background-position:300%}}
+.topbar{background:var(--iri);background-size:200%;animation:bar 8s linear infinite;text-align:center;padding:11px 20px;font-size:11px;font-weight:800;color:#0a0a14;letter-spacing:1.2px;margin-top:42px;position:relative;z-index:100}
+@keyframes bar{0%{background-position:0}100%{background-position:200%}}
 
 /* NAV */
-nav{position:sticky;top:42px;z-index:100;background:rgba(2,4,8,.82);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:900;letter-spacing:-1px;color:#fff;text-decoration:none}
-.logo em{font-style:normal;color:var(--g)}
+nav{position:sticky;top:42px;z-index:100;background:rgba(10,10,20,.68);backdrop-filter:blur(26px) saturate(140%);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;letter-spacing:-1px;color:#fff;text-decoration:none}
+.logo em{font-style:normal;background:var(--iri);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .nav-right{display:flex;align-items:center;gap:14px}
-.nav-live{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--g);background:rgba(0,255,135,.08);border:1px solid var(--border2);border-radius:20px;padding:5px 14px}
-.nav-dot{width:6px;height:6px;background:var(--g);border-radius:50%;animation:pulse 1.4s ease-in-out infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,255,135,.5)}50%{box-shadow:0 0 0 6px rgba(0,255,135,0)}}
-.nav-cta{background:linear-gradient(135deg,var(--g),var(--g2));color:#020408;padding:10px 22px;border-radius:10px;font-weight:800;font-size:13px;text-decoration:none;letter-spacing:.3px;transition:.2s;box-shadow:0 4px 20px rgba(0,255,135,.25)}
-.nav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 30px rgba(0,255,135,.4)}
+.nav-live{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:2px;color:#cbb8ff;background:rgba(160,140,255,.1);border:1px solid var(--border2);border-radius:20px;padding:5px 14px}
+.nav-dot{width:6px;height:6px;background:var(--ind);border-radius:50%;animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(129,140,248,.55)}50%{box-shadow:0 0 0 6px rgba(129,140,248,0)}}
+.nav-cta{background:var(--iri);color:#0a0a14;padding:10px 22px;border-radius:11px;font-weight:800;font-size:13px;text-decoration:none;letter-spacing:.2px;transition:.25s;box-shadow:0 6px 24px -6px rgba(129,140,248,.6)}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 10px 34px -6px rgba(129,140,248,.8)}
 
 /* WRAP */
 .wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:0 24px 100px}
 
 /* HERO */
-.hero{text-align:center;padding:90px 20px 48px}
-.hero-tag{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border2);border-radius:30px;padding:8px 20px;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--g);margin-bottom:28px;background:rgba(0,255,135,.04)}
-.hero-tag-dot{width:5px;height:5px;background:var(--g);border-radius:50%;animation:pulse 1.4s infinite}
-h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(42px,7.5vw,80px);font-weight:900;letter-spacing:-3px;line-height:.95;margin-bottom:22px}
+.hero{text-align:center;padding:96px 20px 48px}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border2);border-radius:30px;padding:8px 20px;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:#cbb8ff;margin-bottom:28px;background:rgba(160,140,255,.06)}
+.hero-tag-dot{width:5px;height:5px;background:var(--ind);border-radius:50%;animation:pulse 1.4s infinite}
+h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(42px,7.6vw,82px);font-weight:800;letter-spacing:-3px;line-height:.94;margin-bottom:22px}
 h1 .w1{color:#fff}
-h1 .w2{background:linear-gradient(135deg,var(--g),#6ee7b7,#a5f3fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+h1 .w2{background:var(--iri);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .hero-sub{font-size:17px;color:var(--muted);max-width:520px;margin:0 auto 40px;line-height:1.7;font-weight:400}
 
 /* PILOT CARD */
-.pilot{background:linear-gradient(135deg,rgba(0,255,135,.07),rgba(167,139,250,.07));border:1.5px solid rgba(0,255,135,.35);border-radius:28px;padding:52px 44px;margin:0 0 24px;text-align:center;position:relative;overflow:hidden;box-shadow:var(--glow)}
-.pilot::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:400px;height:400px;background:radial-gradient(ellipse,rgba(0,255,135,.08) 0%,transparent 65%);pointer-events:none}
-.pilot-badge{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--g);background:rgba(0,255,135,.1);border:1px solid var(--border2);border-radius:20px;padding:5px 16px;margin-bottom:18px}
-.pilot h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,4.5vw,52px);font-weight:900;letter-spacing:-2px;margin-bottom:12px;line-height:1}
-.pilot h2 em{font-style:normal;color:var(--g)}
+.pilot{background:linear-gradient(150deg,rgba(129,140,248,.10),rgba(192,132,252,.06) 55%,rgba(56,224,240,.05));border:1px solid var(--border2);border-radius:28px;padding:52px 44px;margin:0 0 24px;text-align:center;position:relative;overflow:hidden;box-shadow:var(--glow)}
+.pilot::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:520px;height:420px;background:radial-gradient(ellipse,rgba(129,140,248,.22) 0%,transparent 66%);pointer-events:none}
+.pilot>*{position:relative}
+.pilot-badge{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#dcd0ff;background:rgba(160,140,255,.14);border:1px solid var(--border2);border-radius:20px;padding:5px 16px;margin-bottom:18px}
+.pilot h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,4.6vw,54px);font-weight:800;letter-spacing:-2px;margin-bottom:12px;line-height:1}
+.pilot h2 em{font-style:normal;background:var(--iri);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .pilot-sub{color:var(--muted);font-size:15px;max-width:500px;margin:0 auto 30px;line-height:1.7}
 .checks{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:32px}
-.ck{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#d4fae8;background:rgba(0,255,135,.06);border:1px solid var(--border);border-radius:30px;padding:7px 16px}
-.cki{color:var(--g);font-size:14px}
-.cta-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--g),var(--g2));color:#020408;padding:18px 44px;border-radius:14px;font-weight:800;font-size:16px;text-decoration:none;letter-spacing:.3px;box-shadow:0 8px 40px rgba(0,255,135,.35);transition:.25s}
-.cta-btn:hover{transform:translateY(-3px);box-shadow:0 12px 60px rgba(0,255,135,.5)}
+.ck{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#e7e2ff;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:30px;padding:7px 16px}
+.cki{color:var(--cy);font-size:14px}
+.cta-btn{display:inline-flex;align-items:center;gap:10px;background:var(--iri);color:#0a0a14;padding:18px 44px;border-radius:15px;font-weight:800;font-size:16px;text-decoration:none;letter-spacing:.2px;box-shadow:0 14px 46px -12px rgba(129,140,248,.7);transition:.28s}
+.cta-btn:hover{transform:translateY(-3px);box-shadow:0 20px 60px -12px rgba(160,140,255,.9)}
 .no-risk{margin-top:16px;font-size:12px;color:var(--muted);letter-spacing:.3px}
 
 /* STATS */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:20px;overflow:hidden;margin:40px 0}
-.stat{background:var(--bg2);text-align:center;padding:24px 16px}
-.stat-n{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,3.5vw,34px);font-weight:900;background:linear-gradient(135deg,var(--g),#6ee7b7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:22px;overflow:hidden;margin:40px 0}
+.stat{background:rgba(16,16,31,.7);text-align:center;padding:26px 16px;transition:.25s}
+.stat:hover{background:rgba(129,140,248,.06)}
+.stat-n{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,3.6vw,36px);font-weight:800;background:var(--iri);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .stat-l{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:4px}
 
 /* SECTION TITLE */
-.sec-title{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--g);margin:60px 0 24px;padding-bottom:12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
-.sec-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+.sec-title{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:#cbb8ff;margin:64px 0 24px;padding-bottom:12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.sec-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border2),transparent)}
 
 /* STEPS */
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.step{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px 24px;position:relative;overflow:hidden;transition:.2s}
-.step:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:var(--glow)}
-.step-num{width:44px;height:44px;background:linear-gradient(135deg,var(--g),var(--g2));color:#020408;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:900;font-size:18px;margin:0 0 16px}
+.step{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:28px 24px;position:relative;overflow:hidden;transition:.25s}
+.step:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:var(--glow)}
+.step-num{width:46px;height:46px;background:var(--iri);color:#0a0a14;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:18px;margin:0 0 16px}
 .step-t{font-weight:700;font-size:15px;margin-bottom:8px;color:#fff}
 .step-d{font-size:13px;color:var(--muted);line-height:1.6}
 
 /* PAIN */
 .pain{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0}
-.pc{border-radius:20px;padding:24px}
-.pc.bad{background:rgba(239,68,68,.04);border:1px solid rgba(239,68,68,.15)}
-.pc.good{background:rgba(0,255,135,.04);border:1px solid rgba(0,255,135,.15)}
+.pc{border-radius:22px;padding:26px}
+.pc.bad{background:rgba(244,114,182,.05);border:1px solid rgba(244,114,182,.18)}
+.pc.good{background:rgba(56,224,240,.05);border:1px solid rgba(56,224,240,.18)}
 .ptl{font-size:10px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.pc.bad .ptl{color:#f87171}.pc.good .ptl{color:var(--g)}
-.pi{display:flex;gap:10px;font-size:13px;color:#c0c0d8;margin-bottom:10px;line-height:1.5}
+.pc.bad .ptl{color:#f9a8d4}.pc.good .ptl{color:#67e8f9}
+.pi{display:flex;gap:10px;font-size:13px;color:#cfceec;margin-bottom:10px;line-height:1.5}
 
 /* PROMOS */
 .promos{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.promo{position:relative;background:linear-gradient(135deg,rgba(167,139,250,.08),rgba(0,255,135,.05));border:1px solid rgba(167,139,250,.25);border-radius:22px;padding:28px;overflow:hidden;transition:.2s}
-.promo:hover{border-color:rgba(167,139,250,.5);transform:translateY(-2px)}
-.promo-flag{position:absolute;top:16px;right:-28px;transform:rotate(45deg);background:#ef4444;color:#fff;font-size:9px;font-weight:800;letter-spacing:1px;padding:4px 38px}
-.promo h3{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:800;margin-bottom:10px;letter-spacing:-.5px}
-.promo-big{font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:900;color:var(--g);letter-spacing:-1.5px;margin-bottom:8px}
+.promo{position:relative;background:linear-gradient(150deg,rgba(192,132,252,.10),rgba(129,140,248,.05));border:1px solid var(--border2);border-radius:22px;padding:28px;overflow:hidden;transition:.25s}
+.promo:hover{border-color:rgba(192,132,252,.55);transform:translateY(-3px);box-shadow:var(--glow)}
+.promo-flag{position:absolute;top:16px;right:-30px;transform:rotate(45deg);background:var(--iri2);color:#160a16;font-size:9px;font-weight:900;letter-spacing:1px;padding:5px 40px}
+.promo h3{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:800;margin-bottom:10px;letter-spacing:-.5px;color:#fff}
+.promo-big{font-family:'Space Grotesk',sans-serif;font-size:31px;font-weight:800;background:var(--iri);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-1.5px;margin-bottom:8px}
 .promo p{font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.6}
-.promo-code{display:inline-block;border:1.5px dashed rgba(0,255,135,.4);border-radius:10px;padding:7px 16px;font-weight:800;letter-spacing:3px;color:var(--g);font-size:13px;background:rgba(0,255,135,.04)}
+.promo-code{display:inline-block;border:1.5px dashed var(--border2);border-radius:10px;padding:7px 16px;font-weight:800;letter-spacing:3px;color:#cbb8ff;font-size:13px;background:rgba(160,140,255,.06)}
 
 /* REF */
-.ref{display:flex;gap:32px;align-items:center;flex-wrap:wrap;background:linear-gradient(135deg,rgba(0,255,135,.06),rgba(167,139,250,.06));border:1.5px solid var(--border2);border-radius:28px;padding:40px;box-shadow:var(--glow)}
+.ref{display:flex;gap:32px;align-items:center;flex-wrap:wrap;background:linear-gradient(150deg,rgba(129,140,248,.09),rgba(56,224,240,.05));border:1px solid var(--border2);border-radius:28px;padding:40px;box-shadow:var(--glow)}
 .ref-txt{flex:1;min-width:240px}
-.ref-txt h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,3.5vw,32px);font-weight:900;letter-spacing:-1px;margin-bottom:12px}
-.ref-txt h2 em{font-style:normal;color:var(--g)}
+.ref-txt h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,3.5vw,32px);font-weight:800;letter-spacing:-1px;margin-bottom:12px;color:#fff}
+.ref-txt h2 em{font-style:normal;background:var(--iri);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .ref-txt p{color:var(--muted);font-size:14px;margin-bottom:20px;max-width:420px;line-height:1.7}
 .ref-link{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.ref-link input{flex:1;min-width:200px;background:rgba(0,255,135,.05);border:1px solid var(--border2);border-radius:12px;padding:13px 18px;color:#fff;font-size:13px;font-family:monospace;letter-spacing:.5px}
-.copy-btn{background:linear-gradient(135deg,var(--g),var(--g2));color:#020408;border:none;border-radius:12px;padding:13px 24px;font-weight:800;font-size:13px;cursor:pointer;transition:.2s}
-.copy-btn:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,255,135,.4)}
-.qr-box{background:#fff;border-radius:20px;padding:20px;text-align:center;flex-shrink:0;box-shadow:0 8px 40px rgba(0,0,0,.3)}
-.qr-cap{color:#020408;font-size:10px;font-weight:800;letter-spacing:2px;margin-top:12px;text-transform:uppercase}
+.ref-link input{flex:1;min-width:200px;background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:12px;padding:13px 18px;color:#fff;font-size:13px;font-family:monospace;letter-spacing:.5px}
+.copy-btn{background:var(--iri);color:#0a0a14;border:none;border-radius:12px;padding:13px 24px;font-weight:800;font-size:13px;cursor:pointer;transition:.25s}
+.copy-btn:hover{transform:translateY(-1px);box-shadow:0 8px 26px -8px rgba(160,140,255,.8)}
+.qr-box{background:#fff;border-radius:20px;padding:20px;text-align:center;flex-shrink:0;box-shadow:0 12px 46px -12px rgba(0,0,0,.6)}
+.qr-cap{color:#0a0a14;font-size:10px;font-weight:800;letter-spacing:2px;margin-top:12px;text-transform:uppercase}
 
 /* CATALOG */
 .search-wrap{max-width:480px;margin:0 auto 24px;position:relative}
-.search-wrap input{width:100%;background:rgba(0,255,135,.04);border:1px solid var(--border2);border-radius:14px;padding:15px 22px;color:#fff;font-size:14px;outline:none;font-family:'Inter',sans-serif;transition:.2s}
-.search-wrap input:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(0,255,135,.1)}
+.search-wrap input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:14px;padding:15px 22px;color:#fff;font-size:14px;outline:none;font-family:'Inter',sans-serif;transition:.2s}
+.search-wrap input:focus{border-color:var(--ind);box-shadow:0 0 0 3px rgba(129,140,248,.14)}
 .search-wrap input::placeholder{color:var(--muted)}
 .cats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;justify-content:center}
 .cat{border:1px solid var(--border);border-radius:30px;padding:8px 18px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;transition:.2s;white-space:nowrap;letter-spacing:.3px}
-.cat:hover,.cat.active{border-color:var(--g);color:var(--g);background:rgba(0,255,135,.06)}
+.cat:hover,.cat.active{border-color:var(--border2);color:#fff;background:rgba(160,140,255,.10)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px;margin-bottom:16px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px;transition:.25s;cursor:pointer}
-.card:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,255,135,.08)}
+.card{position:relative;background:var(--card);border:1px solid var(--border);border-radius:22px;padding:24px;transition:.28s;cursor:pointer;overflow:hidden}
+.card::before{content:'';position:absolute;inset:0 0 auto 0;height:1px;background:linear-gradient(90deg,transparent,var(--border2),transparent);opacity:0;transition:.28s}
+.card:hover{border-color:var(--border2);transform:translateY(-4px);box-shadow:0 24px 60px -24px rgba(129,140,248,.55)}
+.card:hover::before{opacity:1}
 .card-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px}
-.icon{width:46px;height:46px;border-radius:14px;background:rgba(0,255,135,.08);border:1px solid rgba(0,255,135,.15);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--g);flex-shrink:0;letter-spacing:-.5px}
+.icon{width:46px;height:46px;border-radius:14px;background:linear-gradient(150deg,rgba(129,140,248,.18),rgba(56,224,240,.10));border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#dcd0ff;flex-shrink:0;letter-spacing:-.5px}
 .card-name{font-weight:700;font-size:14px;line-height:1.3;margin-bottom:5px;color:#fff}
 .badge{display:inline-block;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:3px 9px;border-radius:20px}
-.badge-hot{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.2)}
-.badge-new{background:rgba(0,255,135,.12);color:var(--g);border:1px solid var(--border2)}
-.badge-top{background:rgba(139,92,246,.15);color:var(--violet);border:1px solid rgba(139,92,246,.2)}
+.badge-hot{background:rgba(244,114,182,.16);color:#f9a8d4;border:1px solid rgba(244,114,182,.28)}
+.badge-new{background:rgba(56,224,240,.14);color:#67e8f9;border:1px solid rgba(56,224,240,.28)}
+.badge-top{background:rgba(192,132,252,.18);color:#d8b4fe;border:1px solid rgba(192,132,252,.30)}
 .card-desc{font-size:12px;color:var(--muted);line-height:1.65;margin-bottom:16px}
 .card-price{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:14px}
-.setup{font-size:11px;color:var(--muted)}.setup span{color:#fff;font-weight:700}.monthly{font-size:12px;font-weight:700;color:var(--g)}
-.card-more{margin-top:10px;font-size:11px;color:var(--g);font-weight:700;text-align:right;letter-spacing:.5px}
+.setup{font-size:11px;color:var(--muted)}.setup span{color:#fff;font-weight:700}.monthly{font-size:12px;font-weight:800;background:var(--iri);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.card-more{margin-top:10px;font-size:11px;color:#cbb8ff;font-weight:700;text-align:right;letter-spacing:.5px}
 
 /* FOOTER CTA */
-.footer-cta{background:linear-gradient(135deg,rgba(0,255,135,.06),rgba(139,92,246,.08));border:1.5px solid var(--border2);border-radius:28px;padding:60px 48px;text-align:center;margin-top:48px;position:relative;overflow:hidden;box-shadow:var(--glow)}
-.footer-cta::before{content:'';position:absolute;bottom:-80px;right:-80px;width:300px;height:300px;background:radial-gradient(ellipse,rgba(167,139,250,.1) 0%,transparent 65%);pointer-events:none}
-.footer-cta h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(26px,4vw,44px);font-weight:900;letter-spacing:-2px;margin-bottom:14px}
+.footer-cta{background:linear-gradient(150deg,rgba(129,140,248,.10),rgba(192,132,252,.08) 55%,rgba(56,224,240,.05));border:1px solid var(--border2);border-radius:28px;padding:62px 48px;text-align:center;margin-top:48px;position:relative;overflow:hidden;box-shadow:var(--glow)}
+.footer-cta::before{content:'';position:absolute;bottom:-100px;right:-80px;width:360px;height:360px;background:radial-gradient(ellipse,rgba(192,132,252,.18) 0%,transparent 66%);pointer-events:none}
+.footer-cta>*{position:relative}
+.footer-cta h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(26px,4vw,46px);font-weight:800;letter-spacing:-2px;margin-bottom:14px;color:#fff}
 .footer-cta p{color:var(--muted);font-size:15px;margin-bottom:32px}
 
 /* FOOTER */
 footer{border-top:1px solid var(--border);padding:24px;text-align:center;color:var(--muted);font-size:11px;margin-top:24px;letter-spacing:.5px}
 
 /* MODAL */
-.modal{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;padding:20px}
+.modal{position:fixed;inset:0;z-index:500;background:rgba(6,6,14,.78);backdrop-filter:blur(14px);display:none;align-items:center;justify-content:center;padding:20px}
 .modal.show{display:flex}
-.modal-box{background:linear-gradient(135deg,#050c18,#070d1a);border:1px solid rgba(0,255,135,.3);border-radius:24px;max-width:480px;width:100%;padding:36px;position:relative;box-shadow:0 24px 100px rgba(0,255,135,.15)}
+.modal-box{background:linear-gradient(155deg,#12122240,#0c0c18);background-color:#0d0d1b;border:1px solid var(--border2);border-radius:24px;max-width:480px;width:100%;padding:36px;position:relative;box-shadow:0 40px 120px -30px rgba(129,140,248,.5)}
 .modal-close{position:absolute;top:14px;right:18px;background:none;border:none;color:var(--muted);font-size:28px;line-height:1;cursor:pointer;transition:.2s}
 .modal-close:hover{color:#fff}
-.modal-box h3{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:900;letter-spacing:-.5px;margin:10px 0 8px;color:#fff}
-.md-cat{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--violet);font-weight:800}
-.md-desc{color:#c8d8d0;font-size:14px;margin:16px 0 20px;line-height:1.65}
+.modal-box h3{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;letter-spacing:-.5px;margin:10px 0 8px;color:#fff}
+.md-cat{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#d8b4fe;font-weight:800}
+.md-desc{color:#d3d2ee;font-size:14px;margin:16px 0 20px;line-height:1.65}
 .md-price{display:flex;gap:14px;margin-bottom:22px}
-.md-price>div{flex:1;background:rgba(0,255,135,.04);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center}
+.md-price>div{flex:1;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center}
 .md-price .lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
-.md-price .val{font-size:20px;font-weight:900;color:var(--g);margin-top:5px;font-family:'Space Grotesk',sans-serif}
+.md-price .val{font-size:20px;font-weight:800;background:var(--iri);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-top:5px;font-family:'Space Grotesk',sans-serif}
 .md-note{font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.6}
 
-@media(max-width:760px){.steps,.promos{grid-template-columns:1fr}.pain{grid-template-columns:1fr}.stats-row{grid-template-columns:repeat(2,1fr)}.ref{flex-direction:column;text-align:center}.grid{grid-template-columns:1fr}.footer-cta{padding:36px 24px}h1{letter-spacing:-2px}}
+@media(max-width:760px){.steps,.promos{grid-template-columns:1fr}.pain{grid-template-columns:1fr}.stats-row{grid-template-columns:repeat(2,1fr)}.ref{flex-direction:column;text-align:center}.grid{grid-template-columns:1fr}.footer-cta{padding:38px 24px}h1{letter-spacing:-2px}}
+@media(prefers-reduced-motion:reduce){body::before{animation:none}.topbar{animation:none}.nav-dot,.hero-tag-dot{animation:none}canvas#c{display:none}}
 </style>
 </head>
 <body>
@@ -183,7 +199,7 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;color:v
   <button class="lang-btn" onclick="setLang('en')">🇬🇧 EN</button>
   <button class="lang-btn" onclick="setLang('de')">🇩🇪 DE</button>
 </div>
-<div class="topbar" id="topbar">⚡ Pilotaż 30 dni za 0 zł — bez umowy, bez zobowiązań · Czerwiec 2026</div>
+<div class="topbar" id="topbar">⚡ Pierwszy miesiąc abonamentu 0 zł — wdrożenie w pełnej cenie · Sierpień 2026</div>
 <nav>
   <a href="#" class="logo">MV<em>.</em>Automation</a>
   <div class="nav-right">
@@ -200,7 +216,7 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;color:v
   </div>
 
   <div class="pilot">
-    <div class="pilot-badge"><span>⚡</span><span id="pilot-tag">Oferta bez ryzyka — czerwiec 2026</span></div>
+    <div class="pilot-badge"><span>⚡</span><span id="pilot-tag">Oferta bez ryzyka — sierpień 2026</span></div>
     <h2 id="pilot-h2">30 dni <em>za darmo</em><br>bez żadnych zobowiązań</h2>
     <div class="pilot-sub" id="pilot-sub">Wdrażamy AI Recepcjonistkę w Twojej klinice. Przez 30 dni pracuje. Płatność tylko jeśli zdecydujesz się zostać.</div>
     <div class="checks" id="checks-wrap">
@@ -243,10 +259,10 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;color:v
     </div>
   </div>
 
-  <div class="sec-title" id="sec-promos">Promocje czerwiec 2026</div>
+  <div class="sec-title" id="sec-promos">Promocje sierpień 2026</div>
   <div class="promos">
-    <div class="promo"><div class="promo-flag">HIT</div><h3 id="pr1h">Pilotaż startowy</h3><div class="promo-big">0 zł / 30 dni</div><p id="pr1p">Pełne wdrożenie AI recepcji, zero opłat przez miesiąc. Płacisz tylko jeśli zostajesz.</p><span class="promo-code">PILOT30</span></div>
-    <div class="promo"><h3 id="pr2h">Decyzja w 7 dni</h3><div class="promo-big">−20% setup</div><p id="pr2p">Podpisujesz w tydzień od demo — 9 000 → 7 200 zł za wdrożenie.</p><span class="promo-code">SZYBKA7</span></div>
+    <div class="promo"><div class="promo-flag">HIT</div><h3 id="pr1h">Pierwszy miesiąc gratis</h3><div class="promo-big">Abonament 0 zł</div><p id="pr1p">Pełne wdrożenie w standardowej cenie — pierwszy miesiąc abonamentu (2 500 zł) bierzemy na siebie.</p><span class="promo-code">SIERPIEN</span></div>
+    <div class="promo"><h3 id="pr2h">Decyzja w 7 dni</h3><div class="promo-big">2. miesiąc −50%</div><p id="pr2p">Podpisujesz w tydzień od demo — drugi miesiąc abonamentu z rabatem 50%. Cena wdrożenia bez zmian.</p><span class="promo-code">SZYBKA7</span></div>
     <div class="promo"><h3 id="pr3h">Drugi system</h3><div class="promo-big">−50%</div><p id="pr3p">Dokładasz dowolną drugą usługę z katalogu — setup taniej o połowę.</p><span class="promo-code">DUET50</span></div>
   </div>
 
@@ -272,6 +288,7 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;color:v
     <div class="cat" data-cat="hr">HR</div>
     <div class="cat" data-cat="ecom">E-commerce</div>
     <div class="cat" data-cat="pakiet">Pakiety</div>
+    <div class="cat" data-cat="web">Strony i Aplikacje</div>
   </div>
   <div id="catalog"></div>
 
@@ -285,12 +302,12 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;color:v
 <div class="modal" id="modal"><div class="modal-box"><button class="modal-close" id="mclose">&times;</button><div id="mbody"></div></div></div><script>
 var T={
 pl:{
-  topbar:'⚡ Pilotaż 30 dni za 0 zł — bez umowy, bez zobowiązań · Czerwiec 2026',
+  topbar:'⚡ Pierwszy miesiąc abonamentu 0 zł — wdrożenie w pełnej cenie · Sierpień 2026',
   navLive:'LIVE', navCta:'Umów pilotaż',
   heroTag:'AI Voice Receptionist · Kliniki prywatne · Polska',
   h1a:'AI odbiera telefony', h1b:'za Ciebie 24/7',
   heroSub:'Twoja klinika nigdy nie traci pacjenta przez nieodebrany telefon. Testuj 30 dni za darmo — płacisz tylko jeśli chcesz kontynuować.',
-  pilotTag:'Oferta bez ryzyka — czerwiec 2026',
+  pilotTag:'Oferta bez ryzyka — sierpień 2026',
   pilotH2:'30 dni <em>za darmo</em><br>bez żadnych zobowiązań',
   pilotSub:'Wdrażamy AI Recepcjonistkę w Twojej klinice. Przez 30 dni pracuje. Płatność tylko jeśli zdecydujesz się zostać.',
   ck1:'Wdrożenie 5–7 dni', ck2:'AI odbiera 100% połączeń 24/7', ck3:'Pełny raport po 30 dniach', ck4:'Zero umowy na start',
@@ -304,29 +321,29 @@ pl:{
   secWhy:'Dlaczego to się opłaca',
   painBad:'✗ Bez AI recepcji', pb1:'📵 Nieodebrane telefony = utraceni pacjenci', pb2:'💸 Etat recepcji: 4 500–8 000 PLN/mies.', pb3:'🔴 Pacjenci dzwonią po godzinach — nikt nie odbiera',
   painGood:'✓ Z MV Automation', pg1:'✅ AI odbiera 100% połączeń 24/7', pg2:'✅ 2 500 PLN/mies. zamiast etatu', pg3:'✅ Live dashboard — pełna analityka',
-  secPromos:'Promocje czerwiec 2026',
-  pr1h:'Pilotaż startowy', pr1p:'Pełne wdrożenie AI recepcji, zero opłat przez miesiąc. Płacisz tylko jeśli zostajesz.',
-  pr2h:'Decyzja w 7 dni', pr2p:'Podpisujesz w tydzień od demo — 9 000 → 7 200 zł za wdrożenie.',
+  secPromos:'Promocje sierpień 2026',
+  pr1h:'Pierwszy miesiąc gratis', pr1p:'Pełne wdrożenie w standardowej cenie — pierwszy miesiąc abonamentu (2 500 zł) bierzemy na siebie.',
+  pr2h:'Decyzja w 7 dni', pr2p:'Podpisujesz w tydzień od demo — drugi miesiąc abonamentu z rabatem 50%. Cena wdrożenia bez zmian.',
   pr3h:'Drugi system', pr3p:'Dokładasz dowolną drugą usługę z katalogu — setup taniej o połowę.',
   secRef:'Poleć nas — zgarnij prowizję', refH2:'Twój link polecający',
   refP:'Polecasz MV Automation dalej? Każdy, kto wejdzie z Twojego linku lub zeskanuje kod QR, jest przypisany do Ciebie.',
   copyBtn:'Kopiuj link', copiedBtn:'Skopiowano ✓', qrCap:'Zeskanuj telefonem',
   secCatalog:'Pełny katalog — 42 usługi AI', searchPh:'Szukaj usługi...',
-  catAll:'Wszystkie', catKlinika:'Kliniki', catSprzedaz:'Sprzedaż', catMarketing:'Marketing', catOps:'Operacje', catFinanse:'Finanse', catHr:'HR', catEcom:'E-commerce', catPakiet:'Pakiety',
+  catAll:'Wszystkie', catKlinika:'Kliniki', catSprzedaz:'Sprzedaż', catMarketing:'Marketing', catOps:'Operacje', catFinanse:'Finanse', catHr:'HR', catEcom:'E-commerce', catPakiet:'Pakiety', catWeb:'Strony i Aplikacje',
   fctaH2:'Gotowy na wdrożenie?', fctaP:'Bezpłatna konsultacja 30 min. Wycena w 24h. Wdrożenie w tydzień.', ctaBottom:'Napisz — odpiszę dziś',
   footer:'© 2026 MV Automation · Michał · EU Data · GDPR/RODO',
   modalSetup:'Wdrożenie', modalAbo:'Abonament', modalNote:'Wdrożenie 5–14 dni · umowa miesiąc do miesiąca · możliwy pilotaż.', modalAsk:'Zapytaj o tę usługę',
-  secNames:{klinika:'Kliniki i Zdrowie',sprzedaz:'Sprzedaż i CRM',marketing:'Marketing i Content',ops:'Operacje i Back-office',finanse:'Finanse i Księgowość',hr:'HR i Rekrutacja',ecom:'E-commerce',pakiet:'Pakiety Specjalne'},
+  secNames:{klinika:'Kliniki i Zdrowie',sprzedaz:'Sprzedaż i CRM',marketing:'Marketing i Content',ops:'Operacje i Back-office',finanse:'Finanse i Księgowość',hr:'HR i Rekrutacja',ecom:'E-commerce',pakiet:'Pakiety Specjalne',web:'Strony, Aplikacje i Platformy'},
   cardMore:'Szczegóły →', noResults:'Brak wyników',
   mailSubject:'Tak, chce pilotaz', mailSubjectInquiry:'Zapytanie o wdrozenie', mailSubjectService:'Zapytanie: '
 },
 en:{
-  topbar:'⚡ 30-day Pilot FREE — no contract, no commitment · June 2026',
+  topbar:'⚡ First subscription month FREE — full setup price · August 2026',
   navLive:'LIVE', navCta:'Book Pilot',
   heroTag:'AI Voice Receptionist · Private Clinics · Europe',
   h1a:'AI answers calls', h1b:'for you 24/7',
   heroSub:'Your clinic never loses a patient due to missed calls. Test free for 30 days — pay only if you want to continue.',
-  pilotTag:'Risk-free offer — June 2026',
+  pilotTag:'Risk-free offer — August 2026',
   pilotH2:'30 days <em>free</em><br>no obligations',
   pilotSub:'We deploy an AI Receptionist in your clinic. It works for 30 days. Payment only if you decide to stay.',
   ck1:'Deployment 5–7 days', ck2:'AI handles 100% of calls 24/7', ck3:'Full report after 30 days', ck4:'No contract upfront',
@@ -340,29 +357,29 @@ en:{
   secWhy:'Why it pays off',
   painBad:'✗ Without AI reception', pb1:'📵 Missed calls = lost patients', pb2:'💸 Reception salary: 1 200–2 000 €/mo.', pb3:'🔴 Patients call after hours — no one answers',
   painGood:'✓ With MV Automation', pg1:'✅ AI handles 100% of calls 24/7', pg2:'✅ ~600 €/mo. instead of a full-time hire', pg3:'✅ Live dashboard — full analytics',
-  secPromos:'June 2026 Promotions',
-  pr1h:'Starter Pilot', pr1p:'Full AI reception deployment, zero fees for a month. Pay only if you stay.',
-  pr2h:'Decision in 7 days', pr2p:'Sign within a week of the demo — 20% off setup fee.',
+  secPromos:'August 2026 Promotions',
+  pr1h:'First month free', pr1p:'Full deployment at standard price — your first subscription month (2,500 PLN) is on us.',
+  pr2h:'Decision in 7 days', pr2p:'Sign within a week of the demo — 50% off the second subscription month. Setup price unchanged.',
   pr3h:'Second system', pr3p:'Add any second service from the catalog — setup 50% cheaper.',
   secRef:'Refer us — earn commission', refH2:'Your referral link',
   refP:'Recommend MV Automation? Everyone who visits via your link or scans the QR code is attributed to you.',
   copyBtn:'Copy link', copiedBtn:'Copied ✓', qrCap:'Scan with phone',
   secCatalog:'Full catalog — 42 AI services', searchPh:'Search service...',
-  catAll:'All', catKlinika:'Clinics', catSprzedaz:'Sales', catMarketing:'Marketing', catOps:'Operations', catFinanse:'Finance', catHr:'HR', catEcom:'E-commerce', catPakiet:'Packages',
+  catAll:'All', catKlinika:'Clinics', catSprzedaz:'Sales', catMarketing:'Marketing', catOps:'Operations', catFinanse:'Finance', catHr:'HR', catEcom:'E-commerce', catPakiet:'Packages', catWeb:'Websites & Apps',
   fctaH2:'Ready to deploy?', fctaP:'Free 30 min consultation. Quote in 24h. Deployment in a week.', ctaBottom:'Write — I reply today',
   footer:'© 2026 MV Automation · Michał · EU Data · GDPR',
   modalSetup:'Setup', modalAbo:'Monthly', modalNote:'Deployment 5–14 days · month-to-month contract · pilot available.', modalAsk:'Ask about this service',
-  secNames:{klinika:'Clinics & Health',sprzedaz:'Sales & CRM',marketing:'Marketing & Content',ops:'Operations & Back-office',finanse:'Finance & Accounting',hr:'HR & Recruitment',ecom:'E-commerce',pakiet:'Special Packages'},
+  secNames:{klinika:'Clinics & Health',sprzedaz:'Sales & CRM',marketing:'Marketing & Content',ops:'Operations & Back-office',finanse:'Finance & Accounting',hr:'HR & Recruitment',ecom:'E-commerce',pakiet:'Special Packages',web:'Websites, Apps & Platforms'},
   cardMore:'Details →', noResults:'No results',
   mailSubject:'Yes, I want the pilot', mailSubjectInquiry:'Inquiry about deployment', mailSubjectService:'Inquiry: '
 },
 de:{
-  topbar:'⚡ 30-Tage-Pilot GRATIS — kein Vertrag, keine Verpflichtungen · Juni 2026',
+  topbar:'⚡ Erster Abo-Monat GRATIS — voller Setup-Preis · August 2026',
   navLive:'LIVE', navCta:'Pilot buchen',
   heroTag:'KI-Telefonrezeption · Privatkliniken · Europa',
   h1a:'KI nimmt Anrufe entgegen', h1b:'für Sie 24/7',
   heroSub:'Ihre Klinik verliert nie wieder einen Patienten durch verpasste Anrufe. Testen Sie 30 Tage kostenlos — zahlen Sie nur, wenn Sie weitermachen möchten.',
-  pilotTag:'Risikofreies Angebot — Juni 2026',
+  pilotTag:'Risikofreies Angebot — August 2026',
   pilotH2:'30 Tage <em>kostenlos</em><br>ohne Verpflichtungen',
   pilotSub:'Wir implementieren einen KI-Rezeptionisten in Ihrer Klinik. Er arbeitet 30 Tage. Zahlung nur, wenn Sie bleiben möchten.',
   ck1:'Implementierung 5–7 Tage', ck2:'KI nimmt 100% der Anrufe 24/7 entgegen', ck3:'Vollbericht nach 30 Tagen', ck4:'Kein Vertrag zum Start',
@@ -376,19 +393,19 @@ de:{
   secWhy:'Warum es sich lohnt',
   painBad:'✗ Ohne KI-Rezeption', pb1:'📵 Verpasste Anrufe = verlorene Patienten', pb2:'💸 Rezeptionsstelle: 1 500–2 500 €/Monat', pb3:'🔴 Patienten rufen nach Stunden an — niemand antwortet',
   painGood:'✓ Mit MV Automation', pg1:'✅ KI nimmt 100% der Anrufe 24/7 entgegen', pg2:'✅ ~600 €/Monat statt Vollzeitstelle', pg3:'✅ Live-Dashboard — vollständige Analytik',
-  secPromos:'Aktionen Juni 2026',
-  pr1h:'Starter-Pilot', pr1p:'Vollständige KI-Rezeptions-Implementierung, keine Gebühren für einen Monat. Zahlen Sie nur, wenn Sie bleiben.',
-  pr2h:'Entscheidung in 7 Tagen', pr2p:'Unterschreiben Sie innerhalb einer Woche nach der Demo — 20% Rabatt auf die Setup-Gebühr.',
+  secPromos:'Aktionen August 2026',
+  pr1h:'Erster Monat gratis', pr1p:'Vollständige Implementierung zum Standardpreis — Ihr erster Abo-Monat (2.500 PLN) geht auf uns.',
+  pr2h:'Entscheidung in 7 Tagen', pr2p:'Unterschrift innerhalb einer Woche nach der Demo — 50% Rabatt auf den zweiten Abo-Monat. Setup-Preis unverändert.',
   pr3h:'Zweites System', pr3p:'Fügen Sie einen zweiten Dienst aus dem Katalog hinzu — Setup 50% günstiger.',
   secRef:'Empfehlen Sie uns — verdienen Sie Provision', refH2:'Ihr Empfehlungslink',
   refP:'Empfehlen Sie MV Automation weiter? Jeder, der über Ihren Link kommt oder den QR-Code scannt, wird Ihnen zugeordnet.',
   copyBtn:'Link kopieren', copiedBtn:'Kopiert ✓', qrCap:'Mit Telefon scannen',
   secCatalog:'Vollständiger Katalog — 42 KI-Dienste', searchPh:'Dienst suchen...',
-  catAll:'Alle', catKlinika:'Kliniken', catSprzedaz:'Vertrieb', catMarketing:'Marketing', catOps:'Betrieb', catFinanse:'Finanzen', catHr:'Personal', catEcom:'E-Commerce', catPakiet:'Pakete',
+  catAll:'Alle', catKlinika:'Kliniken', catSprzedaz:'Vertrieb', catMarketing:'Marketing', catOps:'Betrieb', catFinanse:'Finanzen', catHr:'Personal', catEcom:'E-Commerce', catPakiet:'Pakete', catWeb:'Websites & Apps',
   fctaH2:'Bereit zur Implementierung?', fctaP:'Kostenlose 30-Min-Beratung. Angebot in 24h. Implementierung in einer Woche.', ctaBottom:'Schreiben Sie — ich antworte heute',
   footer:'© 2026 MV Automation · Michał · EU-Daten · DSGVO',
   modalSetup:'Implementierung', modalAbo:'Monatlich', modalNote:'Implementierung 5–14 Tage · Monat-zu-Monat-Vertrag · Pilot möglich.', modalAsk:'Nach diesem Dienst fragen',
-  secNames:{klinika:'Kliniken & Gesundheit',sprzedaz:'Vertrieb & CRM',marketing:'Marketing & Content',ops:'Betrieb & Back-office',finanse:'Finanzen & Buchhaltung',hr:'Personal & Recruiting',ecom:'E-Commerce',pakiet:'Spezialpakete'},
+  secNames:{klinika:'Kliniken & Gesundheit',sprzedaz:'Vertrieb & CRM',marketing:'Marketing & Content',ops:'Betrieb & Back-office',finanse:'Finanzen & Buchhaltung',hr:'Personal & Recruiting',ecom:'E-Commerce',pakiet:'Spezialpakete',web:'Websites, Apps & Plattformen'},
   cardMore:'Details →', noResults:'Keine Ergebnisse',
   mailSubject:'Ja, ich möchte den Pilot', mailSubjectInquiry:'Anfrage zur Implementierung', mailSubjectService:'Anfrage: '
 }
@@ -433,7 +450,7 @@ function setLang(l){
   document.getElementById('qr-cap').textContent=t.qrCap;
   document.getElementById('sec-catalog').innerHTML=t.secCatalog+'<span></span>';
   document.getElementById('search').placeholder=t.searchPh;
-  var cats=[['all',t.catAll],['klinika',t.catKlinika],['sprzedaz',t.catSprzedaz],['marketing',t.catMarketing],['ops',t.catOps],['finanse',t.catFinanse],['hr',t.catHr],['ecom',t.catEcom],['pakiet',t.catPakiet]];
+  var cats=[['all',t.catAll],['klinika',t.catKlinika],['sprzedaz',t.catSprzedaz],['marketing',t.catMarketing],['ops',t.catOps],['finanse',t.catFinanse],['hr',t.catHr],['ecom',t.catEcom],['pakiet',t.catPakiet],['web',t.catWeb]];
   document.querySelectorAll('.cat').forEach(function(el,i){if(cats[i])el.textContent=cats[i][1];});
   document.getElementById('fcta-h2').textContent=t.fctaH2;
   document.getElementById('fcta-p').textContent=t.fctaP;
@@ -487,7 +504,14 @@ var S=[
 {c:'ecom',i:'CHA',n:{pl:'AI Obsługa klienta chat i email',en:'AI Customer Support Chat & Email',de:'KI-Kundensupport Chat & E-Mail'},b:'',d:{pl:'80% zapytań obsługuje AI automatycznie. Trudne trafiają do człowieka z kontekstem.',en:'80% of queries handled by AI automatically. Difficult ones go to human with context.',de:'80% der Anfragen automatisch von KI bearbeitet. Schwierige gehen mit Kontext an Menschen.'},s:'5 000',m:'1 500'},
 {c:'pakiet',i:'STA',n:{pl:'Starter Pack — 3 usługi',en:'Starter Pack — 3 services',de:'Starter-Paket — 3 Dienste'},b:'top',d:{pl:'3 dowolne usługi z katalogu. Zintegrowane, działają jako jeden system. Idealne na start.',en:'3 any services from catalog. Integrated, work as one system. Perfect for start.',de:'3 beliebige Dienste aus dem Katalog. Integriert, funktionieren als ein System. Ideal für den Start.'},s:'od 12 000',m:'od 1 500'},
 {c:'pakiet',i:'FUL',n:{pl:'Full Automation Suite',en:'Full Automation Suite',de:'Vollständige Automatisierungs-Suite'},b:'hot',d:{pl:'Kompletna automatyzacja: recepcja, sprzedaż, marketing, back-office. SLA 24h.',en:'Complete automation: reception, sales, marketing, back-office. 24h SLA.',de:'Vollständige Automatisierung: Rezeption, Vertrieb, Marketing, Back-Office. 24h SLA.'},s:'od 25 000',m:'od 4 000'},
-{c:'pakiet',i:'WHL',n:{pl:'White Label dla Agencji',en:'White Label for Agencies',de:'White-Label für Agenturen'},b:'new',d:{pl:'Wdrażasz nasze systemy pod własną marką. Szkolenie, wsparcie, prowizja od wdrożenia.',en:'Deploy our systems under your brand. Training, support, commission per deployment.',de:'Unsere Systeme unter Ihrer Marke einsetzen. Schulung, Support, Provision pro Einsatz.'},s:'3 000',m:'od 500'}
+{c:'pakiet',i:'WHL',n:{pl:'White Label dla Agencji',en:'White Label for Agencies',de:'White-Label für Agenturen'},b:'new',d:{pl:'Wdrażasz nasze systemy pod własną marką. Szkolenie, wsparcie, prowizja od wdrożenia.',en:'Deploy our systems under your brand. Training, support, commission per deployment.',de:'Unsere Systeme unter Ihrer Marke einsetzen. Schulung, Support, Provision pro Einsatz.'},s:'3 000',m:'od 500'},
+{c:'web',i:'LP',n:{pl:'Landing Page / Strona wizytówka',en:'Landing Page / One-page Site',de:'Landing Page / Onepager'},b:'hot',d:{pl:'Szybka, konwertująca strona pod kampanię lub wizytówkę firmy. Projekt, treści, wersja mobilna, formularz, publikacja. Realizacja 3–7 dni.',en:'Fast, converting page for a campaign or company card. Design, copy, mobile version, form, publishing. Delivered in 3–7 days.',de:'Schnelle, konvertierende Seite für Kampagne oder Firmenvisitenkarte. Design, Texte, mobile Version, Formular, Veröffentlichung. 3–7 Tage.'},s:'1 500',m:'0'},
+{c:'web',i:'WWW',n:{pl:'Strona firmowa (WWW)',en:'Company Website',de:'Firmen-Website'},b:'',d:{pl:'Wielopodstronowa strona firmowa: oferta, o nas, blog, kontakt. CMS do samodzielnej edycji, SEO na start, RWD. Bez abonamentu.',en:'Multi-page company website: services, about, blog, contact. Self-edit CMS, starter SEO, responsive. No subscription.',de:'Mehrseitige Firmen-Website: Leistungen, Über uns, Blog, Kontakt. Self-Edit-CMS, Starter-SEO, responsiv. Kein Abo.'},s:'3 500',m:'0'},
+{c:'web',i:'SHOP',n:{pl:'Sklep internetowy',en:'Online Store',de:'Online-Shop'},b:'',d:{pl:'Sklep e-commerce: produkty, koszyk, płatności (Stripe/Przelewy24), integracja z magazynem i wysyłką. Gotowy do sprzedaży.',en:'E-commerce store: products, cart, payments (Stripe/P24), inventory and shipping integration. Ready to sell.',de:'E-Commerce-Shop: Produkte, Warenkorb, Zahlungen (Stripe/P24), Lager- und Versand-Integration. Verkaufsbereit.'},s:'6 000',m:'od 300'},
+{c:'web',i:'APP',n:{pl:'Aplikacja webowa (dedykowana)',en:'Custom Web App',de:'Individuelle Web-App'},b:'',d:{pl:'Dedykowana aplikacja pod Twój proces: panel, logowanie, baza danych, integracje API. Projektujemy, budujemy, hostujemy i utrzymujemy.',en:'Custom app for your process: dashboard, auth, database, API integrations. We design, build, host and maintain.',de:'Individuelle App für Ihren Prozess: Dashboard, Login, Datenbank, API-Integrationen. Wir gestalten, bauen, hosten, warten.'},s:'od 12 000',m:'od 800'},
+{c:'web',i:'MOB',n:{pl:'Aplikacja mobilna (iOS/Android)',en:'Mobile App (iOS/Android)',de:'Mobile App (iOS/Android)'},b:'new',d:{pl:'Natywna lub cross-platform apka mobilna, publikacja w App Store i Google Play, powiadomienia push, backend w chmurze.',en:'Native or cross-platform mobile app, App Store & Google Play release, push notifications, cloud backend.',de:'Native oder plattformübergreifende Mobile-App, App-Store- & Google-Play-Release, Push, Cloud-Backend.'},s:'od 18 000',m:'od 1 000'},
+{c:'web',i:'SAAS',n:{pl:'Platforma / system SaaS',en:'Platform / SaaS System',de:'Plattform / SaaS-System'},b:'new',d:{pl:'Cała platforma pod klucz: konta użytkowników, subskrypcje, panel admina, płatności, skalowalna architektura. Od pomysłu do wdrożenia.',en:'Full turnkey platform: user accounts, subscriptions, admin panel, payments, scalable architecture. From idea to launch.',de:'Komplette schlüsselfertige Plattform: Nutzerkonten, Abos, Admin-Panel, Zahlungen, skalierbare Architektur. Von der Idee bis zum Launch.'},s:'od 25 000',m:'od 1 500'},
+{c:'web',i:'INT',n:{pl:'Integracje i automatyzacje',en:'Integrations & Automation',de:'Integrationen & Automatisierung'},b:'',d:{pl:'Spinamy Twoje narzędzia: API, n8n, CRM, płatności, e-mail, arkusze. Procesy, które klikałeś ręcznie, dzieją się same.',en:'We connect your tools: API, n8n, CRM, payments, email, sheets. Manual clicks become automatic flows.',de:'Wir verbinden Ihre Tools: API, n8n, CRM, Zahlungen, E-Mail, Sheets. Aus manuellen Klicks werden automatische Abläufe.'},s:'od 3 000',m:'od 500'}
 ];
 
 var activeCat='all',query='';
@@ -528,7 +552,7 @@ render();
 var REF='https://oferta.mvautoai.net';
 try{
   document.getElementById('reflink').value=REF;
-  if(typeof QRCode!=='undefined'){new QRCode(document.getElementById('qr'),{text:REF,width:148,height:148,colorDark:'#020408',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}
+  if(typeof QRCode!=='undefined'){new QRCode(document.getElementById('qr'),{text:REF,width:148,height:148,colorDark:'#0a0a14',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}
   document.getElementById('copybtn').addEventListener('click',function(e){
     navigator.clipboard.writeText(REF).then(function(){
       var t=T[currentLang];
@@ -549,11 +573,11 @@ try{
       if(p.x<0)p.x=canvas.width;if(p.x>canvas.width)p.x=0;
       if(p.y<0)p.y=canvas.height;if(p.y>canvas.height)p.y=0;
       ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle='rgba(0,255,135,.25)';ctx.fill();
+      ctx.fillStyle='rgba(160,140,255,.5)';ctx.fill();
     });
     for(var i=0;i<P.length;i++)for(var j=i+1;j<P.length;j++){
       var dx=P[i].x-P[j].x,dy=P[i].y-P[j].y,d=Math.sqrt(dx*dx+dy*dy);
-      if(d<110){ctx.beginPath();ctx.moveTo(P[i].x,P[i].y);ctx.lineTo(P[j].x,P[j].y);ctx.strokeStyle='rgba(0,255,135,'+(0.06*(1-d/110))+')';ctx.stroke();}
+      if(d<110){ctx.beginPath();ctx.moveTo(P[i].x,P[i].y);ctx.lineTo(P[j].x,P[j].y);ctx.strokeStyle='rgba(129,140,248,'+(0.10*(1-d/110))+')';ctx.stroke();}
     }
     requestAnimationFrame(draw);
   }
