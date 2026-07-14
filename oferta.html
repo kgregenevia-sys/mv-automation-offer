@@ -661,5 +661,61 @@ try{
   draw();
 }catch(err){}
 </script>
+<!-- ==== GADAJĄCY AGENT (męski głos) ==== -->
+<div id="mvChat" style="position:fixed;bottom:22px;right:22px;z-index:2147483000;font-family:system-ui,-apple-system,sans-serif">
+  <button id="mvChatBtn" aria-label="Czat" style="width:62px;height:62px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(135deg,#00ff80,#00b359);color:#fff;font-size:26px;box-shadow:0 8px 26px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center">💬</button>
+  <div id="mvChatWin" style="display:none;position:absolute;bottom:74px;right:0;width:340px;max-width:88vw;height:470px;max-height:72vh;background:#12101a;border:1px solid rgba(255,255,255,.12);border-radius:18px;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.5);flex-direction:column">
+    <div style="background:linear-gradient(135deg,#00ff80,#00b359);padding:13px 16px;color:#fff;display:flex;align-items:center;justify-content:space-between">
+      <div><b>Marek</b><div style="font-size:11px;opacity:.85">Doradca MV Automation · Recepcja AI</div></div>
+      <div><button id="mvVoice" title="Głos" style="background:rgba(255,255,255,.2);border:none;color:#fff;width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:15px">🔊</button>
+      <button id="mvClose" style="background:none;border:none;color:#fff;font-size:20px;cursor:pointer;margin-left:4px">✕</button></div>
+    </div>
+    <div id="mvMsgs" style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:#12101a"></div>
+    <div style="display:flex;gap:8px;padding:10px;border-top:1px solid rgba(255,255,255,.1);background:#161320">
+      <input id="mvIn" placeholder="Napisz wiadomość…" style="flex:1;background:#0d0b14;border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:11px 12px;color:#fff;outline:none;font-size:14px">
+      <button id="mvSend" style="background:linear-gradient(135deg,#00ff80,#00b359);border:none;color:#fff;border-radius:10px;padding:0 15px;cursor:pointer;font-weight:700">▶</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var API="https://mdsvcobwuezriexyqqby.supabase.co/functions/v1/sales-chat";
+  var SITE="mv", NAME="Marek";
+  var sid=(Date.now().toString(36)+Math.random().toString(36).slice(2,7));
+  var hist=[], voiceOn=true, voices=[];
+  function loadVoices(){ voices=window.speechSynthesis?speechSynthesis.getVoices():[]; }
+  if(window.speechSynthesis){ loadVoices(); speechSynthesis.onvoiceschanged=loadVoices; }
+  function speak(t){
+    if(!voiceOn||!window.speechSynthesis) return;
+    var u=new SpeechSynthesisUtterance(t.replace(/https?:\/\/\S+/g,'link'));
+    var v=voices.find(function(x){return /pl/i.test(x.lang)&&/(marek|krzysztof|jacek|adam|male|m..ski|onwe)/i.test(x.name);})
+        ||voices.find(function(x){return /pl/i.test(x.lang);});
+    if(v) u.voice=v;
+    u.lang='pl-PL'; u.pitch=0.6; u.rate=1.0;  // niska barwa = męski
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+  }
+  var $=function(id){return document.getElementById(id);};
+  function bubble(txt,me){
+    var d=document.createElement('div');
+    d.style.cssText='max-width:82%;padding:9px 12px;border-radius:12px;font-size:14px;line-height:1.45;'+(me?'align-self:flex-end;background:linear-gradient(135deg,#00ff80,#00b359);color:#fff':'align-self:flex-start;background:#221d33;color:#e9e3ff');
+    d.textContent=txt; $('mvMsgs').appendChild(d); $('mvMsgs').scrollTop=1e9; return d;
+  }
+  async function send(){
+    var v=$('mvIn').value.trim(); if(!v) return; $('mvIn').value='';
+    bubble(v,true); hist.push({role:'user',content:v});
+    var t=bubble('…',false);
+    try{
+      var r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({site:SITE,message:v,history:hist,session:sid})});
+      var d=await r.json(); t.textContent=d.reply; hist.push({role:'assistant',content:d.reply}); speak(d.reply);
+    }catch(e){ t.textContent='Chwilowy problem, spróbuj ponownie.'; }
+  }
+  $('mvChatBtn').onclick=function(){ var w=$('mvChatWin'); var open=w.style.display==='flex'; w.style.display=open?'none':'flex'; if(!open&&!hist.length){ var g=(SITE==='aureu'?'Dzień dobry, tu '+NAME+' z Aureu. Szukasz nieruchomości czy chcesz sprzedać?':'Dzień dobry, tu '+NAME+' z MV Automation. Opowiedzieć, jak Recepcja AI odbiera telefony za Twoją klinikę?'); bubble(g,false); hist.push({role:'assistant',content:g}); speak(g);} };
+  $('mvClose').onclick=function(){ $('mvChatWin').style.display='none'; if(window.speechSynthesis)speechSynthesis.cancel(); };
+  $('mvVoice').onclick=function(){ voiceOn=!voiceOn; this.textContent=voiceOn?'🔊':'🔇'; if(!voiceOn&&window.speechSynthesis)speechSynthesis.cancel(); };
+  $('mvSend').onclick=send; $('mvIn').addEventListener('keydown',function(e){if(e.key==='Enter')send();});
+})();
+</script>
+<!-- ==== /GADAJĄCY AGENT ==== -->
+
 </body>
 </html>
