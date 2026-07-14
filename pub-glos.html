@@ -1,0 +1,49 @@
+<!DOCTYPE html><html lang="pl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Under Beer — Recepcja AI głosowa (test)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;box-sizing:border-box}
+body{background:radial-gradient(ellipse at top,#0f2b18,#050a07 70%);color:#eafaf0;font-family:Inter,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(201,162,39,.12);border:1px solid rgba(201,162,39,.4);color:#c9a227;padding:6px 18px;border-radius:100px;font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:24px}
+h1{font-family:Poppins;font-weight:800;font-size:clamp(28px,6vw,46px);line-height:1.1;margin-bottom:12px}
+.g{color:#3fbf6f}
+.sub{color:rgba(234,250,240,.55);font-size:16px;max-width:480px;line-height:1.7;margin-bottom:30px}
+#call{background:linear-gradient(135deg,#1a7a3f,#0d3d1f);color:#fff;border:none;border-radius:100px;padding:20px 48px;font-family:Poppins;font-weight:800;font-size:19px;cursor:pointer;box-shadow:0 10px 30px rgba(26,122,63,.5);display:inline-flex;align-items:center;gap:12px;transition:.2s}
+#call:hover{transform:translateY(-3px)}
+#call.on{background:linear-gradient(135deg,#c0392b,#7a1f16);box-shadow:0 10px 30px rgba(192,57,43,.5)}
+.status{margin-top:22px;font-size:14px;color:#bfe9cd;min-height:22px;font-family:Poppins}
+.pulse{width:14px;height:14px;border-radius:50%;background:#fff;animation:p 1s infinite}
+@keyframes p{50%{opacity:.3}}
+.tip{margin-top:26px;background:rgba(63,191,111,.08);border:1px solid rgba(63,191,111,.22);border-radius:12px;padding:14px 20px;max-width:440px;font-size:13px;color:#bfe9cd;line-height:1.6}
+.tip b{color:#fff}
+.foot{margin-top:28px;font-size:12px;color:rgba(234,250,240,.3);font-family:Poppins;letter-spacing:1px}
+.callnr{margin-top:10px;font-size:13px;color:rgba(234,250,240,.45)}
+.callnr b{color:#c9a227}
+</style></head><body>
+<div class="badge">🍀 Under Beer Irish Pub · Gdańsk</div>
+<h1>Recepcja <span class="g">AI</span> głosowa</h1>
+<p class="sub">Kliknij, pozwól na mikrofon i porozmawiaj z recepcją pubu na głos — zapytaj o godziny, piwa albo zarezerwuj stolik. Odpowiada polskim, męskim głosem.</p>
+
+<button id="call">🎙️ Zadzwoń do recepcji</button>
+<div class="status" id="status"></div>
+
+<div class="tip">💡 Powiedz np.: <b>„do której jesteście otwarci?"</b>, <b>„co macie z Guinnessa?"</b> albo <b>„chcę zarezerwować stolik na sobotę o 20 dla czterech osób"</b></div>
+<div class="callnr">Wolisz zadzwonić telefonem? Numer testowy: <b>+1 458 500 9378</b> (numer USA)</div>
+<div class="foot">DEMO GŁOSOWY · MV Automation dla Under Beer</div>
+
+<script type="module">
+import Vapi from 'https://esm.sh/@vapi-ai/web@2.3.8';
+const vapi = new Vapi('1e9f12c3-ca08-4324-b10f-d72d5db094e0');
+const ASSISTANT='ba30fe38-d9a5-45fa-b2a1-33d2acafde7e';
+const btn=document.getElementById('call'), st=document.getElementById('status');
+let active=false;
+btn.onclick=()=>{ if(active){ vapi.stop(); } else { st.textContent='Łączę…'; vapi.start(ASSISTANT); } };
+vapi.on('call-start',()=>{ active=true; btn.classList.add('on'); btn.innerHTML='<span class="pulse"></span> Zakończ rozmowę'; st.textContent='🟢 Połączono — mów śmiało'; });
+vapi.on('call-end',()=>{ active=false; btn.classList.remove('on'); btn.innerHTML='🎙️ Zadzwoń do recepcji'; st.textContent='Rozmowa zakończona.'; });
+vapi.on('speech-start',()=>{ st.textContent='🎙️ Sean mówi…'; });
+vapi.on('speech-end',()=>{ st.textContent='🟢 Słucham…'; });
+vapi.on('error',(e)=>{ st.textContent='Błąd: '+(e?.errorMsg||e?.error?.message||'spróbuj ponownie'); active=false; btn.classList.remove('on'); btn.innerHTML='🎙️ Zadzwoń do recepcji'; });
+</script>
+</body></html>
