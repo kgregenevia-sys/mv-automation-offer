@@ -738,7 +738,7 @@ try{
   if(window.speechSynthesis){ loadVoices(); speechSynthesis.onvoiceschanged=loadVoices; }
   function speak(t){
     if(!voiceOn||!window.speechSynthesis) return;
-    var u=new SpeechSynthesisUtterance(t.replace(/https?:\/\/\S+/g,'link'));
+    var u=new SpeechSynthesisUtterance(t.replace(/https?:\/\/\S+/g,'link').replace(/24\s*\/\s*7/g,' dwadzieścia cztery godziny na dobę ').replace(/MV\s*Automation/gi,'Em Wu Automejszyn').replace(/\bMV\b/g,'Em Wu').replace(/\/\s*mc/g,' miesięcznie').replace(/zł(?=\s|$|[.,)])/g,'złotych'));
     var v=voices.find(function(x){return /pl/i.test(x.lang)&&/(marek|krzysztof|jacek|adam|male|m..ski|onwe)/i.test(x.name);})
         ||voices.find(function(x){return /pl/i.test(x.lang);});
     if(v) u.voice=v;
