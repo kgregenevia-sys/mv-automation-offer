@@ -221,6 +221,14 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;color:v
 .hero-caps{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;max-width:600px;margin:0 auto}
 .hero-caps span{font-size:12px;font-weight:600;color:#cbb8ff;background:rgba(160,140,255,.08);border:1px solid var(--border2);border-radius:20px;padding:6px 14px;white-space:nowrap}
 </style>
+<style id="mv-pay-style">
+.md-pay{display:flex;flex-direction:column;gap:10px;margin:16px 0 12px}
+.md-pay .cta-btn{display:block;text-align:center;margin:0}
+.pay-main{background:linear-gradient(90deg,#539ff7,#7c5cff);color:#08111f;font-weight:800;border:0}
+.pay-sub{background:transparent;border:1px solid #539ff7;color:#cfe4ff;font-weight:700}
+.pay-note{font-size:11.5px;color:#8ea0b8;text-align:center;margin-top:2px}
+.cta-ask{opacity:.85}
+</style>
 </head>
 <body>
 <canvas id="c"></canvas>
@@ -589,7 +597,7 @@ function setLang(l){
 }
 </script><script>
 var S=[
-{c:'klinika',i:'AI',n:{pl:'AI Recepcjonistka 24/7',en:'AI Receptionist 24/7',de:'KI-Rezeptionistin 24/7'},b:'hot',d:{pl:'Głosowy AI odbiera 100% połączeń, zapisuje pacjentów, odpowiada na FAQ, integracja Google / Docplanner. Zero nieodebranych telefonów, 24/7.',en:'Voice AI handles 100% of calls, books patients, answers FAQ, integrates with Google / Docplanner. Zero missed calls, 24/7.',de:'Sprach-KI beantwortet 100% der Anrufe, bucht Patienten, beantwortet FAQs, integriert Google/Docplanner. Null verpasste Anrufe, 24/7.'},s:'9 000',m:'2 500'},
+{c:'klinika',i:'AI',n:{pl:'AI Recepcjonistka 24/7',en:'AI Receptionist 24/7',de:'KI-Rezeptionistin 24/7'},b:'hot',d:{pl:'Głosowy AI odbiera 100% połączeń, zapisuje pacjentów, odpowiada na FAQ, integracja Google / Docplanner. Zero nieodebranych telefonów, 24/7.',en:'Voice AI handles 100% of calls, books patients, answers FAQ, integrates with Google / Docplanner. Zero missed calls, 24/7.',de:'Sprach-KI beantwortet 100% der Anrufe, bucht Patienten, beantwortet FAQs, integriert Google/Docplanner. Null verpasste Anrufe, 24/7.'},s:'9 000',m:'2 500',pay:{setup:'https://buy.stripe.com/fZuaEPgZm8oZejxgkPdQQ08',sub:'https://buy.stripe.com/4gMaEP7oM8oZejx5GbdQQ07'}},
 {c:'klinika',i:'KAL',n:{pl:'Automatyczne przypomnienia wizyt',en:'Automated Appointment Reminders',de:'Automatische Terminerinnerungen'},b:'new',d:{pl:'SMS + email 24h i 2h przed wizytą. Potwierdzenia odpowiedzią. Redukcja no-show nawet o 60%.',en:'SMS + email 24h and 2h before appointment. Confirmation by reply. No-show reduction up to 60%.',de:'SMS + E-Mail 24h und 2h vor dem Termin. Bestätigung per Antwort. No-Show-Reduzierung bis zu 60%.'},s:'3 000',m:'800'},
 {c:'klinika',i:'WYW',n:{pl:'Automatyczny wywiad medyczny',en:'Automated Medical Intake',de:'Automatische Krankengeschichte'},b:'',d:{pl:'AI zbiera wywiad przed wizytą. Lekarz dostaje gotowe podsumowanie. Oszczędność ~15 min na wizycie.',en:'AI collects intake before the visit. Doctor receives a ready summary. Saves ~15 min per visit.',de:'KI sammelt die Anamnese vor dem Termin. Arzt erhält fertige Zusammenfassung. Spart ~15 Min. pro Termin.'},s:'4 000',m:'1 000'},
 {c:'klinika',i:'OPI',n:{pl:'System zbierania opinii Google',en:'Google Review Collection System',de:'Google-Bewertungssystem'},b:'',d:{pl:'Po wizycie automatyczny SMS z prośbą o opinię Google Maps. Filtrowanie negatywnych przed publikacją.',en:'After visit: automatic SMS requesting Google Maps review. Filters negative reviews before publishing.',de:'Nach dem Termin: automatische SMS mit Google-Maps-Bewertungsanfrage. Filtert negative Bewertungen vor Veröffentlichung.'},s:'2 500',m:'600'},
@@ -661,11 +669,21 @@ function render(){
   if(!h)h='<p style="text-align:center;color:var(--muted);padding:48px">'+t.noResults+'</p>';
   document.getElementById('catalog').innerHTML=h;
 }
+var PAYT={pl:['Kup wdrozenie','Uruchom abonament','Platnosc obsluguje Stripe - otwiera sie w nowym oknie'],
+ en:['Buy setup','Start subscription','Payment handled by Stripe - opens in a new window'],
+ de:['Setup kaufen','Abo starten','Zahlung uber Stripe - offnet neues Fenster']};
+function payHTML(s){
+  if(!s||!s.pay) return '';
+  var L=PAYT[currentLang]||PAYT.pl, o='<div class="md-pay">';
+  if(s.pay.setup) o+='<a href="'+s.pay.setup+'" target="_blank" rel="noopener noreferrer" class="cta-btn pay-main">'+L[0]+' - '+s.s+' zl</a>';
+  if(s.pay.sub)   o+='<a href="'+s.pay.sub+'" target="_blank" rel="noopener noreferrer" class="cta-btn pay-sub">'+L[1]+' - '+s.m+' zl/mc</a>';
+  return o+'<div class="pay-note">'+L[2]+'</div></div>';
+}
 function openModal(idx){
   var s=S[idx];if(!s)return;
   var t=T[currentLang];
   var subj=encodeURIComponent(t.mailSubjectService+s.n[currentLang]);
-  document.getElementById('mbody').innerHTML='<div class="icon" style="margin-bottom:12px">'+s.i+'</div><div class="md-cat">'+t.secNames[s.c]+'</div><h3>'+s.n[currentLang]+' '+bH(s.b)+'</h3><div class="md-desc">'+s.d[currentLang]+'</div><div class="md-price"><div><div class="lbl">'+t.modalSetup+'</div><div class="val">'+s.s+' zł</div></div><div><div class="lbl">'+t.modalAbo+'</div><div class="val">'+(s.m==='0'?t.oneTime:s.m+' zł/mc')+'</div></div></div><div class="md-note">'+t.modalNote+'</div><a href="mailto:michal@send.kgregenevia.pro?subject='+subj+'" class="cta-btn" style="display:block;text-align:center">'+t.modalAsk+'</a>';
+  document.getElementById('mbody').innerHTML='<div class="icon" style="margin-bottom:12px">'+s.i+'</div><div class="md-cat">'+t.secNames[s.c]+'</div><h3>'+s.n[currentLang]+' '+bH(s.b)+'</h3><div class="md-desc">'+s.d[currentLang]+'</div><div class="md-price"><div><div class="lbl">'+t.modalSetup+'</div><div class="val">'+s.s+' zł</div></div><div><div class="lbl">'+t.modalAbo+'</div><div class="val">'+(s.m==='0'?t.oneTime:s.m+' zł/mc')+'</div></div></div><div class="md-note">'+t.modalNote+'</div>'+payHTML(s)+'<a href="mailto:michal@send.kgregenevia.pro?subject='+subj+'" class="cta-btn cta-ask" style="display:block;text-align:center">'+t.modalAsk+'</a>';
   document.getElementById('modal').classList.add('show');
 }
 function closeModal(){document.getElementById('modal').classList.remove('show');}
