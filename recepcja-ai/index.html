@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="pl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recepcja AI — odbieramy połączenia, których dziś tracisz | MV Automation</title>
+<style>
+ :root{--bg:#0b0f1a;--card:#121a2b;--ink:#eaf0ff;--sub:#9fb0d0;--line:#243149;--brand:#6c8cff;--good:#3ecf8e}
+ *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.5}
+ .wrap{max-width:640px;margin:0 auto;padding:22px 16px}
+ h1{font-size:26px;margin:0 0 8px}.lead{color:var(--sub);font-size:16px;margin:0 0 18px}
+ .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}
+ h2{font-size:18px;margin:0 0 8px}.muted{color:var(--sub);font-size:14px}
+ .price{font-size:20px;font-weight:700}.price small{color:var(--sub);font-weight:400;font-size:14px}
+ label{display:block;font-size:13px;color:var(--sub);margin:10px 0 4px}
+ input,select{width:100%;padding:11px;border-radius:10px;border:1px solid var(--line);background:#0e1626;color:var(--ink)}
+ .row{display:flex;gap:10px}.row>div{flex:1}
+ .out{font-size:22px;font-weight:700;color:var(--good);margin-top:8px}
+ button{width:100%;background:linear-gradient(90deg,#6c8cff,#a06cff);color:#fff;border:0;border-radius:12px;padding:14px;font-weight:700;font-size:16px;cursor:pointer;margin-top:12px}
+ .alt{margin-top:10px;font-size:14px;text-align:center}.alt a{color:var(--brand)}
+ .ok{background:#0f2a1e;border:1px solid #1f7a4d;color:#8ff0c0;padding:12px;border-radius:10px;display:none;margin-top:10px}
+ .err{color:#ffb020;font-size:13px;margin-top:6px}
+ .chk{display:flex;gap:8px;align-items:flex-start}.chk input{width:auto;margin-top:3px}
+ .hp{position:absolute;left:-9999px}
+</style></head>
+<body><div class="wrap">
+ <h1>Nieodebrany telefon = utracony pacjent</h1>
+ <p class="lead">Twoja recepcja obsługuje pacjenta przy okienku, a telefon dzwoni w próżnię — przed 8:00, po 17:00, w weekendy i gdy linia jest zajęta. <b>Recepcja AI odbiera 100% połączeń 24/7</b>, umawia wizyty, potwierdza je SMS-em i ogranicza no-show.</p>
+
+ <div class="card">
+   <h2>Cennik</h2>
+   <p class="price">9 000 zł <small>wdrożenie</small> &nbsp;+&nbsp; 2 500 zł <small>/ miesiąc</small></p>
+   <p class="muted">Wejście niskiego ryzyka: pilotaż 30 dni. Bez pracy po Twojej stronie — uruchamiamy w kilka dni.</p>
+ </div>
+
+ <div class="card">
+   <h2>Kalkulator utraconych pacjentów</h2>
+   <div class="row">
+     <div><label>Nieodebrane połączenia / dzień</label><input id="calls" type="number" value="5" min="0"></div>
+     <div><label>Wartość wizyty (zł)</label><input id="val" type="number" value="200" min="0"></div>
+   </div>
+   <label>Dni robocze / miesiąc</label><input id="days" type="number" value="22" min="0">
+   <div class="out" id="loss">Szacowana strata: — zł / mies.</div>
+   <p class="muted">Szacunek na podstawie Twoich danych. To pieniądze możliwe do odzyskania.</p>
+ </div>
+
+ <div class="card">
+   <h2>Umów bezpłatną analizę</h2>
+   <p class="muted">Pokażemy na Twoich liczbach, ile realnie tracisz i jak to odzyskać. Bez zobowiązań.</p>
+   <form id="f">
+     <input class="hp" id="hp" placeholder="Leave empty" autocomplete="off" tabindex="-1">
+     <label>Imię</label><input id="name" required>
+     <label>Klinika / firma</label><input id="company">
+     <div class="row">
+       <div><label>Telefon</label><input id="phone" inputmode="tel"></div>
+       <div><label>E-mail</label><input id="email" type="email"></div>
+     </div>
+     <label>Preferowany kontakt</label>
+     <select id="pref"><option value="telefon">Telefon</option><option value="email">E-mail</option><option value="demo">Demonstracja online</option></select>
+     <div class="chk" style="margin-top:12px"><input id="consent" type="checkbox"><label for="consent" style="margin:0;color:var(--ink)">Zgadzam się na kontakt w sprawie mojego zapytania.</label></div>
+     <div class="err" id="err"></div>
+     <button type="submit" id="btn">Umów bezpłatną analizę</button>
+     <div class="ok" id="ok">Dziękujemy! Odezwiemy się wybranym kanałem. </div>
+     <div class="alt">lub zadzwoń: <a href="tel:+48000000000">umów telefonicznie</a></div>
+   </form>
+ </div>
+ <p class="muted" style="text-align:center">MV Automation · Recepcja AI</p>
+</div>
+<script>
+ const FN="https://mdsvcobwuezriexyqqby.supabase.co/functions/v1/lead-capture";
+ const qs=new URLSearchParams(location.search);
+ function calc(){
+   const c=+document.getElementById('calls').value||0,v=+document.getElementById('val').value||0,d=+document.getElementById('days').value||0;
+   const loss=c*v*d; document.getElementById('loss').textContent='Szacowana strata: '+loss.toLocaleString('pl-PL')+' zł / mies.';
+ }
+ ['calls','val','days'].forEach(id=>document.getElementById(id).addEventListener('input',calc)); calc();
+ document.getElementById('f').addEventListener('submit',async e=>{
+   e.preventDefault(); const err=document.getElementById('err'); err.textContent='';
+   const phone=document.getElementById('phone').value.trim(), email=document.getElementById('email').value.trim();
+   if(!phone && !email){ err.textContent='Podaj telefon lub e-mail.'; return; }
+   if(!document.getElementById('consent').checked){ err.textContent='Zaznacz zgodę na kontakt.'; return; }
+   const btn=document.getElementById('btn'); btn.disabled=true; btn.textContent='Wysyłam...';
+   const body={ hp:document.getElementById('hp').value, name:document.getElementById('name').value.trim(),
+     company:document.getElementById('company').value.trim(), phone, email,
+     preferred_contact:document.getElementById('pref').value, consent:true,
+     source:qs.get('utm_source')||qs.get('source')||'landing', medium:qs.get('utm_medium')||'organic',
+     campaign:qs.get('utm_campaign')||'recepcja_ai', content:qs.get('utm_content')||'', partner:qs.get('partner')||'',
+     referral:qs.get('ref')||'', variant:qs.get('v')||'A', idempotency_key:'lead:'+(email||phone)+':'+(qs.get('utm_campaign')||'') };
+   try{ const r=await fetch(FN,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+     const j=await r.json();
+     if(j.ok){ document.getElementById('f').reset(); document.getElementById('ok').style.display='block'; document.getElementById('ok').scrollIntoView({behavior:'smooth'}); }
+     else { err.textContent=j.err||'Coś poszło nie tak, spróbuj ponownie.'; btn.disabled=false; btn.textContent='Umów bezpłatną analizę'; }
+   }catch(_){ err.textContent='Błąd połączenia.'; btn.disabled=false; btn.textContent='Umów bezpłatną analizę'; }
+ });
+</script></body></html>
