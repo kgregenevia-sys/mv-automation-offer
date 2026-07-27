@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://oferta.kgregenevia.pro/</loc><lastmod>2026-07-12</lastmod><priority>1.0</priority></url>
-<url><loc>https://oferta.kgregenevia.pro/oferta.html</loc><lastmod>2026-07-12</lastmod><priority>0.8</priority></url>
+<url><loc>https://oferta.kgregenevia.pro/</loc><changefreq>weekly</changefreq></url>
+<url><loc>https://oferta.kgregenevia.pro/recepcja-ai/</loc><changefreq>weekly</changefreq></url>
+<url><loc>https://oferta.kgregenevia.pro/uslugi/</loc><changefreq>weekly</changefreq></url>
+<url><loc>https://oferta.kgregenevia.pro/nexion/</loc><changefreq>weekly</changefreq></url>
+<url><loc>https://oferta.kgregenevia.pro/blog/</loc><changefreq>weekly</changefreq></url>
+<url><loc>https://oferta.kgregenevia.pro/blog/nieodebrane-polaczenia-klinika/</loc><changefreq>weekly</changefreq></url>
+<url><loc>https://oferta.kgregenevia.pro/blog/ai-recepcja-jak-dziala/</loc><changefreq>weekly</changefreq></url>
+<url><loc>https://oferta.kgregenevia.pro/blog/no-show-sms/</loc><changefreq>weekly</changefreq></url>
+<url><loc>https://oferta.kgregenevia.pro/blog/cennik-recepcja-ai/</loc><changefreq>weekly</changefreq></url>
+<url><loc>https://oferta.kgregenevia.pro/blog/recepcja-ai-stomatologia/</loc><changefreq>weekly</changefreq></url>
+<url><loc>https://oferta.kgregenevia.pro/blog/baza-leadow-b2b/</loc><changefreq>weekly</changefreq></url>
 </urlset>
