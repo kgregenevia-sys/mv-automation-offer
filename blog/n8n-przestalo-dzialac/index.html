@@ -1,0 +1,79 @@
+<!doctype html><html lang="pl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Automatyzacja n8n przestala dzialac i nikt tego nie zauwazyl | MV Automation</title>
+<meta name="description" content="Ciche awarie w n8n: dlaczego workflow konczy sie na zielono, mimo ze nic nie zrobil, jak to wykryc i jak zabezpieczyc sie na przyszlosc.">
+<link rel="canonical" href="https://oferta.kgregenevia.pro/blog/n8n-przestalo-dzialac/">
+<meta property="og:type" content="article"><meta property="og:title" content="Automatyzacja n8n przestala dzialac i nikt tego nie zauwazyl | MV Automation">
+<meta property="og:description" content="Ciche awarie w n8n: dlaczego workflow konczy sie na zielono, mimo ze nic nie zrobil, jak to wykryc i jak zabezpieczyc sie na przyszlosc."><meta property="og:url" content="https://oferta.kgregenevia.pro/blog/n8n-przestalo-dzialac/">
+<meta property="og:locale" content="pl_PL">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Automatyzacja n8n przestala dzialac i nikt tego nie zauwazyl | MV Automation", "description": "Ciche awarie w n8n: dlaczego workflow konczy sie na zielono, mimo ze nic nie zrobil, jak to wykryc i jak zabezpieczyc sie na przyszlosc.", "datePublished": "2026-08-10", "dateModified": "2026-08-10", "inLanguage": "pl-PL", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://oferta.kgregenevia.pro/blog/n8n-przestalo-dzialac/"}, "author": {"@type": "Organization", "name": "MV Automation"}, "publisher": {"@type": "Organization", "name": "MATANGEL sp. z o.o.", "address": {"@type": "PostalAddress", "streetAddress": "ul. Garbary 6/7", "postalCode": "80-827", "addressLocality": "Gdansk", "addressCountry": "PL"}}}</script>
+<style>
+:root{--b:#0f172a;--a:#2563eb;--muted:#64748b;--bg:#f8fafc;--line:#e2e8f0}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--b);background:var(--bg);line-height:1.7}
+.wrap{max-width:720px;margin:0 auto;padding:28px 20px 72px}
+a{color:var(--a)}
+h1{font-size:30px;line-height:1.25;margin:18px 0 8px}
+h2{font-size:21px;margin:32px 0 10px}
+.meta{color:var(--muted);font-size:14px;margin-bottom:18px}
+p{margin:12px 0}
+ul{margin:12px 0;padding-left:20px}li{margin:7px 0}
+.box{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;margin:26px 0}
+.cta{background:#fff;border:2px solid var(--a);border-radius:16px;padding:22px;margin:32px 0;text-align:center}
+.cta a.btn{display:inline-block;background:var(--a);color:#fff;text-decoration:none;padding:13px 26px;border-radius:10px;font-weight:700;margin-top:10px}
+.cta .cena{font-size:15px;color:var(--muted);margin-top:10px}
+table{width:100%;border-collapse:collapse;margin:18px 0;font-size:15px}
+th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;background:#fff}
+th{background:#f1f5f9}
+footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+nav.top{font-size:14px}
+</style></head><body><div class="wrap">
+<nav class="top"><a href="https://oferta.kgregenevia.pro/">MV Automation</a> &rsaquo; <a href="https://oferta.kgregenevia.pro/blog/">Blog</a></nav>
+<h1>Automatyzacja przestala dzialac i nikt tego nie zauwazyl</h1>
+<div class="meta">Aktualizacja: 10 sierpnia 2026 &middot; czas czytania ok. 6 min</div>
+
+<p>Najdrozsza awaria automatyzacji to nie ta, ktora wywala blad. To ta, ktora konczy sie na zielono i nie robi nic.</p>
+<p>W n8n jest to zaskakujaco latwe. Wystarczy jedno ustawienie w nodzie HTTP i workflow, ktory od trzech tygodni nie zapisal ani jednego rekordu, nadal raportuje sukces w kazdym wykonaniu.</p>
+
+<h2>Trzy wzorce, ktore powoduja ciche awarie</h2>
+<p><strong>1. <code>neverError: true</code> na nodzie HTTP.</strong> Ustawienie mowi n8n: cokolwiek zwroci serwer, potraktuj to jako poprawna odpowiedz. Wygasly token, zmieniony endpoint, przekroczony limit API — wszystko przechodzi dalej jako sukces. Kolejny nod dostaje pusta odpowiedz i grzecznie zapisuje zero rekordow.</p>
+<p><strong>2. Pusty blok przechwytywania bledu.</strong> W nodzie Code czesto pojawia sie konstrukcja, ktora lapie wyjatek i nie robi z nim nic. Zapis do bazy sie nie powiodl, wysylka odpadla, alert nie poszedl — a funkcja zwraca komplet danych, jakby wszystko sie udalo.</p>
+<p><strong>3. Status wpisany na sztywno.</strong> Zdarza sie, ze workflow monitorujacy raportuje wlasny stan jako OK, bo tak zapisano w kodzie. Taki monitor z definicji nigdy nie wykryje wlasnej awarii.</p>
+
+<h2>Jak sprawdzic to u siebie w kwadrans</h2>
+<ul>
+<li>Otworz liste wykonan i porownaj liczbe uruchomien z liczba rekordow, ktore realnie przybyly w bazie. Rozjazd to pierwszy sygnal.</li>
+<li>Poszukaj w workflow ustawienia <code>neverError</code>. Wszedzie tam, gdzie po nodzie HTTP nastepuje decyzja albo zapis, to ustawienie jest bledem.</li>
+<li>Sprawdz, czy ktorykolwiek workflow ma ustawiony <em>Error Workflow</em>. Jesli zaden — nie masz centralnego odbiorcy bledow i kazdy blad ginie.</li>
+<li>Zweryfikuj, czy wersja opublikowana to ta sama, ktora widzisz w edytorze. n8n rozdziela zapis od publikacji; produkcja potrafi chodzic na kodzie sprzed miesiaca.</li>
+</ul>
+
+<h2>Ile to realnie kosztuje</h2>
+<p>Cicha awaria kosztuje dwa razy. Pierwszy raz, gdy proces nie wykonuje sie przez tygodnie. Drugi raz, gdy trzeba odtworzyc dane wstecz, czesto recznie, i wyjasnic klientom, dlaczego nie dostali tego, co mieli dostac.</p>
+<p>Typowe skutki, ktore widzimy w audytach: powiadomienia niewyslane do kilkuset odbiorcow, duplikaty w bazie po ponownych uruchomieniach, faktury bez zalacznika, leady, ktore nigdy nie trafily do CRM.</p>
+
+<h2>Jak zabezpieczyc sie na stale</h2>
+<table>
+<tr><th>Zabezpieczenie</th><th>Co daje</th></tr>
+<tr><td>Jeden wspolny Error Workflow</td><td>Kazdy blad ma odbiorce i slad, zamiast ginac w wykonaniu</td></tr>
+<tr><td>Walidacja odpowiedzi po kazdym HTTP</td><td>Brak identyfikatora w odpowiedzi = blad, nie sukces</td></tr>
+<tr><td>Klucz idempotencji przy zapisie i wysylce</td><td>Ponowne uruchomienie nie tworzy duplikatu</td></tr>
+<tr><td>Alert przy zerowym wyniku</td><td>Workflow, ktory nie zwrocil nic, zglasza to sam</td></tr>
+<tr><td>Sekrety w Credentials, nie w kodzie</td><td>Rotacja klucza w jednym miejscu zamiast w kilkudziesieciu</td></tr>
+</table>
+<p>Zadne z tych zabezpieczen nie wymaga przebudowy automatyzacji. To zmiany w konfiguracji i kilka linii w miejscach, gdzie dzis blad jest polykany.</p>
+
+<div class="cta">
+<div style="font-weight:700;font-size:19px">Diagnoza n8n w 48 godzin</div>
+<div style="color:#334155;margin-top:6px">Przegladamy wszystkie workflow, znajdujemy ciche awarie, duplikaty i brakujace alerty. Dostajesz liste napraw uszeregowana wg wplywu.</div>
+<a class="btn" href="https://mdsvcobwuezriexyqqby.supabase.co/functions/v1/nx-smartlink?c=seo_n8n_rescue" rel="nofollow">Zamow diagnoze 48h</a>
+<div class="cena">N8N Rescue 48h &middot; 2 990 zl netto &middot; realizacja 2 dni robocze</div>
+<div class="cena">Wolisz porozmawiac? <a href="tel:+48453108326">+48 453 108 326</a></div>
+</div>
+<h2>Powiazane</h2>
+<ul>
+<li><a href="https://oferta.kgregenevia.pro/uslugi/">Pelna oferta MV Automation</a></li>
+<li><a href="https://oferta.kgregenevia.pro/nexion/">NEXION — dobor narzedzi i plan wdrozenia</a></li>
+<li><a href="https://oferta.kgregenevia.pro/blog/">Wiecej artykulow</a></li>
+</ul>
+<footer>MATANGEL sp. z o.o. (marka MV Automation) &middot; ul. Garbary 6/7, 80-827 Gdansk &middot; NIP 5833223695<br>Telefon: +48 453 108 326</footer>
+</div></body></html>
